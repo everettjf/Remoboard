@@ -83,14 +83,6 @@
             @"title":ttt(@"title.general"),
             @"items":@[
                 @{
-                    @"icon":@"book",
-                    @"title":ttt(@"title.howtouse"),
-                    @"action": ^{
-                        NSLog(@"action");
-                        [wself openSite];
-                    }
-                },
-                @{
                     @"icon":@"setup",
                     @"title":ttt(@"title.installguide"),
                     @"action": ^{
@@ -160,7 +152,7 @@
                     @"icon":@"products",
                     @"title": ttt(@"title.website"),
                     @"action": ^{
-                        [wself openUrl:@"https://xnu.app/remoboard"];
+                        [wself openSite];
                     }
                 },
                 @{
@@ -190,14 +182,7 @@
 }
 
 - (void)openSite {
-    NSString *base;
-    ttt_zhcn;
-    if (hasLang) {
-        base = @"https://remoboard.github.io/zhcn/";
-    } else {
-        base = @"https://remoboard.github.io/";
-    }
-    [self openUrl:base];
+    [self openUrl:@"https://xnu.app/remoboard"];
 }
 
 - (void)openUrl:(NSString*)url {
@@ -234,9 +219,6 @@
 
 - (void)showInstall {
     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
-    [alert addButton:ttt(@"common.viewdetailguide") actionBlock:^{
-        [self openSite];
-    }];
     
     [alert showInfo:ttt(@"common.title.install") subTitle:ttt(@"common.title.install.shortguide") closeButtonTitle:ttt(@"common.ok") duration:0.0f];
 }
