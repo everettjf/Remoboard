@@ -96,6 +96,16 @@ SCLTimerDisplay *buttonTimer;
     return self;
 }
 
+- (instancetype)initWithWidth:(CGFloat)width
+{
+    self = [super init];
+    if (self)
+    {
+        [self setupViewWindowWidth:width];
+    }
+    return self;
+}
+
 - (instancetype)initWithWindowWidth:(CGFloat)windowWidth
 {
     self = [super init];
@@ -561,7 +571,7 @@ SCLTimerDisplay *buttonTimer;
 
 #pragma mark - TextField
 
-- (SCLTextView *)addTextField:(NSString *)title
+- (SCLTextView *)addTextField:(NSString *)title setDefaultText:(NSString *)defaultText
 {
     [self addObservers];
     
@@ -576,6 +586,10 @@ SCLTimerDisplay *buttonTimer;
     if (title != nil)
     {
         txt.placeholder = title;
+    }
+    if (defaultText != nil)
+    {
+        txt.text = defaultText;
     }
     
     [_contentView addSubview:txt];
@@ -984,8 +998,9 @@ SCLTimerDisplay *buttonTimer;
         {
             SCLButton *btn = _buttons[buttonTimer.buttonIndex];
             btn.timer = buttonTimer;
+            __weak __typeof(self) weakSelf = self;
             [buttonTimer startTimerWithTimeLimit:duration completed:^{
-                [self buttonTapped:btn];
+                [weakSelf buttonTapped:btn];
             }];
         }
         else
@@ -1636,12 +1651,14 @@ SCLTimerDisplay *buttonTimer;
 @interface SCLALertViewTextFieldBuilder()
 #pragma mark - Parameters
 @property(copy, nonatomic) NSString *parameterTitle;
+@property(copy, nonatomic) NSString *parameterDefaultText;
 
 #pragma mark - Available later after adding
 @property(weak, nonatomic) SCLTextView *textField;
 
 #pragma mark - Setters
 @property(copy, nonatomic) SCLALertViewTextFieldBuilder *(^title) (NSString *title);
+@property(copy, nonatomic) SCLALertViewTextFieldBuilder *(^defaultText) (NSString *defaultText);
 @end
 
 @implementation SCLALertViewTextFieldBuilder
@@ -1651,6 +1668,10 @@ SCLTimerDisplay *buttonTimer;
         weakSelf.parameterTitle = title;
         return weakSelf;
     };
+    self.defaultText = ^(NSString *defaultText){
+        weakSelf.parameterDefaultText = defaultText;
+        return weakSelf;
+    };
 }
 @end
 
@@ -1658,6 +1679,7 @@ SCLTimerDisplay *buttonTimer;
 
 #pragma mark - Parameters
 @property(copy, nonatomic) NSString *parameterTitle;
+@property(copy, nonatomic) NSString *parameterDefaultText;
 @property(weak, nonatomic) id parameterTarget;
 @property(assign, nonatomic) SEL parameterSelector;
 @property(copy, nonatomic) void(^parameterActionBlock)(void);
@@ -1668,6 +1690,7 @@ SCLTimerDisplay *buttonTimer;
 
 #pragma mark - Setters
 @property(copy, nonatomic) SCLALertViewButtonBuilder *(^title) (NSString *title);
+@property(copy, nonatomic) SCLALertViewButtonBuilder *(^defaultText) (NSString *defaultText);
 @property(copy, nonatomic) SCLALertViewButtonBuilder *(^target) (id target);
 @property(copy, nonatomic) SCLALertViewButtonBuilder *(^selector) (SEL selector);
 @property(copy, nonatomic) SCLALertViewButtonBuilder *(^actionBlock) (void(^actionBlock)(void));
@@ -1680,6 +1703,10 @@ SCLTimerDisplay *buttonTimer;
     __weak __auto_type weakSelf = self;
     self.title = ^(NSString *title){
         weakSelf.parameterTitle = title;
+        return weakSelf;
+    };
+    self.defaultText = ^(NSString *defaultText){
+        weakSelf.parameterDefaultText = defaultText;
         return weakSelf;
     };
     self.target = ^(id target){
@@ -1821,8 +1848,8 @@ SCLTimerDisplay *buttonTimer;
         [weakSelf.alertView addCustomView:view];
         return weakSelf;
     };
-    self.addTextField = ^(NSString *title) {
-        [weakSelf.alertView addTextField:title];
+    self.addTextField = ^(NSString *title, NSString *defaultText) {
+        [weakSelf.alertView addTextField:title setDefaultText:defaultText];
         return weakSelf;
     };
     self.addCustomTextField = ^(UITextField *textField) {
@@ -1878,7 +1905,7 @@ SCLTimerDisplay *buttonTimer;
     };
     
     self.addTextFieldWithBuilder = ^(SCLALertViewTextFieldBuilder *builder){
-        builder.textField = [weakSelf.alertView addTextField:builder.parameterTitle];
+        builder.textField = [weakSelf.alertView addTextField:builder.parameterTitle setDefaultText:builder.parameterDefaultText];
         return weakSelf;
     };
 }
@@ -1915,6 +1942,7 @@ SCLTimerDisplay *buttonTimer;
 @property(copy, nonatomic) UIImage *parameterImage;
 @property(copy, nonatomic) UIColor *parameterColor;
 @property(copy, nonatomic) NSString *parameterTitle;
+@property(copy, nonatomic) NSString *parameterDefaultText;
 @property(copy, nonatomic) NSString *parameterSubTitle;
 @property(copy, nonatomic) NSString *parameterCompleteText;
 @property(copy, nonatomic) NSString *parameterCloseButtonTitle;

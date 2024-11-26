@@ -155,6 +155,16 @@
                         [wself openSite];
                     }
                 },
+                
+                @{
+                    @"icon":@"connection",
+                    @"title":ttt(@"title.connectionmode"),
+                    @"actionWithCell": ^(UITableView *tableView,UITableViewCell *cell,NSIndexPath *indexPath){
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [wself chooseConnectionMode:tableView cell:cell indexPath:indexPath];
+                        });
+                    }
+                },
                 @{
                     @"icon":@"app",
                     @"title": [NSString stringWithFormat:@"%@ %@",ttt(@"title.appversion"), [AppUtil getAppVersion]],
@@ -298,4 +308,41 @@
         }
     }
 }
+
+
+- (void)chooseConnectionMode:(UITableView *)tableView cell:(UITableViewCell*)cell indexPath:(NSIndexPath*)indexPath{
+    NSString *bluetoothTitle = ttt(@"common.bluetooth");
+    NSString *ipTitle = ttt(@"common.ipconnectioncode");
+    NSString *httpTitle = ttt(@"common.http");
+    
+    KBConnectMode connectionMode = [KBSetting sharedSetting].connectMode;
+    if ( connectionMode == KBConnectMode_HTTP) {
+        httpTitle = [NSString stringWithFormat:@"✅ %@",httpTitle];
+    } else if ( connectionMode == KBConnectMode_BLE) {
+        bluetoothTitle = [NSString stringWithFormat:@"✅ %@",bluetoothTitle];
+    } else {
+        ipTitle = [NSString stringWithFormat:@"✅ %@",ipTitle];
+    }
+    
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:ttt(@"common.chooseconnectionmode") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:httpTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [KBSetting sharedSetting].connectMode = KBConnectMode_HTTP;
+    }];
+    UIAlertAction *action3 = [UIAlertAction actionWithTitle:bluetoothTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [KBSetting sharedSetting].connectMode = KBConnectMode_BLE;
+    }];
+    UIAlertAction *action4 = [UIAlertAction actionWithTitle:ttt(@"common.cancel") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [actionSheet addAction:action1];
+    [actionSheet addAction:action3];
+    [actionSheet addAction:action4];
+
+    UIPopoverPresentationController * popPresenter = [actionSheet popoverPresentationController];
+    popPresenter.sourceView = cell.contentView;
+    popPresenter.sourceRect = [tableView rectForRowAtIndexPath:indexPath];
+    
+    [self presentViewController:actionSheet animated:YES completion:nil];
+}
+
 @end

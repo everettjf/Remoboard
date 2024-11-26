@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37AC248D7FD846871038F3BE /* libPods-remotekb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4611277AB26CB1B6385164 /* libPods-remotekb.a */; };
 		5A50B3582CF25B970056A1D4 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 5A50B3482CF25B970056A1D4 /* .gitignore */; };
 		5A50B35A2CF25B970056A1D4 /* sync-to-android.sh in Resources */ = {isa = PBXBuildFile; fileRef = 5A50B32B2CF25B970056A1D4 /* sync-to-android.sh */; };
 		5A50B35B2CF25B970056A1D4 /* site.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5A50B32A2CF25B970056A1D4 /* site.bundle */; };
@@ -17,7 +18,8 @@
 		5A50B36D2CF25B970056A1D4 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 5A50B3482CF25B970056A1D4 /* .gitignore */; };
 		5A50B36F2CF25B970056A1D4 /* sync-to-android.sh in Resources */ = {isa = PBXBuildFile; fileRef = 5A50B32B2CF25B970056A1D4 /* sync-to-android.sh */; };
 		5A50B3702CF25B970056A1D4 /* site.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5A50B32A2CF25B970056A1D4 /* site.bundle */; };
-		B3F989AAF988E23A1B34E533 /* libPods-remotekb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70F4535CE695B385B970CD2D /* libPods-remotekb.a */; };
+		5AE56C102CF63D8D00B44F13 /* BluetoothPeripheralManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5AE56C0F2CF63D8D00B44F13 /* BluetoothPeripheralManager.mm */; };
+		90F8107E08432EA18745775E /* libPods-keyboard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9F8FFF3453C522C291E371 /* libPods-keyboard.a */; };
 		D131CA112316033900578DD4 /* QuickWordsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D131CA102316033900578DD4 /* QuickWordsListViewController.m */; };
 		D1351DB122F08C18003B2946 /* TinyKeyboardView.mm in Sources */ = {isa = PBXBuildFile; fileRef = D1351DAF22F08C18003B2946 /* TinyKeyboardView.mm */; };
 		D13558EA22BA87F000BF739F /* TKKApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = D13558E122BA87F000BF739F /* TKKApp.mm */; };
@@ -49,7 +51,6 @@
 		D1FDF6722316E3A000DEB3F5 /* EditQuickWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1FDF6712316E3A000DEB3F5 /* EditQuickWordViewController.m */; };
 		D1FDF67D2318A78D00DEB3F5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D1FDF67F2318A78D00DEB3F5 /* InfoPlist.strings */; };
 		D1FDF6812318A79800DEB3F5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D1FDF6832318A79800DEB3F5 /* Localizable.strings */; };
-		E7D9993A72F9CFC600A7D8DB /* libPods-keyboard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B900870A65933BC3F45DC1BF /* libPods-keyboard.a */; };
 		F29116712790F72300B860B0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F291166F2790F70900B860B0 /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -78,8 +79,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		17DAE3F90A1C2753B9F566A4 /* Pods-remotekb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-remotekb.release.xcconfig"; path = "Target Support Files/Pods-remotekb/Pods-remotekb.release.xcconfig"; sourceTree = "<group>"; };
-		3F07E9D0EA50BFE040E67BE5 /* Pods-keyboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-keyboard.release.xcconfig"; path = "Target Support Files/Pods-keyboard/Pods-keyboard.release.xcconfig"; sourceTree = "<group>"; };
+		054F0827C9D0327F779B982B /* Pods-remotekb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-remotekb.release.xcconfig"; path = "Pods/Target Support Files/Pods-remotekb/Pods-remotekb.release.xcconfig"; sourceTree = "<group>"; };
+		1630FBD03963D7DC24E68C0A /* Pods-keyboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-keyboard.release.xcconfig"; path = "Pods/Target Support Files/Pods-keyboard/Pods-keyboard.release.xcconfig"; sourceTree = "<group>"; };
+		2E4611277AB26CB1B6385164 /* libPods-remotekb.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-remotekb.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A50B31D2CF25B970056A1D4 /* bifrost_chat_client.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = bifrost_chat_client.hpp; sourceTree = "<group>"; };
 		5A50B31E2CF25B970056A1D4 /* bifrost_client.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = bifrost_client.hpp; sourceTree = "<group>"; };
 		5A50B31F2CF25B970056A1D4 /* bifrost_file_client.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = bifrost_file_client.hpp; sourceTree = "<group>"; };
@@ -103,8 +105,9 @@
 		5A50B34D2CF25B970056A1D4 /* logic.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = logic.hpp; sourceTree = "<group>"; };
 		5A50B34E2CF25B970056A1D4 /* rekb_ver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rekb_ver.h; sourceTree = "<group>"; };
 		5A50B34F2CF25B970056A1D4 /* tinyformat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tinyformat.h; sourceTree = "<group>"; };
-		70F4535CE695B385B970CD2D /* libPods-remotekb.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-remotekb.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B900870A65933BC3F45DC1BF /* libPods-keyboard.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-keyboard.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AE56C0E2CF63D8D00B44F13 /* BluetoothPeripheralManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BluetoothPeripheralManager.h; sourceTree = "<group>"; };
+		5AE56C0F2CF63D8D00B44F13 /* BluetoothPeripheralManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BluetoothPeripheralManager.mm; sourceTree = "<group>"; };
+		C334C0595C06361A4B4DE2A0 /* Pods-keyboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-keyboard.debug.xcconfig"; path = "Pods/Target Support Files/Pods-keyboard/Pods-keyboard.debug.xcconfig"; sourceTree = "<group>"; };
 		D131CA0F2316033900578DD4 /* QuickWordsListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuickWordsListViewController.h; sourceTree = "<group>"; };
 		D131CA102316033900578DD4 /* QuickWordsListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuickWordsListViewController.m; sourceTree = "<group>"; };
 		D1351DAF22F08C18003B2946 /* TinyKeyboardView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TinyKeyboardView.mm; sourceTree = "<group>"; };
@@ -171,9 +174,9 @@
 		D1FDF6802318A79200DEB3F5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		D1FDF6822318A79800DEB3F5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D1FDF6842318A79C00DEB3F5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		D2E671E42A1AD822F7446750 /* Pods-keyboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-keyboard.debug.xcconfig"; path = "Target Support Files/Pods-keyboard/Pods-keyboard.debug.xcconfig"; sourceTree = "<group>"; };
+		E6A02252AD691D199EB2DB51 /* Pods-remotekb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-remotekb.debug.xcconfig"; path = "Pods/Target Support Files/Pods-remotekb/Pods-remotekb.debug.xcconfig"; sourceTree = "<group>"; };
+		EF9F8FFF3453C522C291E371 /* libPods-keyboard.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-keyboard.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F291166F2790F70900B860B0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		F2C91EBEA73BE48F46F4FD40 /* Pods-remotekb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-remotekb.debug.xcconfig"; path = "Target Support Files/Pods-remotekb/Pods-remotekb.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,7 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F29116712790F72300B860B0 /* StoreKit.framework in Frameworks */,
-				B3F989AAF988E23A1B34E533 /* libPods-remotekb.a in Frameworks */,
+				37AC248D7FD846871038F3BE /* libPods-remotekb.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,13 +194,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1685A3E22E2305100E4D41F /* CoreBluetooth.framework in Frameworks */,
-				E7D9993A72F9CFC600A7D8DB /* libPods-keyboard.a in Frameworks */,
+				90F8107E08432EA18745775E /* libPods-keyboard.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		311EB9379CA377A88448CB74 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C334C0595C06361A4B4DE2A0 /* Pods-keyboard.debug.xcconfig */,
+				1630FBD03963D7DC24E68C0A /* Pods-keyboard.release.xcconfig */,
+				E6A02252AD691D199EB2DB51 /* Pods-remotekb.debug.xcconfig */,
+				054F0827C9D0327F779B982B /* Pods-remotekb.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		5A50B3202CF25B970056A1D4 /* client */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,21 +301,10 @@
 				D194106622E0E60B00DF38DF /* libFirebaseCore.a */,
 				D194106822E0E60B00DF38DF /* libFirebaseInstanceID.a */,
 				D194106A22E0E60B00DF38DF /* libGoogleUtilities.a */,
-				B900870A65933BC3F45DC1BF /* libPods-keyboard.a */,
-				70F4535CE695B385B970CD2D /* libPods-remotekb.a */,
+				EF9F8FFF3453C522C291E371 /* libPods-keyboard.a */,
+				2E4611277AB26CB1B6385164 /* libPods-remotekb.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		A1FD3DA7E937A6B304697131 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				D2E671E42A1AD822F7446750 /* Pods-keyboard.debug.xcconfig */,
-				3F07E9D0EA50BFE040E67BE5 /* Pods-keyboard.release.xcconfig */,
-				F2C91EBEA73BE48F46F4FD40 /* Pods-remotekb.debug.xcconfig */,
-				17DAE3F90A1C2753B9F566A4 /* Pods-remotekb.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		D1351DAE22F08B8F003B2946 /* view */ = {
@@ -350,8 +353,8 @@
 				D152582022B650AD00C88AFB /* remotekb */,
 				D152583C22B6514900C88AFB /* keyboard */,
 				D152581F22B650AD00C88AFB /* Products */,
-				A1FD3DA7E937A6B304697131 /* Pods */,
 				79BCCECF5E005EE671DA27C2 /* Frameworks */,
+				311EB9379CA377A88448CB74 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -457,6 +460,8 @@
 		D1D2CEF42340806500ECD1EC /* impl */ = {
 			isa = PBXGroup;
 			children = (
+				5AE56C0E2CF63D8D00B44F13 /* BluetoothPeripheralManager.h */,
+				5AE56C0F2CF63D8D00B44F13 /* BluetoothPeripheralManager.mm */,
 				D1D2CEF1234078C100ECD1EC /* HttpServerManager.h */,
 				D1D2CEF2234078C100ECD1EC /* HttpServerManager.mm */,
 			);
@@ -479,11 +484,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D152583422B650AE00C88AFB /* Build configuration list for PBXNativeTarget "remotekb" */;
 			buildPhases = (
-				A19B21E22B195333BD2DAE2D /* [CP] Check Pods Manifest.lock */,
+				C9D531A5875AC38EF2A181FE /* [CP] Check Pods Manifest.lock */,
 				D152581A22B650AD00C88AFB /* Sources */,
 				D152581B22B650AD00C88AFB /* Frameworks */,
 				D152581C22B650AD00C88AFB /* Resources */,
 				D152584722B6514900C88AFB /* Embed App Extensions */,
+				DD8950076187ACF216ED6D0D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -499,7 +505,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D152584422B6514900C88AFB /* Build configuration list for PBXNativeTarget "keyboard" */;
 			buildPhases = (
-				520D1BD77EFF369091F422A6 /* [CP] Check Pods Manifest.lock */,
+				00801CB81BF6BCCC83A0C978 /* [CP] Check Pods Manifest.lock */,
 				D152583722B6514900C88AFB /* Sources */,
 				D152583822B6514900C88AFB /* Frameworks */,
 				D152583922B6514900C88AFB /* Resources */,
@@ -591,20 +597,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		520D1BD77EFF369091F422A6 /* [CP] Check Pods Manifest.lock */ = {
+		00801CB81BF6BCCC83A0C978 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-keyboard-checkManifestLockResult.txt",
 			);
@@ -613,26 +615,40 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A19B21E22B195333BD2DAE2D /* [CP] Check Pods Manifest.lock */ = {
+		C9D531A5875AC38EF2A181FE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-remotekb-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DD8950076187ACF216ED6D0D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-remotekb/Pods-remotekb-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Toast/Toast.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Toast.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-remotekb/Pods-remotekb-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -670,6 +686,7 @@
 				D1685A4722E4836400E4D41F /* KBSetting.mm in Sources */,
 				5A50B35E2CF25B970056A1D4 /* mongoose.c in Sources */,
 				5A50B3602CF25B970056A1D4 /* httpserver.cpp in Sources */,
+				5AE56C102CF63D8D00B44F13 /* BluetoothPeripheralManager.mm in Sources */,
 				D1FDF66F2316E20000DEB3F5 /* WordListView.mm in Sources */,
 				D1D2CEF3234078C100ECD1EC /* HttpServerManager.mm in Sources */,
 				D1685A5122E4B4E300E4D41F /* ChannelServiceFactory.mm in Sources */,
@@ -862,7 +879,7 @@
 		};
 		D152583522B650AE00C88AFB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F2C91EBEA73BE48F46F4FD40 /* Pods-remotekb.debug.xcconfig */;
+			baseConfigurationReference = E6A02252AD691D199EB2DB51 /* Pods-remotekb.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = remotekb/remotekb.entitlements;
@@ -896,7 +913,7 @@
 		};
 		D152583622B650AE00C88AFB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 17DAE3F90A1C2753B9F566A4 /* Pods-remotekb.release.xcconfig */;
+			baseConfigurationReference = 054F0827C9D0327F779B982B /* Pods-remotekb.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = remotekb/remotekb.entitlements;
@@ -930,7 +947,7 @@
 		};
 		D152584522B6514900C88AFB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D2E671E42A1AD822F7446750 /* Pods-keyboard.debug.xcconfig */;
+			baseConfigurationReference = C334C0595C06361A4B4DE2A0 /* Pods-keyboard.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = keyboard/keyboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -960,7 +977,7 @@
 		};
 		D152584622B6514900C88AFB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F07E9D0EA50BFE040E67BE5 /* Pods-keyboard.release.xcconfig */;
+			baseConfigurationReference = 1630FBD03963D7DC24E68C0A /* Pods-keyboard.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = keyboard/keyboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;

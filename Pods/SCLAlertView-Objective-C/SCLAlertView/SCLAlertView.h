@@ -230,6 +230,12 @@ typedef NS_ENUM(NSInteger, SCLAlertViewBackground)
  */
 @property (nonatomic) BOOL horizontalButtons;
 
+/** Initialize SCLAlertView using specific width.
+ *
+ * Init instance
+ */
+- (instancetype)initWithWidth:(CGFloat)width;
+
 /** Initialize SCLAlertView using a new window.
  *
  * Init with new window
@@ -289,7 +295,7 @@ typedef NS_ENUM(NSInteger, SCLAlertViewBackground)
  *
  * @param title The text displayed on the textfield.
  */
-- (SCLTextView *)addTextField:(NSString *)title;
+- (SCLTextView *)addTextField:(NSString *)title setDefaultText:(NSString *)defaultText;
 
 /** Add a custom Text Field
  *
@@ -567,7 +573,7 @@ typedef NS_ENUM(NSInteger, SCLAlertViewBackground)
 @property(copy, nonatomic) SCLAlertViewBuilder *(^alertShowAnimationIsCompleted) (SCLShowAnimationCompletionBlock showAnimationCompletionBlock);
 @property(copy, nonatomic) SCLAlertViewBuilder *(^removeTopCircle)(void);
 @property(copy, nonatomic) SCLAlertViewBuilder *(^addCustomView)(UIView *view);
-@property(copy, nonatomic) SCLAlertViewBuilder *(^addTextField)(NSString *title);
+@property(copy, nonatomic) SCLAlertViewBuilder *(^addTextField)(NSString *title, NSString *defaultText);
 @property(copy, nonatomic) SCLAlertViewBuilder *(^addCustomTextField)(UITextField *textField);
 @property(copy, nonatomic) SCLAlertViewBuilder *(^addSwitchViewWithLabelTitle)(NSString *title);
 @property(copy, nonatomic) SCLAlertViewBuilder *(^addTimerToButtonIndex)(NSInteger buttonIndex, BOOL reverse);

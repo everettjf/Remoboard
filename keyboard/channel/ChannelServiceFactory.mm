@@ -7,6 +7,7 @@
 //
 
 #import "ChannelServiceFactory.h"
+#import "BluetoothPeripheralManager.h"
 #import "HttpServerManager.h"
 
 #pragma mark -- HTTP
@@ -45,10 +46,57 @@
 
 
 
+
+
+#pragma mark -- Bluetooth
+@interface BluetoothChannelService : NSObject<ChannelService>
+@property (nonatomic, weak) id<ChannelServiceDelegate> callback;
+
+@end
+@implementation BluetoothChannelService
+
+- (void)setDelegate:(nonnull id<ChannelServiceDelegate>)delegate {
+    self.callback = delegate;
+}
+
+- (void)start {
+    [BluetoothPeripheralManager sharedManager].onReady = ^(NSString *serverName) {
+        if(self.callback) {
+            [self.callback onBluetoothServerName:serverName];
+        }
+    };
+    [BluetoothPeripheralManager sharedManager].onStatus = ^(NSString *type, NSString *content) {
+        if(self.callback) {
+            [self.callback onStatus:type content:content];
+        }
+    };
+    [BluetoothPeripheralManager sharedManager].onMessage = ^(NSString *type, NSString *content) {
+        if(self.callback) {
+            [self.callback onMessage:type content:content];
+        }
+    };
+    
+    [[BluetoothPeripheralManager sharedManager] start];
+}
+
+- (void)close {
+    [[BluetoothPeripheralManager sharedManager] close];
+}
+
+@end
+
+
 @implementation ChannelServiceFactory
 
 + (id<ChannelService>)createChannel:(NSString*)channelType {
-    return [[HTTPChannelService alloc] init];
+    if ([channelType isEqualToString:@"bluetooth"]) {
+        return [[BluetoothChannelService alloc] init];
+    } else if ([channelType isEqualToString:@"http"]) {
+        return [[HTTPChannelService alloc] init];
+    } else {
+        NSLog(@"Unknown channel type");
+    }
+    return nil;
 }
 
 @end

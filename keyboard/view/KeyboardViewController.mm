@@ -126,7 +126,7 @@
     } else if (connectMode == KBConnectMode_BLE) {
         self.channelService = [ChannelServiceFactory createChannel:@"bluetooth"];
     } else {
-        self.channelService = [ChannelServiceFactory createChannel:@"ipnetwork"];
+        self.channelService = [ChannelServiceFactory createChannel:@"http"];
     }
     [self.channelService setDelegate:self];
     [self.channelService start];
@@ -463,25 +463,6 @@
     }
 }
 
-- (void)onIPNetworkConnectionCode:(NSString*)code ip:(NSString*)ip {
-    NSMutableAttributedString *all = [[NSMutableAttributedString alloc] init];
-    {
-        NSString *str = [NSString stringWithFormat:@"<font size=\"17\">%@:</font>",ttt(@"ipnetwork.message.code")];
-        NSAttributedString *attributedString = [NSAttributedString attributedStringFromHTML:str];
-        [all appendAttributedString:attributedString];
-    }
-    {
-        NSString *str = [NSString stringWithFormat:@"<font size=\"30\">%@</font>\n",code];
-        NSAttributedString *attributedString = [NSAttributedString attributedStringFromHTML:str];
-        [all appendAttributedString:attributedString];
-    }
-    {
-        NSString *str = [NSString stringWithFormat:@"<font size=\"17\">IP:%@\n%@...</font>",ip,ttt(@"ipnetwork.message.waiting")];
-        NSAttributedString *attributedString = [NSAttributedString attributedStringFromHTML:str];
-        [all appendAttributedString:attributedString];
-    }
-    [self showMessageMainTextAttributed:all];
-}
 
 - (void)onBluetoothServerName:(NSString*)name {
     NSMutableAttributedString *all = [[NSMutableAttributedString alloc] init];
