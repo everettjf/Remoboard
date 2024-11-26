@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		37AC248D7FD846871038F3BE /* libPods-remotekb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4611277AB26CB1B6385164 /* libPods-remotekb.a */; };
+		3A87E20B09F996109B43DA77 /* libPods-RemoKeyboard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6062F6E689DD3162F3256FD /* libPods-RemoKeyboard.a */; };
 		5A50B3582CF25B970056A1D4 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 5A50B3482CF25B970056A1D4 /* .gitignore */; };
 		5A50B35A2CF25B970056A1D4 /* sync-to-android.sh in Resources */ = {isa = PBXBuildFile; fileRef = 5A50B32B2CF25B970056A1D4 /* sync-to-android.sh */; };
 		5A50B35B2CF25B970056A1D4 /* site.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5A50B32A2CF25B970056A1D4 /* site.bundle */; };
@@ -19,7 +19,7 @@
 		5A50B36F2CF25B970056A1D4 /* sync-to-android.sh in Resources */ = {isa = PBXBuildFile; fileRef = 5A50B32B2CF25B970056A1D4 /* sync-to-android.sh */; };
 		5A50B3702CF25B970056A1D4 /* site.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5A50B32A2CF25B970056A1D4 /* site.bundle */; };
 		5AE56C102CF63D8D00B44F13 /* BluetoothPeripheralManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5AE56C0F2CF63D8D00B44F13 /* BluetoothPeripheralManager.mm */; };
-		90F8107E08432EA18745775E /* libPods-keyboard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9F8FFF3453C522C291E371 /* libPods-keyboard.a */; };
+		C54593AF26A9FF5D429408B0 /* libPods-Remoboard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAB8F17EDA29EB6B426E8BA6 /* libPods-Remoboard.a */; };
 		D131CA112316033900578DD4 /* QuickWordsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D131CA102316033900578DD4 /* QuickWordsListViewController.m */; };
 		D1351DB122F08C18003B2946 /* TinyKeyboardView.mm in Sources */ = {isa = PBXBuildFile; fileRef = D1351DAF22F08C18003B2946 /* TinyKeyboardView.mm */; };
 		D13558EA22BA87F000BF739F /* TKKApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = D13558E122BA87F000BF739F /* TKKApp.mm */; };
@@ -36,7 +36,7 @@
 		D152582E22B650AE00C88AFB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D152582C22B650AE00C88AFB /* LaunchScreen.storyboard */; };
 		D152583122B650AE00C88AFB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D152583022B650AE00C88AFB /* main.m */; };
 		D152583F22B6514900C88AFB /* KeyboardViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = D152583E22B6514900C88AFB /* KeyboardViewController.mm */; };
-		D152584322B6514900C88AFB /* keyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D152583B22B6514900C88AFB /* keyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D152584322B6514900C88AFB /* RemoKeyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D152583B22B6514900C88AFB /* RemoKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D15C5B4E23515AA90098D383 /* AppUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = D15C5B4D23515AA90098D383 /* AppUtil.mm */; };
 		D15C5B5223515C510098D383 /* AppMemoryData.m in Sources */ = {isa = PBXBuildFile; fileRef = D15C5B5123515C510098D383 /* AppMemoryData.m */; };
 		D1685A3E22E2305100E4D41F /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1685A3D22E2305100E4D41F /* CoreBluetooth.framework */; };
@@ -71,7 +71,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				D152584322B6514900C88AFB /* keyboard.appex in Embed App Extensions */,
+				D152584322B6514900C88AFB /* RemoKeyboard.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -79,9 +79,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		054F0827C9D0327F779B982B /* Pods-remotekb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-remotekb.release.xcconfig"; path = "Pods/Target Support Files/Pods-remotekb/Pods-remotekb.release.xcconfig"; sourceTree = "<group>"; };
-		1630FBD03963D7DC24E68C0A /* Pods-keyboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-keyboard.release.xcconfig"; path = "Pods/Target Support Files/Pods-keyboard/Pods-keyboard.release.xcconfig"; sourceTree = "<group>"; };
-		2E4611277AB26CB1B6385164 /* libPods-remotekb.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-remotekb.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		33E5AC69AA9E66EF773ECBA7 /* Pods-Remoboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Remoboard.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Remoboard/Pods-Remoboard.debug.xcconfig"; sourceTree = "<group>"; };
 		5A50B31D2CF25B970056A1D4 /* bifrost_chat_client.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = bifrost_chat_client.hpp; sourceTree = "<group>"; };
 		5A50B31E2CF25B970056A1D4 /* bifrost_client.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = bifrost_client.hpp; sourceTree = "<group>"; };
 		5A50B31F2CF25B970056A1D4 /* bifrost_file_client.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = bifrost_file_client.hpp; sourceTree = "<group>"; };
@@ -107,7 +105,10 @@
 		5A50B34F2CF25B970056A1D4 /* tinyformat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tinyformat.h; sourceTree = "<group>"; };
 		5AE56C0E2CF63D8D00B44F13 /* BluetoothPeripheralManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BluetoothPeripheralManager.h; sourceTree = "<group>"; };
 		5AE56C0F2CF63D8D00B44F13 /* BluetoothPeripheralManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BluetoothPeripheralManager.mm; sourceTree = "<group>"; };
-		C334C0595C06361A4B4DE2A0 /* Pods-keyboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-keyboard.debug.xcconfig"; path = "Pods/Target Support Files/Pods-keyboard/Pods-keyboard.debug.xcconfig"; sourceTree = "<group>"; };
+		5CBB0E7A9A0F655CF59490A3 /* Pods-RemoKeyboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RemoKeyboard.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RemoKeyboard/Pods-RemoKeyboard.debug.xcconfig"; sourceTree = "<group>"; };
+		7D1D6DDE4BA4186828E8225C /* Pods-RemoKeyboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RemoKeyboard.release.xcconfig"; path = "Pods/Target Support Files/Pods-RemoKeyboard/Pods-RemoKeyboard.release.xcconfig"; sourceTree = "<group>"; };
+		A6062F6E689DD3162F3256FD /* libPods-RemoKeyboard.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RemoKeyboard.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAB8F17EDA29EB6B426E8BA6 /* libPods-Remoboard.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Remoboard.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D131CA0F2316033900578DD4 /* QuickWordsListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuickWordsListViewController.h; sourceTree = "<group>"; };
 		D131CA102316033900578DD4 /* QuickWordsListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuickWordsListViewController.m; sourceTree = "<group>"; };
 		D1351DAF22F08C18003B2946 /* TinyKeyboardView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TinyKeyboardView.mm; sourceTree = "<group>"; };
@@ -124,7 +125,7 @@
 		D135590B22BA93BD00BF739F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D135591422BD26AC00BF739F /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		D135591522BD26AC00BF739F /* Util.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Util.mm; sourceTree = "<group>"; };
-		D152581E22B650AD00C88AFB /* remotekb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = remotekb.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D152581E22B650AD00C88AFB /* Remoboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Remoboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D152582122B650AD00C88AFB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D152582222B650AD00C88AFB /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		D152582422B650AD00C88AFB /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -134,7 +135,7 @@
 		D152582D22B650AE00C88AFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D152582F22B650AE00C88AFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D152583022B650AE00C88AFB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D152583B22B6514900C88AFB /* keyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = keyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D152583B22B6514900C88AFB /* RemoKeyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RemoKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D152583D22B6514900C88AFB /* KeyboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyboardViewController.h; sourceTree = "<group>"; };
 		D152583E22B6514900C88AFB /* KeyboardViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KeyboardViewController.mm; sourceTree = "<group>"; };
 		D152584022B6514900C88AFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -161,7 +162,7 @@
 		D1D2CEF1234078C100ECD1EC /* HttpServerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpServerManager.h; sourceTree = "<group>"; };
 		D1D2CEF2234078C100ECD1EC /* HttpServerManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HttpServerManager.mm; sourceTree = "<group>"; };
 		D1FDF6662316CA7900DEB3F5 /* keyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = keyboard.entitlements; sourceTree = "<group>"; };
-		D1FDF6672316CACD00DEB3F5 /* remotekb.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = remotekb.entitlements; sourceTree = "<group>"; };
+		D1FDF6672316CACD00DEB3F5 /* remoboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = remoboard.entitlements; sourceTree = "<group>"; };
 		D1FDF66A2316DEDB00DEB3F5 /* TestInputViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestInputViewController.h; sourceTree = "<group>"; };
 		D1FDF66B2316DEDB00DEB3F5 /* TestInputViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestInputViewController.m; sourceTree = "<group>"; };
 		D1FDF66D2316E20000DEB3F5 /* WordListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WordListView.h; sourceTree = "<group>"; };
@@ -174,9 +175,8 @@
 		D1FDF6802318A79200DEB3F5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		D1FDF6822318A79800DEB3F5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D1FDF6842318A79C00DEB3F5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		E6A02252AD691D199EB2DB51 /* Pods-remotekb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-remotekb.debug.xcconfig"; path = "Pods/Target Support Files/Pods-remotekb/Pods-remotekb.debug.xcconfig"; sourceTree = "<group>"; };
-		EF9F8FFF3453C522C291E371 /* libPods-keyboard.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-keyboard.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F291166F2790F70900B860B0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		F74B551A4D7417296307EF37 /* Pods-Remoboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Remoboard.release.xcconfig"; path = "Pods/Target Support Files/Pods-Remoboard/Pods-Remoboard.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,7 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F29116712790F72300B860B0 /* StoreKit.framework in Frameworks */,
-				37AC248D7FD846871038F3BE /* libPods-remotekb.a in Frameworks */,
+				C54593AF26A9FF5D429408B0 /* libPods-Remoboard.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,20 +194,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1685A3E22E2305100E4D41F /* CoreBluetooth.framework in Frameworks */,
-				90F8107E08432EA18745775E /* libPods-keyboard.a in Frameworks */,
+				3A87E20B09F996109B43DA77 /* libPods-RemoKeyboard.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		311EB9379CA377A88448CB74 /* Pods */ = {
+		45FAC31ED1BEB70089A2C159 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C334C0595C06361A4B4DE2A0 /* Pods-keyboard.debug.xcconfig */,
-				1630FBD03963D7DC24E68C0A /* Pods-keyboard.release.xcconfig */,
-				E6A02252AD691D199EB2DB51 /* Pods-remotekb.debug.xcconfig */,
-				054F0827C9D0327F779B982B /* Pods-remotekb.release.xcconfig */,
+				5CBB0E7A9A0F655CF59490A3 /* Pods-RemoKeyboard.debug.xcconfig */,
+				7D1D6DDE4BA4186828E8225C /* Pods-RemoKeyboard.release.xcconfig */,
+				33E5AC69AA9E66EF773ECBA7 /* Pods-Remoboard.debug.xcconfig */,
+				F74B551A4D7417296307EF37 /* Pods-Remoboard.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -301,8 +301,8 @@
 				D194106622E0E60B00DF38DF /* libFirebaseCore.a */,
 				D194106822E0E60B00DF38DF /* libFirebaseInstanceID.a */,
 				D194106A22E0E60B00DF38DF /* libGoogleUtilities.a */,
-				EF9F8FFF3453C522C291E371 /* libPods-keyboard.a */,
-				2E4611277AB26CB1B6385164 /* libPods-remotekb.a */,
+				A6062F6E689DD3162F3256FD /* libPods-RemoKeyboard.a */,
+				BAB8F17EDA29EB6B426E8BA6 /* libPods-Remoboard.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -350,27 +350,27 @@
 			children = (
 				D1FDF6682316DCC500DEB3F5 /* shared */,
 				D13558DF22BA87F000BF739F /* tokamak */,
-				D152582022B650AD00C88AFB /* remotekb */,
+				D152582022B650AD00C88AFB /* remoboard */,
 				D152583C22B6514900C88AFB /* keyboard */,
 				D152581F22B650AD00C88AFB /* Products */,
 				79BCCECF5E005EE671DA27C2 /* Frameworks */,
-				311EB9379CA377A88448CB74 /* Pods */,
+				45FAC31ED1BEB70089A2C159 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
 		D152581F22B650AD00C88AFB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D152581E22B650AD00C88AFB /* remotekb.app */,
-				D152583B22B6514900C88AFB /* keyboard.appex */,
+				D152581E22B650AD00C88AFB /* Remoboard.app */,
+				D152583B22B6514900C88AFB /* RemoKeyboard.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D152582022B650AD00C88AFB /* remotekb */ = {
+		D152582022B650AD00C88AFB /* remoboard */ = {
 			isa = PBXGroup;
 			children = (
-				D1FDF6672316CACD00DEB3F5 /* remotekb.entitlements */,
+				D1FDF6672316CACD00DEB3F5 /* remoboard.entitlements */,
 				D15C5B4F23515C3A0098D383 /* logic */,
 				D1685A4B22E4ADCF00E4D41F /* app */,
 				D1685A4A22E4ADC900E4D41F /* util */,
@@ -382,7 +382,7 @@
 				D1FDF67F2318A78D00DEB3F5 /* InfoPlist.strings */,
 				D1FDF6832318A79800DEB3F5 /* Localizable.strings */,
 			);
-			path = remotekb;
+			path = remoboard;
 			sourceTree = "<group>";
 		};
 		D152583C22B6514900C88AFB /* keyboard */ = {
@@ -480,32 +480,32 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D152581D22B650AD00C88AFB /* remotekb */ = {
+		D152581D22B650AD00C88AFB /* Remoboard */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D152583422B650AE00C88AFB /* Build configuration list for PBXNativeTarget "remotekb" */;
+			buildConfigurationList = D152583422B650AE00C88AFB /* Build configuration list for PBXNativeTarget "Remoboard" */;
 			buildPhases = (
-				C9D531A5875AC38EF2A181FE /* [CP] Check Pods Manifest.lock */,
+				3903DAD7289AE3B74B236AE1 /* [CP] Check Pods Manifest.lock */,
 				D152581A22B650AD00C88AFB /* Sources */,
 				D152581B22B650AD00C88AFB /* Frameworks */,
 				D152581C22B650AD00C88AFB /* Resources */,
 				D152584722B6514900C88AFB /* Embed App Extensions */,
-				DD8950076187ACF216ED6D0D /* [CP] Copy Pods Resources */,
+				7D44BE5D1320831F09755639 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				D152584222B6514900C88AFB /* PBXTargetDependency */,
 			);
-			name = remotekb;
+			name = Remoboard;
 			productName = remotekb;
-			productReference = D152581E22B650AD00C88AFB /* remotekb.app */;
+			productReference = D152581E22B650AD00C88AFB /* Remoboard.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D152583A22B6514900C88AFB /* keyboard */ = {
+		D152583A22B6514900C88AFB /* RemoKeyboard */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D152584422B6514900C88AFB /* Build configuration list for PBXNativeTarget "keyboard" */;
+			buildConfigurationList = D152584422B6514900C88AFB /* Build configuration list for PBXNativeTarget "RemoKeyboard" */;
 			buildPhases = (
-				00801CB81BF6BCCC83A0C978 /* [CP] Check Pods Manifest.lock */,
+				DA4BD85CA3ED6D5D543A942D /* [CP] Check Pods Manifest.lock */,
 				D152583722B6514900C88AFB /* Sources */,
 				D152583822B6514900C88AFB /* Frameworks */,
 				D152583922B6514900C88AFB /* Resources */,
@@ -514,9 +514,9 @@
 			);
 			dependencies = (
 			);
-			name = keyboard;
+			name = RemoKeyboard;
 			productName = keyboard;
-			productReference = D152583B22B6514900C88AFB /* keyboard.appex */;
+			productReference = D152583B22B6514900C88AFB /* RemoKeyboard.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -546,7 +546,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D152581922B650AD00C88AFB /* Build configuration list for PBXProject "remotekb" */;
+			buildConfigurationList = D152581922B650AD00C88AFB /* Build configuration list for PBXProject "Remoboard" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -560,8 +560,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D152581D22B650AD00C88AFB /* remotekb */,
-				D152583A22B6514900C88AFB /* keyboard */,
+				D152581D22B650AD00C88AFB /* Remoboard */,
+				D152583A22B6514900C88AFB /* RemoKeyboard */,
 			);
 		};
 /* End PBXProject section */
@@ -597,7 +597,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		00801CB81BF6BCCC83A0C978 /* [CP] Check Pods Manifest.lock */ = {
+		3903DAD7289AE3B74B236AE1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -608,38 +608,20 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-keyboard-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Remoboard-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C9D531A5875AC38EF2A181FE /* [CP] Check Pods Manifest.lock */ = {
+		7D44BE5D1320831F09755639 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-remotekb-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DD8950076187ACF216ED6D0D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-remotekb/Pods-remotekb-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Remoboard/Pods-Remoboard-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Toast/Toast.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -648,7 +630,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-remotekb/Pods-remotekb-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Remoboard/Pods-Remoboard-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA4BD85CA3ED6D5D543A942D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RemoKeyboard-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -700,7 +700,7 @@
 /* Begin PBXTargetDependency section */
 		D152584222B6514900C88AFB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D152583A22B6514900C88AFB /* keyboard */;
+			target = D152583A22B6514900C88AFB /* RemoKeyboard */;
 			targetProxy = D152584122B6514900C88AFB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -879,12 +879,12 @@
 		};
 		D152583522B650AE00C88AFB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6A02252AD691D199EB2DB51 /* Pods-remotekb.debug.xcconfig */;
+			baseConfigurationReference = 33E5AC69AA9E66EF773ECBA7 /* Pods-Remoboard.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = remotekb/remotekb.entitlements;
+				CODE_SIGN_ENTITLEMENTS = remoboard/remoboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6001;
+				CURRENT_PROJECT_VERSION = 6002;
 				DEVELOPMENT_TEAM = SU4WK7V467;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -898,13 +898,13 @@
 					"\"${PODS_ROOT}/Headers/Public/Toast\"",
 					"$(PROJECT_DIR)/third_party/boost_1_70_0",
 				);
-				INFOPLIST_FILE = remotekb/Info.plist;
+				INFOPLIST_FILE = remoboard/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.0;
+				MARKETING_VERSION = 6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remotekb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -913,12 +913,12 @@
 		};
 		D152583622B650AE00C88AFB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 054F0827C9D0327F779B982B /* Pods-remotekb.release.xcconfig */;
+			baseConfigurationReference = F74B551A4D7417296307EF37 /* Pods-Remoboard.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = remotekb/remotekb.entitlements;
+				CODE_SIGN_ENTITLEMENTS = remoboard/remoboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6001;
+				CURRENT_PROJECT_VERSION = 6002;
 				DEVELOPMENT_TEAM = SU4WK7V467;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -932,13 +932,13 @@
 					"\"${PODS_ROOT}/Headers/Public/Toast\"",
 					"$(PROJECT_DIR)/third_party/boost_1_70_0",
 				);
-				INFOPLIST_FILE = remotekb/Info.plist;
+				INFOPLIST_FILE = remoboard/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.0;
+				MARKETING_VERSION = 6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remotekb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -947,11 +947,11 @@
 		};
 		D152584522B6514900C88AFB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C334C0595C06361A4B4DE2A0 /* Pods-keyboard.debug.xcconfig */;
+			baseConfigurationReference = 5CBB0E7A9A0F655CF59490A3 /* Pods-RemoKeyboard.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = keyboard/keyboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6001;
+				CURRENT_PROJECT_VERSION = 6002;
 				DEVELOPMENT_TEAM = SU4WK7V467;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -967,7 +967,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.0;
+				MARKETING_VERSION = 6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remotekb.keyboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -977,11 +977,11 @@
 		};
 		D152584622B6514900C88AFB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1630FBD03963D7DC24E68C0A /* Pods-keyboard.release.xcconfig */;
+			baseConfigurationReference = 7D1D6DDE4BA4186828E8225C /* Pods-RemoKeyboard.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = keyboard/keyboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6001;
+				CURRENT_PROJECT_VERSION = 6002;
 				DEVELOPMENT_TEAM = SU4WK7V467;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -997,7 +997,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.0;
+				MARKETING_VERSION = 6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remotekb.keyboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1008,7 +1008,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D152581922B650AD00C88AFB /* Build configuration list for PBXProject "remotekb" */ = {
+		D152581922B650AD00C88AFB /* Build configuration list for PBXProject "Remoboard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D152583222B650AE00C88AFB /* Debug */,
@@ -1017,7 +1017,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D152583422B650AE00C88AFB /* Build configuration list for PBXNativeTarget "remotekb" */ = {
+		D152583422B650AE00C88AFB /* Build configuration list for PBXNativeTarget "Remoboard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D152583522B650AE00C88AFB /* Debug */,
@@ -1026,7 +1026,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D152584422B6514900C88AFB /* Build configuration list for PBXNativeTarget "keyboard" */ = {
+		D152584422B6514900C88AFB /* Build configuration list for PBXNativeTarget "RemoKeyboard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D152584522B6514900C88AFB /* Debug */,
