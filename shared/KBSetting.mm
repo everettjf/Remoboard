@@ -28,7 +28,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.everettjf.remotekb"];
+        _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.xnuapp.remoboard"];
     }
     return self;
 }
