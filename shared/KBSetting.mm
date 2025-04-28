@@ -28,7 +28,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.xnuapp.remoboard"];
+        _userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.everettjf.remoboard"];
     }
     return self;
 }
