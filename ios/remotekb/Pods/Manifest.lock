@@ -1,0 +1,28 @@
+PODS:
+  - Masonry (1.1.0)
+  - NSAttributedString-DDHTML (1.2.0)
+  - SCLAlertView-Objective-C (1.1.6)
+  - Toast (4.0.0)
+
+DEPENDENCIES:
+  - Masonry
+  - NSAttributedString-DDHTML
+  - SCLAlertView-Objective-C
+  - Toast
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Masonry
+    - NSAttributedString-DDHTML
+    - SCLAlertView-Objective-C
+    - Toast
+
+SPEC CHECKSUMS:
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  NSAttributedString-DDHTML: 59a7bcd44b92cb7f6f6ef26f52c4baad6b1d01ba
+  SCLAlertView-Objective-C: 2bb9be204bffaf24762a0e33fe6ca9645819b3b7
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
+
+PODFILE CHECKSUM: bfe4adfa020140f0316a5ae3fcfe706be38b1b94
+
+COCOAPODS: 1.14.3
