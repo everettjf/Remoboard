@@ -112,7 +112,6 @@ Remoboard is released under the [MIT License](LICENSE).
 - Follow the WeChat subscription account “首先很有趣” (translates to “Fun First”) to keep up with future experiments and ideas from the author.
 - Thank you to everyone who has supported the project since its launch.
 
-![Remoboard screenshot](media/15969904617341.jpg)
 
 ## Star History
 
