@@ -21,6 +21,8 @@
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *groups;
+@property (assign, nonatomic) BOOL shouldShowConnectionMode;
+@property (assign, nonatomic) NSInteger appVersionTapCount;
 
 @property (strong, nonatomic) NSUserActivity *userActivity;
 
@@ -78,6 +80,81 @@
     ttt_zhcn;
     
     __weak typeof(self) wself = self;
+    self.shouldShowConnectionMode = NO;
+    self.appVersionTapCount = 0;
+    [self rebuildGroups];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"HandoffUrl" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        NSString *handoffUrl = note.object;
+        if (handoffUrl.length > 0 ) {
+            self.userActivity = [[NSUserActivity alloc] initWithActivityType:NSUserActivityTypeBrowsingWeb];
+            self.userActivity.webpageURL = [NSURL URLWithString:handoffUrl];
+            [self.userActivity becomeCurrent];
+            
+            SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+            [alert showInfo:@"Tips" subTitle:ttt(@"message.handoffcompleted") closeButtonTitle:@"Okay" duration:5.0f]; // Error
+        }
+        
+    }];
+}
+
+- (void)rebuildGroups {
+    __weak typeof(self) wself = self;
+    NSMutableArray *moreItems = [NSMutableArray arrayWithArray:@[
+        @{
+            @"icon":@"star",
+            @"title":ttt(@"title.starapp"),
+            @"action": ^{
+                NSLog(@"action");
+                NSString * url = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@?action=write-review",@"1474458879"];
+                [wself openUrl:url];
+            }
+        },
+        @{
+            @"icon":@"share",
+            @"title":ttt(@"title.shareapp"),
+            @"action": ^{
+                NSLog(@"action");
+                NSString *str;
+                ttt_zhcn;
+                if (hasLang) {
+                    str = @"远程输入法 - 电脑打字，手机输入 https://itunes.apple.com/cn/app/id1474458879";
+                } else {
+                    str = @"Remoboard - Type From Desktop https://apps.apple.com/us/app/id1474458879";
+                }
+                [wself openShare:str];
+            }
+        },
+        @{
+            @"icon":@"products",
+            @"title": ttt(@"title.website"),
+            @"action": ^{
+                [wself openSite];
+            }
+        },
+    ]];
+    
+    if (self.shouldShowConnectionMode) {
+        [moreItems addObject:@{
+            @"icon":@"connection",
+            @"title":ttt(@"title.connectionmode"),
+            @"actionWithCell": ^(UITableView *tableView,UITableViewCell *cell,NSIndexPath *indexPath){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [wself chooseConnectionMode:tableView cell:cell indexPath:indexPath];
+                });
+            }
+        }];
+    }
+    
+    [moreItems addObject:@{
+        @"icon":@"app",
+        @"title": [NSString stringWithFormat:@"%@ %@",ttt(@"title.appversion"), [AppUtil getAppVersion]],
+        @"action": ^{
+            [wself handleAppVersionTap];
+        }
+    }];
+    
     self.groups = @[
         @{
             @"title":ttt(@"title.general"),
@@ -123,72 +200,21 @@
         },
         @{
             @"title":ttt(@"title.more"),
-            @"items":@[
-                @{
-                    @"icon":@"star",
-                    @"title":ttt(@"title.starapp"),
-                    @"action": ^{
-                        NSLog(@"action");
-                        NSString * url = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@?action=write-review",@"1474458879"];
-                        [wself openUrl:url];
-                    }
-                },
-                @{
-                    @"icon":@"share",
-                    @"title":ttt(@"title.shareapp"),
-                    @"action": ^{
-                        NSLog(@"action");
-                        NSString *str;
-                        ttt_zhcn;
-                        if (hasLang) {
-                            str = @"远程输入法 - 电脑打字，手机输入 https://itunes.apple.com/cn/app/id1474458879";
-                        } else {
-                            str = @"Remoboard - Type From Desktop https://apps.apple.com/us/app/id1474458879";
-                        }
-                        [wself openShare:str];
-                    }
-                },
-                @{
-                    @"icon":@"products",
-                    @"title": ttt(@"title.website"),
-                    @"action": ^{
-                        [wself openSite];
-                    }
-                },
-                
-                @{
-                    @"icon":@"connection",
-                    @"title":ttt(@"title.connectionmode"),
-                    @"actionWithCell": ^(UITableView *tableView,UITableViewCell *cell,NSIndexPath *indexPath){
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [wself chooseConnectionMode:tableView cell:cell indexPath:indexPath];
-                        });
-                    }
-                },
-                @{
-                    @"icon":@"app",
-                    @"title": [NSString stringWithFormat:@"%@ %@",ttt(@"title.appversion"), [AppUtil getAppVersion]],
-                    @"action": ^{
-                        NSLog(@"action");
-                    }
-                },
-            ]
+            @"items":moreItems
         },
     ];
     
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"HandoffUrl" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-        NSString *handoffUrl = note.object;
-        if (handoffUrl.length > 0 ) {
-            self.userActivity = [[NSUserActivity alloc] initWithActivityType:NSUserActivityTypeBrowsingWeb];
-            self.userActivity.webpageURL = [NSURL URLWithString:handoffUrl];
-            [self.userActivity becomeCurrent];
-            
-            SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
-            [alert showInfo:@"Tips" subTitle:ttt(@"message.handoffcompleted") closeButtonTitle:@"Okay" duration:5.0f]; // Error
-        }
-        
-    }];
+    if (self.tableView) {
+        [self.tableView reloadData];
+    }
+}
+
+- (void)handleAppVersionTap {
+    self.appVersionTapCount += 1;
+    if (!self.shouldShowConnectionMode && self.appVersionTapCount >= 3) {
+        self.shouldShowConnectionMode = YES;
+        [self rebuildGroups];
+    }
 }
 
 - (void)openSite {

@@ -35,7 +35,7 @@ Project website: https://xnu.app/remoboard
 ## Quick Start
 1. Install the Remoboard mobile app from the [App Store](https://apps.apple.com/us/app/id1474458879) (Android builds are distributed for free as well via the official channels).
 2. On iOS, go to Settings → General → Keyboard → Keyboards → Add New Keyboard… → select **Remoboard**, then tap it again and enable **Allow Full Access** so the keyboard can communicate over the network.
-3. Open the Remoboard app, pick the stable Web (HTTP) connection mode, and wait for the device to display an address such as `http://192.168.x.x:7777`.
+3. Open the Remoboard app, use the default Web (HTTP) connection mode, and wait for the device to display an address such as `http://192.168.x.x:7777`. To switch modes, open **More**, tap the app version three times, then choose **Connection Mode**.
 4. From your computer, visit the displayed URL in a browser, start typing, and watch the text arrive on the phone in real time.
 
 ## Installation
@@ -56,7 +56,7 @@ Project website: https://xnu.app/remoboard
 
 ## Usage
 - **Enable the keyboard**: After installation, add Remoboard as a system keyboard and allow Full Access. Without this permission the keyboard cannot open the embedded HTTP server or Bluetooth peripheral.
-- **Choose a connection mode**: The app’s “More → Connection Mode” item lets you pick HTTP (web), Bluetooth, or the IP connection code. Due to differences in networks and firewalls, the HTTP web connection mode is generally the most stable and is recommended in almost every environment.
+- **Choose a connection mode**: The app defaults to HTTP (web). To change it, open **More**, tap the app version three times (per launch), then use **Connection Mode** to pick HTTP, Bluetooth, or the IP connection code. Due to differences in networks and firewalls, the HTTP web connection mode is generally the most stable and is recommended in almost every environment.
 - **Start typing from the desktop**: Remoboard exposes a lightweight website from `site.bundle` inside the app on port `7777`. Type inside the browser, and the text is relayed to the phone keyboard immediately.
 - **Bluetooth peripheral mode**: Advertise the phone as a BLE peripheral and pair from the desktop helper (when implemented) to push text messages. Status indicators in the app show when the peripheral is ready and connected.
 - **Quick Words**: Use the “Quick Words” manager to edit your frequently typed phrases. They sync to the keyboard extension via `KBSetting` so you can insert them with one tap.
@@ -64,7 +64,7 @@ Project website: https://xnu.app/remoboard
 
 ## Configuration
 These are the user-facing knobs surfaced through `KBSetting` and the host app:
-- **Connection mode** (`HTTP`, `Bluetooth`, or legacy `IP connection code`): defines how text is transported. The setting persists across launches.
+- **Connection mode** (`HTTP`, `Bluetooth`, or legacy `IP connection code`): defines how text is transported. The setting persists across launches, but the picker is hidden until you tap the app version three times after each launch.
 - **HTTP server port**: Fixed at `7777`. The app lists all detected IP addresses (Wi-Fi, cellular, tethering) and copies the primary URL for convenience.
 - **Quick words list**: Stored on device and editable through the host app. Use the reset option if you want to restore the default phrases shipped with the app.
 - **Full Access requirement**: iOS requires Full Access for keyboards that use the network. If you disable it, remote typing and synchronization features stop working.
