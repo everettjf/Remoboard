@@ -155,6 +155,14 @@
         }
     }];
     
+    [moreItems addObject:@{
+        @"icon":@"products",
+        @"title": ttt(@"title.moreapps"),
+        @"action": ^{
+            [wself openUrl:@"https://xnu.app"];
+        }
+    }];
+    
     self.groups = @[
         @{
             @"title":ttt(@"title.general"),
