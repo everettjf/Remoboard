@@ -11,7 +11,9 @@ under `ObjcVersion/` and is not built.
   HTTP/WebSocket server (`RemoServer.swift`). `Resources/site/` holds the built web UI.
 - `keyboard/` — `RemoKeyboard` extension (UIKit). Hosts the server, injects text via
   `UITextDocumentProxy`.
-- `remoboard/` — host app (SwiftUI): onboarding, quick-word management, test input.
+- `remoboard/` — host app (SwiftUI): onboarding, quick-word management, test input,
+  handoff receiver, Bonjour advertising.
+- `mac/` — macOS menu-bar companion (SwiftUI): Bonjour discovery + WebSocket client.
 - `web/` — Svelte source for the browser UI; `npm run deploy` builds a single offline
   `index.html` into `RemoboardKit/Resources/site/`.
 - `project.yml` — XcodeGen definition. `Remoboard.xcodeproj` is generated and gitignored.
@@ -22,7 +24,10 @@ under `ObjcVersion/` and is not built.
   Info.plist/entitlements.
 - `cd web && npm run deploy` after any change under `web/`; commit the regenerated
   `RemoboardKit/Resources/site/index.html`.
-- Compile check: `xcodebuild -project Remoboard.xcodeproj -scheme Remoboard -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build`.
+- Compile check (iOS): `xcodebuild -project Remoboard.xcodeproj -scheme Remoboard -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build`.
+- Compile check (macOS companion): `xcodebuild -project Remoboard.xcodeproj -scheme RemoboardMac -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO build`.
+- The macOS companion (`mac/`) is a separate target; it re-implements the wire protocol
+  with raw JSON (no RemoboardKit dependency) and uses `URLSessionWebSocketTask` as a client.
 - Real-device run is required to actually use the keyboard (extensions are limited in
   the simulator) and needs Full Access enabled.
 

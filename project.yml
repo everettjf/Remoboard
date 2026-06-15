@@ -51,6 +51,23 @@ targets:
         CODE_SIGN_ENTITLEMENTS: remoboard/Remoboard.entitlements
         GENERATE_INFOPLIST_FILE: "NO"
 
+  RemoboardMac:
+    type: application
+    platform: macOS
+    deploymentTarget: "13.0"
+    sources:
+      - path: mac
+        excludes:
+          - "Info.plist"
+          - "*.entitlements"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.everettjf.remoboard.mac
+        PRODUCT_NAME: Remoboard
+        INFOPLIST_FILE: mac/Info.plist
+        CODE_SIGN_ENTITLEMENTS: mac/RemoboardMac.entitlements
+        GENERATE_INFOPLIST_FILE: "NO"
+
   RemoKeyboard:
     type: app-extension
     platform: iOS

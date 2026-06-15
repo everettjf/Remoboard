@@ -29,6 +29,12 @@ public enum InboundMessage {
     case delete(seq: Int?)
     /// Move the cursor.
     case move(dir: MoveDirection, seq: Int?)
+    /// Write text into the phone's system clipboard.
+    case clipboardSet(text: String)
+    /// Ask the phone to send back its current clipboard contents.
+    case clipboardGet
+    /// Open the Remoboard host app on the phone carrying this text.
+    case handoff(text: String)
     /// Heartbeat.
     case ping
     /// Anything we don't recognise (forward compatibility).
@@ -45,6 +51,8 @@ public enum OutboundMessage {
     case context(before: String, after: String)
     /// The user's quick words, pushed so the browser can offer one-tap insert.
     case quickWords([String])
+    /// The phone's current clipboard contents (reply to `clipboardGet`, or a push).
+    case clipboard(text: String)
     /// Heartbeat reply.
     case pong
     /// Human readable status line.
@@ -72,6 +80,12 @@ public enum WireCodec {
         case "move":
             let dir = MoveDirection(rawValue: dict["dir"] as? String ?? "") ?? .left
             return .move(dir: dir, seq: seq)
+        case "clip-set":
+            return .clipboardSet(text: dict["text"] as? String ?? "")
+        case "clip-get":
+            return .clipboardGet
+        case "handoff":
+            return .handoff(text: dict["text"] as? String ?? "")
         case "ping":
             return .ping
         default:
@@ -94,6 +108,9 @@ public enum WireCodec {
         case .quickWords(let items):
             dict["t"] = "quickwords"
             dict["items"] = items
+        case .clipboard(let text):
+            dict["t"] = "clip"
+            dict["text"] = text
         case .pong:
             dict["t"] = "pong"
         case .info(let message):

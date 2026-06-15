@@ -18,6 +18,8 @@ final class KeyboardViewController: UIInputViewController {
     private let pinLabel = UILabel()
     private let nextKeyboardButton = UIButton(type: .system)
     private let wordsButton = UIButton(type: .system)
+    private let clipButton = UIButton(type: .system)
+    private let appButton = UIButton(type: .system)
     private let returnButton = UIButton(type: .system)
     private let wordsTable = UITableView()
 
@@ -100,10 +102,43 @@ final class KeyboardViewController: UIInputViewController {
             case .up: textDocumentProxy.adjustTextPosition(byCharacterOffset: -20)
             case .down: textDocumentProxy.adjustTextPosition(byCharacterOffset: 20)
             }
+        case .clipboardSet(let text):
+            UIPasteboard.general.string = text
+            server.broadcast(.info(message: NSLocalizedString("ClipboardCopiedToPhone", comment: "")))
+            return
+        case .clipboardGet:
+            sendPhoneClipboard()
+            return
+        case .handoff(let text):
+            openHostApp(withText: text)
+            return
         case .hello, .ping, .unknown:
             break
         }
         broadcastContext()
+    }
+
+    /// Reads the phone's clipboard and pushes it to every connected client.
+    private func sendPhoneClipboard() {
+        let text = UIPasteboard.general.string ?? ""
+        server.broadcast(.clipboard(text: text))
+    }
+
+    /// Opens the Remoboard host app via its URL scheme, carrying `text`.
+    /// Keyboard extensions can't call UIApplication.open, so we walk the responder
+    /// chain for an object that implements the legacy `openURL:` selector.
+    private func openHostApp(withText text: String) {
+        let encoded = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        guard let url = URL(string: "remoboard://handoff?text=\(encoded)") else { return }
+        let selector = NSSelectorFromString("openURL:")
+        var responder: UIResponder? = self
+        while let current = responder {
+            if current.responds(to: selector) {
+                current.perform(selector, with: url)
+                return
+            }
+            responder = current.next
+        }
     }
 
     private func broadcastContext() {
@@ -182,10 +217,16 @@ private extension KeyboardViewController {
         configureBarButton(wordsButton, title: NSLocalizedString("Words", comment: ""))
         wordsButton.addTarget(self, action: #selector(toggleWords), for: .touchUpInside)
 
+        configureBarButton(clipButton, title: NSLocalizedString("Clip", comment: ""))
+        clipButton.addTarget(self, action: #selector(tapClip), for: .touchUpInside)
+
+        configureBarButton(appButton, title: NSLocalizedString("OpenApp", comment: ""))
+        appButton.addTarget(self, action: #selector(tapApp), for: .touchUpInside)
+
         configureBarButton(returnButton, title: NSLocalizedString("Return", comment: ""))
         returnButton.addTarget(self, action: #selector(tapReturn), for: .touchUpInside)
 
-        let buttonStack = UIStackView(arrangedSubviews: [nextKeyboardButton, wordsButton, returnButton])
+        let buttonStack = UIStackView(arrangedSubviews: [nextKeyboardButton, wordsButton, clipButton, appButton, returnButton])
         buttonStack.axis = .horizontal
         buttonStack.distribution = .fillEqually
         buttonStack.spacing = 6
@@ -228,6 +269,18 @@ private extension KeyboardViewController {
     @objc func tapReturn() {
         textDocumentProxy.insertText("\n")
         broadcastContext()
+    }
+
+    @objc func tapClip() {
+        sendPhoneClipboard()
+    }
+
+    @objc func tapApp() {
+        let before = textDocumentProxy.documentContextBeforeInput ?? ""
+        let after = textDocumentProxy.documentContextAfterInput ?? ""
+        let text = before + after
+        guard !text.isEmpty else { return }
+        openHostApp(withText: text)
     }
 }
 

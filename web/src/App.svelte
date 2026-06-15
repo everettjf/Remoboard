@@ -12,6 +12,10 @@
   let phoneBefore = $state('')
   let phoneAfter = $state('')
   let quickWords = $state([])
+  let phoneClip = $state(null)
+  let clipSend = $state('')
+  let copiedFlag = $state(false)
+  let toast = $state('')
 
   // ---- non-reactive ----
   let conn
@@ -52,9 +56,62 @@
       case 'quickwords':
         quickWords = Array.isArray(msg.items) ? msg.items : []
         break
+      case 'clip':
+        phoneClip = msg.text ?? ''
+        break
+      case 'info':
+        showToast(msg.message ?? '')
+        break
       case 'pong':
         break
     }
+  }
+
+  let toastTimer
+  function showToast(message) {
+    if (!message) return
+    toast = message
+    clearTimeout(toastTimer)
+    toastTimer = setTimeout(() => { toast = '' }, 2200)
+  }
+
+  function getPhoneClip() { conn.send({ t: 'clip-get' }) }
+
+  function pushPhoneClip() {
+    const text = clipSend
+    if (!text) return
+    conn.send({ t: 'clip-set', text })
+    clipSend = ''
+  }
+
+  function sendToApp() {
+    if (!buffer) return
+    conn.send({ t: 'handoff', text: buffer })
+    showToast(t('sendToApp'))
+  }
+
+  // navigator.clipboard requires a secure context; LAN is plain http, so fall back
+  // to the legacy execCommand path.
+  async function copyText(text) {
+    if (!text) return
+    let ok = false
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text)
+        ok = true
+      }
+    } catch {}
+    if (!ok) {
+      const ta = document.createElement('textarea')
+      ta.value = text
+      ta.style.position = 'fixed'
+      ta.style.opacity = '0'
+      document.body.appendChild(ta)
+      ta.focus(); ta.select()
+      try { ok = document.execCommand('copy') } catch {}
+      document.body.removeChild(ta)
+    }
+    if (ok) { copiedFlag = true; setTimeout(() => { copiedFlag = false }, 1500) }
   }
 
   function submitPin() {
@@ -174,6 +231,26 @@
         </div>
       {/if}
     </section>
+
+    <section class="clip">
+      <div class="quick-label">{t('clipboard')}</div>
+      <div class="clip-row">
+        <input class="clip-input" bind:value={clipSend} placeholder={t('clipPlaceholder')} />
+        <button class="ghost" onclick={pushPhoneClip} disabled={!clipSend}>{t('sendPhoneClip')}</button>
+      </div>
+      <div class="clip-row">
+        <button class="ghost" onclick={getPhoneClip}>{t('getPhoneClip')}</button>
+        <button class="ghost" onclick={sendToApp} disabled={!buffer}>{t('sendToApp')}</button>
+      </div>
+      {#if phoneClip !== null}
+        <div class="clip-result">
+          <div class="clip-text">{phoneClip.length ? phoneClip : t('phoneClipEmpty')}</div>
+          {#if phoneClip.length}
+            <button class="chip" onclick={() => copyText(phoneClip)}>{copiedFlag ? t('copied') : t('copyHere')}</button>
+          {/if}
+        </div>
+      {/if}
+    </section>
   {:else}
     <section class="pairing">
       <div class="lock">⌨</div>
@@ -190,6 +267,10 @@
         <button type="submit" class="primary">{t('pair')}</button>
       </form>
     </section>
+  {/if}
+
+  {#if toast}
+    <div class="toast">{toast}</div>
   {/if}
 </main>
 
@@ -268,6 +349,25 @@
   .quick-empty { font-size: 13px; color: #5a5a68; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 
+  .clip-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+  .clip-input {
+    flex: 1; background: #15151d; color: #f2f2f7; border: 1px solid #2c2c3a;
+    border-radius: 8px; padding: 9px 12px; font-size: 15px; outline: none;
+  }
+  .clip-input:focus { border-color: #7c6cff; }
+  .clip-row .ghost { flex: 0 0 auto; }
+  .clip-result {
+    display: flex; align-items: center; gap: 10px; margin-top: 4px;
+    background: #15151d; border: 1px solid #24242f; border-radius: 10px; padding: 10px 12px;
+  }
+  .clip-text { flex: 1; font-size: 15px; word-break: break-word; white-space: pre-wrap; color: #d8d8e2; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%);
+    background: #2a2a3a; color: #fff; padding: 10px 18px; border-radius: 999px;
+    font-size: 14px; box-shadow: 0 6px 24px rgba(0,0,0,.4); z-index: 10;
+  }
+
   button { cursor: pointer; font-family: inherit; }
   .chip {
     background: #1c1c27; color: #d8d8e2; border: 1px solid #2c2c3a;
@@ -301,7 +401,8 @@
 
   @media (prefers-color-scheme: light) {
     :global(html, body) { background: #f4f4f7; color: #1a1a22; }
-    .echo, textarea, .pin { background: #fff; border-color: #dcdce4; color: #1a1a22; }
+    .echo, textarea, .pin, .clip-input, .clip-result { background: #fff; border-color: #dcdce4; color: #1a1a22; }
+    .clip-text { color: #2a2a3a; }
     .chip { background: #fff; color: #2a2a3a; border-color: #dcdce4; }
     .ghost { border-color: #dcdce4; color: #6c6c7a; }
     .status { color: #6c6c7a; }

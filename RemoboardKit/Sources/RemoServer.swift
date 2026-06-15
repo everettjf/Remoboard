@@ -442,7 +442,7 @@ public final class RemoServer {
             }
         case .ping:
             send(.pong, to: client)
-        case .input, .delete, .move:
+        case .input, .delete, .move, .clipboardSet, .clipboardGet, .handoff:
             guard client.paired else {
                 send(.deny(reason: "pin"), to: client)
                 return

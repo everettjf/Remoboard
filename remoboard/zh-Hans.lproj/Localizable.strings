@@ -15,3 +15,9 @@
 
 "testinput.hint" = "切换到 Remoboard 键盘，从电脑输入，文字会出现在这里。";
 "testinput.clear" = "清空";
+
+"received.title" = "收到的文本";
+"received.copy" = "复制";
+"received.copied" = "已复制";
+"received.share" = "分享";
+"received.done" = "完成";

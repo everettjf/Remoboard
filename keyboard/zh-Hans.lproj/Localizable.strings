@@ -1,6 +1,9 @@
 "Next" = "切换";
 "Words" = "短语";
+"Clip" = "剪贴板→电脑";
+"OpenApp" = "→应用";
 "Return" = "换行";
+"ClipboardCopiedToPhone" = "已复制到手机剪贴板";
 "StatusWaiting" = "在电脑上打开下方网址";
 "StatusConnected" = "已连接 — 可从电脑输入";
 "WifiNotFound" = "Wi-Fi 未连接";

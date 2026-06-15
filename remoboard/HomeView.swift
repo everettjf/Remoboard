@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject private var handoff: HandoffStore
+
     var body: some View {
         NavigationView {
             List {
@@ -57,6 +59,14 @@ struct HomeView: View {
             .navigationTitle("Remoboard")
         }
         .navigationViewStyle(.stack)
+        .sheet(isPresented: Binding(
+            get: { handoff.receivedText != nil },
+            set: { if !$0 { handoff.receivedText = nil } }
+        )) {
+            if let text = handoff.receivedText {
+                ReceivedView(text: text) { handoff.receivedText = nil }
+            }
+        }
     }
 }
 
@@ -79,4 +89,5 @@ private struct StepRow: View {
 
 #Preview {
     HomeView()
+        .environmentObject(HandoffStore())
 }

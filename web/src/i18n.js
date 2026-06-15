@@ -17,6 +17,14 @@ const dict = {
   noQuickWords: ['No quick words yet', '暂无快捷短语'],
   emptyHintKeys: ['When empty: Enter / arrows / Backspace control the phone cursor',
                   '输入框为空时：回车 / 方向键 / 退格 可直接操控手机光标'],
+  clipboard: ['Clipboard', '剪贴板'],
+  getPhoneClip: ['Pull from phone', '拉取手机剪贴板'],
+  sendPhoneClip: ['Push to phone', '推送到手机'],
+  clipPlaceholder: ['Text to send to phone clipboard…', '要推送到手机剪贴板的文字…'],
+  copyHere: ['Copy', '复制到本机'],
+  copied: ['Copied', '已复制'],
+  phoneClipEmpty: ['Phone clipboard is empty', '手机剪贴板为空'],
+  sendToApp: ['Send to phone’s app', '发送到手机 App'],
 }
 
 export function t(key) {

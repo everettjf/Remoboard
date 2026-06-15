@@ -15,3 +15,9 @@
 
 "testinput.hint" = "Switch to the Remoboard keyboard and type from your computer. Text appears here.";
 "testinput.clear" = "Clear";
+
+"received.title" = "Received Text";
+"received.copy" = "Copy";
+"received.copied" = "Copied";
+"received.share" = "Share";
+"received.done" = "Done";

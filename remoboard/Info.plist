@@ -8,6 +8,23 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.everettjf.remoboard</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>remoboard</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Remoboard advertises your phone on the local network so the Remoboard desktop companion can discover it.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_remoboard._tcp</string>
+	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>UISupportedInterfaceOrientations</key>

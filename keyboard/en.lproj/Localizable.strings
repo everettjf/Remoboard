@@ -1,6 +1,9 @@
 "Next" = "Next";
 "Words" = "Words";
+"Clip" = "Clip→PC";
+"OpenApp" = "→App";
 "Return" = "Return";
+"ClipboardCopiedToPhone" = "Copied to phone clipboard";
 "StatusWaiting" = "Open the URL below on your computer";
 "StatusConnected" = "Connected — type from your computer";
 "WifiNotFound" = "Wi-Fi not connected";
