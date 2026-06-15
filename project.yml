@@ -1,0 +1,71 @@
+name: Remoboard
+options:
+  bundleIdPrefix: com.everettjf
+  deploymentTarget:
+    iOS: "15.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.0"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+    TARGETED_DEVICE_FAMILY: "1,2"
+
+targets:
+
+  RemoboardKit:
+    type: framework
+    platform: iOS
+    sources:
+      - path: RemoboardKit/Sources
+      - path: RemoboardKit/Resources
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.everettjf.RemoboardKit
+        DEFINES_MODULE: "YES"
+        SKIP_INSTALL: "YES"
+        GENERATE_INFOPLIST_FILE: "YES"
+
+  Remoboard:
+    type: application
+    platform: iOS
+    sources:
+      - path: remoboard
+        excludes:
+          - "Info.plist"
+          - "*.entitlements"
+    dependencies:
+      - target: RemoboardKit
+        embed: true
+      - target: RemoKeyboard
+        embed: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.everettjf.remoboard
+        PRODUCT_NAME: Remoboard
+        INFOPLIST_FILE: remoboard/Info.plist
+        CODE_SIGN_ENTITLEMENTS: remoboard/Remoboard.entitlements
+        GENERATE_INFOPLIST_FILE: "NO"
+
+  RemoKeyboard:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: keyboard
+        excludes:
+          - "Info.plist"
+          - "*.entitlements"
+    dependencies:
+      - target: RemoboardKit
+        embed: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.everettjf.remoboard.keyboard
+        PRODUCT_NAME: RemoKeyboard
+        INFOPLIST_FILE: keyboard/Info.plist
+        CODE_SIGN_ENTITLEMENTS: keyboard/RemoKeyboard.entitlements
+        GENERATE_INFOPLIST_FILE: "NO"

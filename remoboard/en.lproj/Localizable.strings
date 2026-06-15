@@ -1,0 +1,17 @@
+"home.tagline" = "Type on your computer, appear on your phone.";
+"home.howto.title" = "How to use";
+"home.howto.step1" = "Add Remoboard as a keyboard in Settings → General → Keyboard → Keyboards.";
+"home.howto.step2" = "Tap Remoboard and turn on \"Allow Full Access\" so it can reach your network.";
+"home.howto.step3" = "Switch to the Remoboard keyboard. It shows a URL and a PIN.";
+"home.howto.step4" = "Open the URL in your computer's browser, enter the PIN, and start typing.";
+"home.quickwords" = "Quick Words";
+"home.testinput" = "Test Input";
+"home.opensettings" = "Open Settings";
+"home.fullaccess.note" = "Full Access is required so the keyboard can serve the web page over your local network.";
+
+"quickwords.add.placeholder" = "New quick word";
+"quickwords.footer" = "Tap a word in the keyboard's Words list to insert it.";
+"quickwords.reset" = "Reset";
+
+"testinput.hint" = "Switch to the Remoboard keyboard and type from your computer. Text appears here.";
+"testinput.clear" = "Clear";

@@ -1,0 +1,17 @@
+"home.tagline" = "在电脑上打字，文字实时出现在手机上。";
+"home.howto.title" = "使用方法";
+"home.howto.step1" = "在 设置 → 通用 → 键盘 → 键盘 中添加 Remoboard 键盘。";
+"home.howto.step2" = "点击 Remoboard，打开\"允许完全访问\"，以便它能访问网络。";
+"home.howto.step3" = "切换到 Remoboard 键盘，它会显示一个网址和配对码。";
+"home.howto.step4" = "在电脑浏览器中打开网址，输入配对码，即可开始输入。";
+"home.quickwords" = "快捷短语";
+"home.testinput" = "测试输入";
+"home.opensettings" = "打开设置";
+"home.fullaccess.note" = "需要开启完全访问，键盘才能在局域网内提供网页服务。";
+
+"quickwords.add.placeholder" = "新的快捷短语";
+"quickwords.footer" = "在键盘的\"短语\"列表中点击即可插入。";
+"quickwords.reset" = "重置";
+
+"testinput.hint" = "切换到 Remoboard 键盘，从电脑输入，文字会出现在这里。";
+"testinput.clear" = "清空";
