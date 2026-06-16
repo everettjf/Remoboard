@@ -1,3 +1,15 @@
+# Xcode project is generated from project.yml via XcodeGen.
+Remoboard.xcodeproj/
 
-Remoboard.xcworkspace/xcuserdata/
-Pods/Pods.xcodeproj/xcuserdata/
+# Build output
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+
+# Web toolchain
+web/node_modules/
+web/dist/
+
+# macOS
+.DS_Store

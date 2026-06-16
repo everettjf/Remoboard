@@ -1,26 +1,14 @@
-/* 
-  Localizable.strings
-  remotekb
-
-  Created by everettjf on 2019/6/19.
-  Copyright © 2019 everettjf. All rights reserved.
-*/
-"GuideAllowFullAccess" = "请打开 设置>通用>键盘>键盘>远程输入法, 启用 允许完全访问";
 "Next" = "切换";
-"Qwerty" = "键盘";
 "Words" = "短语";
-"Help" = "帮助";
-
+"Clip" = "剪贴板→电脑";
+"OpenApp" = "→应用";
 "Return" = "换行";
 "Send" = "发送";
-"Done" = "完成";
 "Search" = "搜索";
-
-"Copy" = "复制";
-"Handoff" = "接力";
-
-"ipnetwork.message.waiting" = "等待连接";
-"ipnetwork.message.code" = "连接码";
-
-"message.connected" = "已连接,打字啦 :)";
-"Wi-Fi not connected" = "请使用Wi-Fi连接网络";
+"Done" = "完成";
+"Go" = "前往";
+"ClipboardCopiedToPhone" = "已复制到手机剪贴板";
+"StatusWaiting" = "在电脑上打开下方网址";
+"StatusConnected" = "已连接 — 可从电脑输入";
+"WifiNotFound" = "Wi-Fi 未连接";
+"GuideAllowFullAccess" = "请在 设置 → 键盘 中为 Remoboard 开启\"允许完全访问\"。";

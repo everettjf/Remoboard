@@ -1,61 +1,23 @@
-/* 
-  Localizable.strings
-  remotekb
+"home.tagline" = "Type on your computer, appear on your phone.";
+"home.howto.title" = "How to use";
+"home.howto.step1" = "Add Remoboard as a keyboard in Settings → General → Keyboard → Keyboards.";
+"home.howto.step2" = "Tap Remoboard and turn on \"Allow Full Access\" so it can reach your network.";
+"home.howto.step3" = "Switch to the Remoboard keyboard. It shows a URL and a PIN.";
+"home.howto.step4" = "Open the URL in your computer's browser, enter the PIN, and start typing.";
+"home.quickwords" = "Quick Words";
+"home.testinput" = "Test Input";
+"home.opensettings" = "Open Settings";
+"home.fullaccess.note" = "Full Access is required so the keyboard can serve the web page over your local network.";
 
-  Created by everettjf on 2019/8/30.
-  Copyright © 2019 everettjf. All rights reserved.
-*/
+"quickwords.add.placeholder" = "New quick word";
+"quickwords.footer" = "Tap a word in the keyboard's Words list to insert it.";
+"quickwords.reset" = "Reset";
 
-"app.name" = "Remoboard";
-"app.longname" = "Remote Keyboard";
+"testinput.hint" = "Switch to the Remoboard keyboard and type from your computer. Text appears here.";
+"testinput.clear" = "Clear";
 
-"title.general" = "General";
-"title.howtouse" = "How To Use";
-"title.installguide" = "Install Guide";
-"title.downloaddesktop" = "Download Desktop App";
-"title.manage" = "Manage";
-"title.quickwords" = "Quick Words";
-"title.connectionmode" = "Connection";
-"title.allowfullaccess" = "Allow Full Access";
-"title.testinput" = "Test Input";
-"title.feedback" = "Feedback";
-"title.email" = "E-mail";
-"title.weibo" = "Weibo";
-"title.wechat" = "Wechat Subscription";
-"title.website" = "Website";
-"title.telegram" = "Telegram";
-"title.more" = "More";
-"title.appversion" = "Version";
-"title.moreapps" = "More Apps";
-"title.starapp" = "Star App";
-"title.shareapp" = "Share App";
-"title.qqgroup" = "QQ Group";
-"title.products" = "Our Products";
-"title.lab" = "Lab";
-"title.whatislab" = "What is Lab";
-
-"vc.testinput.title" = "Test Input";
-"vc.testinput.defaulttext" = "Input Here";
-
-"vc.quickwordslist.title" = "Manage Quick Words";
-"vc.quickwordsedit.title.edit" = "Edit Quick Word";
-"vc.quickwordsedit.title.add" = "Add Quick Word";
-"vc.quickwordsedit.save" = "Save";
-
-"common.viewdetailguide" = "View Detail Guide";
-"common.title.install" = "Install";
-"common.title.install.shortguide" = "1. Open Setting-General-Keyboard-Keyboard-Add New Keyboards, Tap Remoboard\n2. Then tap Remoboard, turn on Allow Full Access.";
-"common.ok" = "Okay";
-
-"common.gotosetting" = "Go to settings";
-"common.howtoallow" = "How to allow";
-"common.howtoallow.shortguide" = "1. Tap 'Go to settings', tap Keyboard, then turn on Allow Full Access. 2. Or open Setting-General-Keyboard-Keyboard-Remoboard, turn on Allow Full Access";
-"common.later" = "Later";
-
-"common.bluetooth" = "Bluetooth";
-"common.ipconnectioncode" = "IP (Deprecated Soon)";
-"common.http" = "Web";
-"common.chooseconnectionmode" = "Choose Connection Mode";
-"common.cancel" = "Cancel";
-
-"message.handoffcompleted" = "Handoff completed, tap the Handoff-Button in your macOS, go back to last app and enjoy typing :)";
+"received.title" = "Received Text";
+"received.copy" = "Copy";
+"received.copied" = "Copied";
+"received.share" = "Share";
+"received.done" = "Done";

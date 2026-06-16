@@ -1,118 +1,110 @@
-# Remoboard — Remote Input Method
+# Remoboard (Swift)
 
-Remoboard (远程输入法) lets you type on your computer and instantly input the text on your phone through a custom keyboard extension, a browser-based UI, and Bluetooth/HTTP bridges. Launch the mobile app, note the URL that appears on the device, visit that address from your desktop browser, and whatever you type is delivered to the phone for fast, seamless input.
+Remoboard (远程输入法) lets you type in your computer's browser and have the text
+appear instantly on your phone, inside whatever app you're using. The phone runs a
+custom keyboard extension that hosts a tiny web server; you open the URL it shows,
+enter a pairing PIN, and start typing.
 
-Project website: https://xnu.app/remoboard
+This is a ground-up Swift rewrite of the original Objective-C/C++ app. The legacy
+sources are preserved under [`ObjcVersion/`](ObjcVersion/) for reference.
 
-## Badges
-[![Platform](https://img.shields.io/badge/platform-iOS%20%26%20Android-blue.svg)](#installation)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Xcode](https://img.shields.io/badge/Xcode-12%2B-informational.svg)](#development)
+## What changed from the Objective-C version
 
-## Table of Contents
-- [Features](#features)
-- [Quick Start](#quick-start)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Examples](#examples)
-- [Development](#development)
-- [Roadmap / Project Status](#roadmap--project-status)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgements](#acknowledgements)
-- [Star History](#star-history)
+- **No C++ / Boost / mongoose.** The HTTP + WebSocket relay is ~600 lines of Swift
+  built on raw POSIX sockets and a single `poll()` loop (`RemoboardKit/Sources/RemoServer.swift`).
+  Raw sockets are used deliberately — `Network.framework`'s `NWListener` triggers the
+  iOS local-network permission prompt, which can't be granted from a keyboard extension.
+  This deletes the entire vendored `boost_1_70_0` tree (~63k files).
+- **Versioned JSON protocol** over WebSocket, replacing the `command##rkb-…##content`
+  string separator. See `RemoboardKit/Sources/Protocol.swift`.
+- **PIN pairing.** The keyboard shows a 6-digit PIN (stable for the session); a client must
+  send it before any input is honored, and the server drops a connection after 5 wrong
+  attempts, so a random person on the same Wi-Fi can't type into your phone.
+- **Rebuilt web UI** (Svelte, single offline file): proper CJK/IME handling via
+  composition events, live mirror of the phone's text field, robust exponential-backoff
+  reconnect + heartbeat, quick-word chips, dark mode, responsive layout.
+- **SwiftUI host app** and a **Swift/UIKit keyboard extension**.
+- **Remote clipboard** — push text to / pull text from the phone's system clipboard
+  from any client (browser or Mac).
+- **Handoff to the app** — send the current text into the Remoboard host app (via the
+  `remoboard://` URL scheme) to copy, share, or keep it.
+- **macOS menu-bar companion** (`mac/`) — discovers phones via Bonjour
+  (`_remoboard._tcp`), pairs with the PIN, and lets you type, manage the clipboard, and
+  hand off from the menu bar. The keyboard extension advertises the Bonjour service while
+  active, so a discovered device always has a live server.
+- Bluetooth / legacy IP modes dropped.
 
-## Features
-- **Remote desktop typing**: Use any computer browser to access the on-device URL (e.g., `http://<device-ip>:7777`) that the Remoboard app shows and mirror your typing straight into the phone.
-- **Multiple connection modes**: Choose between the built-in HTTP server (recommended), Bluetooth Low Energy peripheral mode, or the legacy IP connection code depending on your network constraints.
-- **Custom keyboard extension**: Remoboard ships with the `RemoKeyboard` extension so typed content can be inserted inside any app after you enable the keyboard in iOS settings and grant Full Access.
-- **Quick Words and templates**: Maintain a list of reusable phrases, edit them from the host app, and trigger them quickly from the keyboard.
-- **Test input experience**: The host app includes a dedicated testing view for validating remote input without switching apps.
-- **Bilingual interface**: Localizations for English and Simplified Chinese are included out of the box.
-- **Free mobile apps**: Both the iOS and Android releases remain free to download for end users.
+## Layout
 
-## Quick Start
-1. Install the Remoboard mobile app from the [App Store](https://apps.apple.com/us/app/id1474458879) (Android builds are distributed for free as well via the official channels).
-2. On iOS, go to Settings → General → Keyboard → Keyboards → Add New Keyboard… → select **Remoboard**, then tap it again and enable **Allow Full Access** so the keyboard can communicate over the network.
-3. Open the Remoboard app, use the default Web (HTTP) connection mode, and wait for the device to display an address such as `http://192.168.x.x:7777`. To switch modes, open **More**, tap the app version three times, then choose **Connection Mode**.
-4. From your computer, visit the displayed URL in a browser, start typing, and watch the text arrive on the phone in real time.
+```
+RemoboardKit/        Shared framework (app + extension)
+  Sources/
+    Protocol.swift       JSON wire protocol + codec
+    Settings.swift       App-group settings (quick words, etc.)
+    LocalAddresses.swift IPv4 interface enumeration
+    WebSocket.swift      RFC 6455 handshake + frame codec
+    RemoServer.swift     POSIX-socket HTTP/WebSocket server + pairing
+    BonjourAdvertiser.swift  Publishes _remoboard._tcp for companion discovery
+    SiteResources.swift  Loads the bundled web UI
+  Resources/site/      Built web UI (index.html, favicon.ico)
+keyboard/            RemoKeyboard extension (UIKit)
+remoboard/           Host app (SwiftUI)
+mac/                 macOS menu-bar companion (SwiftUI)
+web/                 Svelte source for the browser UI
+project.yml          XcodeGen project definition
+ObjcVersion/         Original Objective-C/C++ app (archived)
+```
 
-## Installation
-### From official stores
-- iOS: Install directly from the [App Store listing](https://apps.apple.com/us/app/id1474458879). The app is free and already satisfies the initial product goals.
-- Android: The Android build is also free of charge. Follow the official distribution channels linked from https://xnu.app/remoboard.
+## Building
 
-### From source
-1. Clone the repository and install dependencies:
-   ```bash
-   git clone https://github.com/everettjf/Remoboard.git
-   cd Remoboard
-   sudo gem install cocoapods   # if CocoaPods is not installed
-   pod install
-   ```
-2. Open `Remoboard.xcworkspace` in Xcode (the workspace wires the `Remoboard` host app with the `RemoKeyboard` extension and CocoaPods).
-3. Select the desired scheme (`Remoboard` or `RemoKeyboard`) and run on an iOS 12+ device. Remote input requires a real device because keyboard extensions are not fully supported in the simulator.
+Prerequisites: Xcode 15+, [XcodeGen](https://github.com/yonaskolb/XcodeGen)
+(`brew install xcodegen`), Node 18+ (only to rebuild the web UI).
 
-## Usage
-- **Enable the keyboard**: After installation, add Remoboard as a system keyboard and allow Full Access. Without this permission the keyboard cannot open the embedded HTTP server or Bluetooth peripheral.
-- **Choose a connection mode**: The app defaults to HTTP (web). To change it, open **More**, tap the app version three times (per launch), then use **Connection Mode** to pick HTTP, Bluetooth, or the IP connection code. Due to differences in networks and firewalls, the HTTP web connection mode is generally the most stable and is recommended in almost every environment.
-- **Start typing from the desktop**: Remoboard exposes a lightweight website from `site.bundle` inside the app on port `7777`. Type inside the browser, and the text is relayed to the phone keyboard immediately.
-- **Bluetooth peripheral mode**: Advertise the phone as a BLE peripheral and pair from the desktop helper (when implemented) to push text messages. Status indicators in the app show when the peripheral is ready and connected.
-- **Quick Words**: Use the “Quick Words” manager to edit your frequently typed phrases. They sync to the keyboard extension via `KBSetting` so you can insert them with one tap.
-- **Test Input**: Open the “Test Input” screen to validate connectivity before switching to another app.
+```bash
+# 1. (only if you changed web/) rebuild the browser UI into the framework bundle
+cd web && npm install && npm run deploy && cd ..
 
-## Configuration
-These are the user-facing knobs surfaced through `KBSetting` and the host app:
-- **Connection mode** (`HTTP`, `Bluetooth`, or legacy `IP connection code`): defines how text is transported. The setting persists across launches, but the picker is hidden until you tap the app version three times after each launch.
-- **HTTP server port**: Fixed at `7777`. The app lists all detected IP addresses (Wi-Fi, cellular, tethering) and copies the primary URL for convenience.
-- **Quick words list**: Stored on device and editable through the host app. Use the reset option if you want to restore the default phrases shipped with the app.
-- **Full Access requirement**: iOS requires Full Access for keyboards that use the network. If you disable it, remote typing and synchronization features stop working.
-- **Experimental Lab features**: Some older lab features remain in the UI but are not maintained and are no longer recommended for day-to-day use.
+# 2. generate the Xcode project from project.yml
+xcodegen generate
 
-## Examples
-- **HTTP mode over Wi-Fi**
-  1. Launch the Remoboard app on your phone, make sure it is on the same Wi-Fi network as your computer, and select HTTP mode.
-  2. Copy the shown address (e.g., `http://10.0.0.8:7777`).
-  3. Enter the address in your desktop browser, type text into the page, and confirm it arrives in the text field on the phone.
-- **Editing Quick Words**
-  1. In the app, navigate to **Manage → Quick Words**.
-  2. Tap `+` to add a new phrase or select an existing one to edit it.
-  3. Switch to the Remoboard keyboard inside any app and insert the saved phrases with one tap.
+# 3. open and run on a real device (keyboard extensions are limited in the simulator)
+open Remoboard.xcworkspace 2>/dev/null || open Remoboard.xcodeproj
+```
 
-## Development
-- **Prerequisites**: macOS with Xcode 12+, CocoaPods, and a connected iOS device running iOS 12 or newer.
-- **Dependencies**: Managed through the `Podfile` (`Masonry`, `Toast`, `SCLAlertView-Objective-C`, `NSAttributedString-DDHTML`). `third_party/boost_1_70_0` and `tokamak` provide shared logic for the HTTP/BLE bridges.
-- **Workspace layout**:
-  - `remoboard/` contains the host app source (controllers, utilities, quick word manager).
-  - `keyboard/` holds the custom keyboard extension (views, channel services, localized strings).
-  - `shared/` stores settings helpers shared between targets.
-  - `tokamak/` includes cross-platform networking logic (Bifrost HTTP server, BLE definitions).
-- **Running**: Use `pod install`, open `Remoboard.xcworkspace`, choose the `Remoboard` scheme, and run on device. To debug the keyboard extension, select `RemoKeyboard` and attach it to the keyboard host process following Xcode’s extension debugging workflow.
-- **Testing & QA**: No automated test targets are defined. Manually verify both the host app screens and the keyboard extension, especially connection stability and quick word synchronization.
-- **Lint/format**: Stick to the Objective-C/Objective-C++ style that Xcode generates (spaces, pragma marks, etc.). There is no dedicated linting script, so run `clang-format` locally if you make large stylistic changes.
+Command-line build check (simulator, no signing):
 
-## Roadmap / Project Status
-1. The software already satisfies its original design goals, and there are currently no plans to continue optimizing or expanding it.
-2. The iOS and Android editions are fully available as free downloads. Thank you for the continued support!
-3. Because every network is different, a minority of environments cannot establish a connection. The Web/HTTP connection mode is comparatively more stable. Experimental “Lab” functions are not scheduled for further updates and are not recommended for use.
+```bash
+xcodebuild -project Remoboard.xcodeproj -scheme Remoboard \
+  -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+  CODE_SIGNING_ALLOWED=NO build
+```
 
-## Contributing
-Contributions are welcome even though the core roadmap is stable. Please:
-- Discuss major ideas in issues first so expectations stay aligned.
-- Keep pull requests small, focused, and well-described. Avoid unrelated refactors.
-- Update documentation (README.md, AGENT.md, localized strings) whenever UI or behavior changes.
-- Verify the host app and keyboard extension manually before submitting.
+On device: enable Remoboard in **Settings → General → Keyboard → Keyboards**, turn on
+**Allow Full Access**, switch to the Remoboard keyboard, then open the shown
+`http://<phone-ip>:7777` URL on your computer and enter the PIN.
+
+### macOS companion
+
+The `RemoboardMac` scheme builds the menu-bar app. Run it, switch to the Remoboard keyboard
+on your phone (it advertises over Bonjour while active), pick the device (or enter its IP),
+type the PIN, and type from the menu bar. If pairing is denied, re-enter the PIN shown on
+the phone and connect again.
+
+```bash
+xcodebuild -project Remoboard.xcodeproj -scheme RemoboardMac \
+  -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO build
+```
+
+## Protocol (v1)
+
+Client → phone: `{"v":1,"t":"hello","pin":"482103"}`, `{"t":"input","text":"…","seq":7}`,
+`{"t":"delete","seq":8}`, `{"t":"move","dir":"left","seq":9}`,
+`{"t":"clip-set","text":"…"}`, `{"t":"clip-get"}`, `{"t":"handoff","text":"…"}`, `{"t":"ping"}`.
+
+Phone → client: `{"t":"paired"}`, `{"t":"deny","reason":"pin"}`,
+`{"t":"context","before":"…","after":"…"}`, `{"t":"quickwords","items":[…]}`,
+`{"t":"clip","text":"…"}`, `{"t":"info","message":"…"}`, `{"t":"pong"}`.
 
 ## License
-Remoboard is released under the [MIT License](LICENSE).
 
-## Acknowledgements
-- Featured in [「最美应用」 (Chinese)](https://mp.weixin.qq.com/s/PLWkVuEdJCk6cLGEQVZDbw) and [「少数派」 (Chinese)](https://sspai.com/post/57008).
-- Follow the WeChat subscription account “首先很有趣” (translates to “Fun First”) to keep up with future experiments and ideas from the author.
-- Thank you to everyone who has supported the project since its launch.
-
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=everettjf/Remoboard&type=Date)](https://star-history.com/#everettjf/Remoboard&Date)
+MIT. See [LICENSE](LICENSE).

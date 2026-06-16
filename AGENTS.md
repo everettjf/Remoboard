@@ -1,42 +1,51 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
-Remoboard is an iOS host app plus a keyboard extension with a shared C++ networking core.
-- `remoboard/`: Host app UI, logic, and assets.
-- `keyboard/`: Keyboard extension UI, channel implementations (HTTP/BLE), and localized strings.
-- `shared/`: App-group shared settings (`KBSetting.*`).
-- `tokamak/`: C++ networking stack and bundled web UI (`tokamak/bifrost/bifrost/http/site.bundle`).
-- `Pods/`, `Podfile`: CocoaPods dependencies.
-- `Remoboard.xcworkspace`: Primary Xcode workspace (use this, not the `.xcodeproj`).
+Remoboard is a Swift iOS host app + keyboard extension that relays text typed in a
+desktop browser to the phone. The legacy Objective-C/C++ implementation is archived
+under `ObjcVersion/` and is not built.
 
-## Build, Test, and Development Commands
-- `pod install`: Install CocoaPods dependencies after cloning or when `Podfile` changes.
-- `open Remoboard.xcworkspace`: Launch the workspace in Xcode.
-- `xcodebuild -workspace Remoboard.xcworkspace -scheme Remoboard -sdk iphoneos build`: Command-line build for the host app.
-- `xcodebuild -workspace Remoboard.xcworkspace -scheme RemoKeyboard -sdk iphoneos build`: Command-line build for the keyboard extension.
+## Project Structure
 
-## Coding Style & Naming Conventions
-- Objective-C/Objective-C++; use `.mm` when bridging into C++ (`tokamak/`).
-- Follow existing Xcode formatting; keep imports grouped (frameworks first, then locals).
-- Use the localization helpers (`ttt`, `ttt_zhcn`) and update both `keyboard/en.lproj` and `keyboard/zh-Hans.lproj`.
-- Shared settings must go through `shared/KBSetting.*` (App Group `group.everettjf.remoboard`).
+- `RemoboardKit/` — shared framework. `Sources/` holds the JSON protocol, app-group
+  settings, IPv4 enumeration, the RFC 6455 WebSocket codec, and the POSIX-socket
+  HTTP/WebSocket server (`RemoServer.swift`). `Resources/site/` holds the built web UI.
+- `keyboard/` — `RemoKeyboard` extension (UIKit). Hosts the server, injects text via
+  `UITextDocumentProxy`.
+- `remoboard/` — host app (SwiftUI): onboarding, quick-word management, test input,
+  handoff receiver, Bonjour advertising.
+- `mac/` — macOS menu-bar companion (SwiftUI): Bonjour discovery + WebSocket client.
+- `web/` — Svelte source for the browser UI; `npm run deploy` builds a single offline
+  `index.html` into `RemoboardKit/Resources/site/`.
+- `project.yml` — XcodeGen definition. `Remoboard.xcodeproj` is generated and gitignored.
 
-## Testing Guidelines
-There are no automated tests in the repo. Manual checks are required:
-- Build and run both `Remoboard` and `RemoKeyboard` on a physical device.
-- Verify HTTP mode shows a URL (port 7777) and browser input injects text.
-- Switch HTTP/BLE modes and confirm the selection persists.
-- Add/edit quick words and confirm they appear in the keyboard.
+## Build & Run
 
-## Commit & Pull Request Guidelines
-- Commit messages in history are short, lowercase summaries (e.g., “update readme”, “deprecate bluetooth mode”). Follow that style.
-- Keep PRs narrowly scoped; describe user impact and manual test steps.
-- Update docs (`README.md`, `AGENT.md`, or this file) when behavior changes.
-- Avoid dependency upgrades unless the full build is verified on current Xcode/iOS SDKs.
+- `xcodegen generate` after any change to `project.yml`, target file membership, or
+  Info.plist/entitlements.
+- `cd web && npm run deploy` after any change under `web/`; commit the regenerated
+  `RemoboardKit/Resources/site/index.html`.
+- Compile check (iOS): `xcodebuild -project Remoboard.xcodeproj -scheme Remoboard -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build`.
+- Compile check (macOS companion): `xcodebuild -project Remoboard.xcodeproj -scheme RemoboardMac -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO build`.
+- The macOS companion (`mac/`) is a separate target; it re-implements the wire protocol
+  with raw JSON (no RemoboardKit dependency) and uses `URLSessionWebSocketTask` as a client.
+- Real-device run is required to actually use the keyboard (extensions are limited in
+  the simulator) and needs Full Access enabled.
 
-## Configuration Notes
-- Keyboard extensions are limited in the simulator; use a real device.
-- Enable “Allow Full Access” for HTTP/BLE communication to work.
+## Conventions
 
-## More Apps
-- See https://xnu.app for other apps.
+- Minimum iOS 15. Use `NavigationView` (not `NavigationStack`, which is iOS 16+).
+- Keep the keyboard extension lean — it runs under a tight (~50 MB) memory budget. Do not
+  introduce heavy dependencies there.
+- Use raw POSIX sockets for the server, **not** `Network.framework`/`NWListener`, which
+  triggers the iOS local-network permission prompt that can't be granted in an extension.
+- Shared state goes through `Settings` (App Group `group.everettjf.remoboard`).
+- Wire protocol changes go in `RemoboardKit/Sources/Protocol.swift` and the web client
+  (`web/src/`) together; bump `RemoProtocol.version` for breaking changes.
+- Add new user-facing strings to both `en.lproj` and `zh-Hans.lproj`.
+
+## Testing
+
+No automated tests. The server core can be exercised on macOS by compiling the Foundation
+-only sources (`Protocol.swift`, `WebSocket.swift`, `RemoServer.swift`) into a command-line
+binary and driving it with a WebSocket client. Otherwise verify manually on device: PIN
+pairing, live typing (including CJK/IME), cursor moves, quick words, and reconnect.
