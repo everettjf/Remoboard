@@ -46,8 +46,10 @@
         denied = false
         phase = 'paired'
         queueMicrotask(() => textarea && textarea.focus())
-        // Flush anything typed during a reconnect window now that we're really paired.
-        syncBuffer()
+        // Resync the baseline to the current buffer rather than replaying a diff: after a
+        // reconnect the phone's field may have changed independently, so replaying old
+        // deletes/inserts could corrupt it. Future keystrokes diff from here on.
+        lastSent = buffer
         break
       case 'deny':
         denied = true
@@ -79,22 +81,22 @@
     toastTimer = setTimeout(() => { toast = '' }, 2200)
   }
 
-  function getPhoneClip() {
-    if (phase !== 'paired') return
-    conn.send({ t: 'clip-get' })
+  // Single source of truth for the pairing gate: never send an op unless truly paired.
+  function gatedSend(obj) {
+    if (phase !== 'paired') return false
+    return conn.send(obj)
   }
 
+  function getPhoneClip() { gatedSend({ t: 'clip-get' }) }
+
   function pushPhoneClip() {
-    const text = clipSend
-    if (!text || phase !== 'paired') return
-    conn.send({ t: 'clip-set', text })
-    clipSend = ''
+    if (!clipSend) return
+    if (gatedSend({ t: 'clip-set', text: clipSend })) clipSend = ''
   }
 
   function sendToApp() {
-    if (!buffer || phase !== 'paired') return
-    conn.send({ t: 'handoff', text: buffer })
-    showToast(t('sendToApp'))
+    if (!buffer) return
+    if (gatedSend({ t: 'handoff', text: buffer })) showToast(t('sendToApp'))
   }
 
   // navigator.clipboard requires a secure context; LAN is plain http, so fall back
@@ -137,13 +139,13 @@
     while (p < min && a[p] === b[p]) p++
     const deletions = a.length - p
     const insertion = b.slice(p).join('')
-    for (let i = 0; i < deletions; i++) conn.send({ t: 'delete', seq: seq++ })
-    if (insertion.length) conn.send({ t: 'input', text: insertion, seq: seq++ })
+    for (let i = 0; i < deletions; i++) gatedSend({ t: 'delete', seq: seq++ })
+    if (insertion.length) gatedSend({ t: 'input', text: insertion, seq: seq++ })
   }
 
   function syncBuffer() {
     if (composing) return
-    if (phase !== 'paired') return   // buffered locally; flushed when 'paired' arrives
+    if (phase !== 'paired') return   // buffered locally; baseline resynced when 'paired' arrives
     sendDiff(lastSent, buffer)
     lastSent = buffer
   }
@@ -163,13 +165,13 @@
   function onKeydown(e) {
     if (composing || buffer.length > 0 || phase !== 'paired') return
     let dir = null
-    if (e.key === 'Enter') { conn.send({ t: 'input', text: '\n', seq: seq++ }); e.preventDefault(); return }
-    if (e.key === 'Backspace') { conn.send({ t: 'delete', seq: seq++ }); e.preventDefault(); return }
+    if (e.key === 'Enter') { gatedSend({ t: 'input', text: '\n', seq: seq++ }); e.preventDefault(); return }
+    if (e.key === 'Backspace') { gatedSend({ t: 'delete', seq: seq++ }); e.preventDefault(); return }
     if (e.key === 'ArrowLeft') dir = 'left'
     else if (e.key === 'ArrowRight') dir = 'right'
     else if (e.key === 'ArrowUp') dir = 'up'
     else if (e.key === 'ArrowDown') dir = 'down'
-    if (dir) { conn.send({ t: 'move', dir, seq: seq++ }); e.preventDefault() }
+    if (dir) { gatedSend({ t: 'move', dir, seq: seq++ }); e.preventDefault() }
   }
 
   // Clear the local buffer without deleting anything on the phone.
@@ -180,8 +182,7 @@
   }
 
   function sendQuickWord(word) {
-    if (phase !== 'paired') return
-    conn.send({ t: 'input', text: word, seq: seq++ })
+    gatedSend({ t: 'input', text: word, seq: seq++ })
   }
 
   let statusLabel = $derived(

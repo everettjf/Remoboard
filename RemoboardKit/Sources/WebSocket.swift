@@ -99,8 +99,9 @@ public final class WebSocketDecoder {
     /// Largest single frame payload we will accept (defends the ~50 MB extension budget).
     public let maxFrameSize: Int
 
-    /// Set once an oversized frame or runaway buffer is seen; the caller must drop the connection.
-    public private(set) var exceededLimit = false
+    /// Set once an oversized frame, runaway buffer, or corrupt/unknown frame is seen;
+    /// the caller must drop the connection.
+    public private(set) var shouldDisconnect = false
 
     public init(maxFrameSize: Int = 1 << 20) {
         self.maxFrameSize = maxFrameSize
@@ -110,13 +111,13 @@ public final class WebSocketDecoder {
         buffer.append(data)
         // Even before a length field is parsed, never let the backlog grow without bound.
         if buffer.count - cursor > maxFrameSize + (1 << 16) {
-            exceededLimit = true
+            shouldDisconnect = true
         }
     }
 
-    /// Returns the next complete frame, or nil if more bytes are needed (or the limit was hit).
+    /// Returns the next complete frame, or nil if more bytes are needed (or the stream is bad).
     public func next() -> WebSocketFrame? {
-        if exceededLimit { return nil }
+        if shouldDisconnect { return nil }
 
         let base = buffer.startIndex
         func byte(_ i: Int) -> UInt8 { buffer[base + cursor + i] }
@@ -129,9 +130,10 @@ public final class WebSocketDecoder {
 
         let fin = (b0 & 0x80) != 0
         guard let opcode = WebSocketOpcode(rawValue: b0 & 0x0F) else {
-            // Unknown opcode — skip one byte and resync.
-            cursor += 1
-            return next()
+            // Unknown opcode means the stream is corrupt/desynced. Don't try to resync
+            // (byte-skipping could recurse a million deep on a hostile stream) — drop it.
+            shouldDisconnect = true
+            return nil
         }
         let masked = (b1 & 0x80) != 0
         var payloadLength = Int(b1 & 0x7F)
@@ -146,7 +148,7 @@ public final class WebSocketDecoder {
             var len = 0
             for i in 2..<10 {
                 // Reject anything that would overflow Int or exceed the cap before allocating.
-                if len > (Int.max >> 8) { exceededLimit = true; return nil }
+                if len > (Int.max >> 8) { shouldDisconnect = true; return nil }
                 len = (len << 8) | Int(byte(i))
             }
             payloadLength = len
@@ -154,7 +156,7 @@ public final class WebSocketDecoder {
         }
 
         guard payloadLength >= 0, payloadLength <= maxFrameSize else {
-            exceededLimit = true
+            shouldDisconnect = true
             return nil
         }
 

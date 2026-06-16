@@ -10,6 +10,10 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Remoboard serves a small web page on your local network so you can type from your computer's browser.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_remoboard._tcp</string>
+	</array>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>

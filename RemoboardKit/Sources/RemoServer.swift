@@ -67,6 +67,8 @@ public final class RemoServer {
         self.faviconData = favicon
     }
 
+    deinit { stop() }
+
     // MARK: Lifecycle
 
     public func start() {
@@ -95,8 +97,10 @@ public final class RemoServer {
         running = false
         wake()
         // Wait for the poll loop to actually exit before closing fds, so we never close a
-        // descriptor the worker is mid-syscall on (which could be reused under us).
-        _ = loopExited.wait(timeout: .now() + 1.0)
+        // descriptor the worker is mid-syscall on (which could be reused under us). The
+        // worker re-checks `running` on every poll timeout tick, so this wait reliably
+        // succeeds well within the window even if the wake byte is somehow missed.
+        _ = loopExited.wait(timeout: .now() + 2.0)
         thread = nil
         closeAll()
     }
@@ -195,9 +199,10 @@ public final class RemoServer {
             }
             lock.unlock()
 
-            // No timeout: every event (I/O, accept, broadcast, stop) wakes poll via an fd,
-            // so there is no idle busy-tick.
-            let n = poll(&pfds, nfds_t(pfds.count), -1)
+            // Events (I/O, accept, broadcast, stop) wake poll immediately via an fd. The 1s
+            // timeout is only a safety net so the worker always re-checks `running` and exits
+            // even if a wake is ever missed — it is not a busy-tick.
+            let n = poll(&pfds, nfds_t(pfds.count), 1000)
             if n < 0 {
                 if errno == EINTR { continue }
                 break
@@ -458,7 +463,7 @@ public final class RemoServer {
             }
         }
         // Oversized/hostile frame seen by the decoder — sever the connection.
-        if client.decoder.exceededLimit {
+        if client.decoder.shouldDisconnect {
             removeClient(client.fd)
         }
     }

@@ -87,7 +87,12 @@ final class KeyboardViewController: UIInputViewController {
     }
 
     private func updateURLs() {
-        guard let primary = LocalAddresses.primaryIPv4() else {
+        // Enumerate interfaces once, then pick the primary from that list.
+        let all = LocalAddresses.ipv4()
+        let primary = all.first { $0.interface == "en0" }
+            ?? all.first { $0.interface == "pdp_ip0" }
+            ?? all.first
+        guard let primary else {
             connectURL = nil
             urlLabel.text = NSLocalizedString("WifiNotFound", comment: "")
             return
@@ -96,9 +101,7 @@ final class KeyboardViewController: UIInputViewController {
         // Show the primary URL plus any other reachable interfaces as backups, so a user
         // whose computer is only on a secondary network can still find a working address.
         var urls = [connectURL!]
-        urls.append(contentsOf: LocalAddresses.ipv4()
-            .filter { $0.ip != primary.ip }
-            .map { "http://\($0.ip):7777" })
+        urls.append(contentsOf: all.filter { $0.ip != primary.ip }.map { "http://\($0.ip):7777" })
         urlLabel.numberOfLines = 0
         urlLabel.text = urls.joined(separator: "\n")
     }
@@ -319,8 +322,8 @@ private extension KeyboardViewController {
     func configureBarButton(_ button: UIButton, title: String) {
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15)
-        button.backgroundColor = UIColor(white: 1, alpha: 0.12)
         button.layer.cornerRadius = 6
+        // Colors (incl. background) are set by configColors() for light/dark appearance.
     }
 
     @objc func toggleWords() {

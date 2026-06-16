@@ -36,9 +36,6 @@ final class MacClient: ObservableObject {
     private var pingTimer: Timer?
     private var reconnectWork: DispatchWorkItem?
 
-    /// True once an endpoint has been chosen, so the UI can offer a one-tap re-pair.
-    var hasEndpoint: Bool { !host.isEmpty }
-
     // MARK: Connection
 
     func connect(host: String, port: Int, pin: String) {
@@ -49,12 +46,6 @@ final class MacClient: ObservableObject {
         backoff = 1
         shouldReconnect = true
         openSocket()
-    }
-
-    /// Re-pair with the already-chosen endpoint using a fresh PIN (after a deny).
-    func retry(pin: String) {
-        guard hasEndpoint else { return }
-        connect(host: host, port: port, pin: pin)
     }
 
     func disconnect() {
@@ -99,7 +90,12 @@ final class MacClient: ObservableObject {
         stopPing()
         task = nil
         resetMirror()
-        guard shouldReconnect else { phase = .disconnected; return }
+        guard shouldReconnect else {
+            // A deny cancels the socket, which lands here — keep the .denied state (and its
+            // re-pair UI) instead of clobbering it with .disconnected.
+            if phase != .denied { phase = .disconnected }
+            return
+        }
         phase = .connecting
         let delay = backoff
         backoff = min(backoff * 2, 8)   // exponential backoff, matching the web client
