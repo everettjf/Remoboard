@@ -79,7 +79,15 @@ final class Discovery: ObservableObject {
         case .ipv4(let addr):
             return addr.debugDescription.components(separatedBy: "%").first ?? addr.debugDescription
         case .ipv6(let addr):
-            return "[\(addr.debugDescription.components(separatedBy: "%").first ?? addr.debugDescription)]"
+            // Preserve the %zone for link-local (fe80::) addresses — without it the address
+            // is unroutable. In a URL the '%' must be percent-encoded as '%25'.
+            let desc = addr.debugDescription
+            if let pct = desc.firstIndex(of: "%") {
+                let literal = desc[..<pct]
+                let zone = desc[desc.index(after: pct)...]
+                return "[\(literal)%25\(zone)]"
+            }
+            return "[\(desc)]"
         case .name(let name, _):
             return name
         @unknown default:

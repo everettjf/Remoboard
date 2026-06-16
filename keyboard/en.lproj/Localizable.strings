@@ -3,6 +3,10 @@
 "Clip" = "Clip→PC";
 "OpenApp" = "→App";
 "Return" = "Return";
+"Send" = "Send";
+"Search" = "Search";
+"Done" = "Done";
+"Go" = "Go";
 "ClipboardCopiedToPhone" = "Copied to phone clipboard";
 "StatusWaiting" = "Open the URL below on your computer";
 "StatusConnected" = "Connected — type from your computer";

@@ -38,6 +38,7 @@ public final class RemoServer {
         let fd: Int32
         var isWebSocket = false
         var paired = false
+        var pinAttempts = 0
         var rawBuffer = Data()              // pre-upgrade HTTP bytes
         var outBuffer = Data()              // pending bytes to write
         var closeAfterFlush = false
@@ -47,10 +48,16 @@ public final class RemoServer {
         init(fd: Int32) { self.fd = fd }
     }
 
+    /// Caps that protect the keyboard extension's tight memory budget and the PIN.
+    private let maxClients = 12
+    private let maxPinAttempts = 5
+    private let maxFragmentBytes = 1 << 20
+
     private var listenFD: Int32 = -1
     private var wakePipe: [Int32] = [-1, -1]
     private var thread: Thread?
     private var running = false
+    private var loopExited = DispatchSemaphore(value: 0)
     private let lock = NSLock()
     private var clients: [Int32: Client] = [:]
 
@@ -72,6 +79,7 @@ public final class RemoServer {
         }
 
         running = true
+        loopExited = DispatchSemaphore(value: 0)
         let t = Thread { [weak self] in self?.runLoop() }
         t.name = "rkb.server"
         t.stackSize = 512 * 1024
@@ -86,7 +94,9 @@ public final class RemoServer {
         }
         running = false
         wake()
-        // Give the loop a moment to unwind, then tear down sockets.
+        // Wait for the poll loop to actually exit before closing fds, so we never close a
+        // descriptor the worker is mid-syscall on (which could be reused under us).
+        _ = loopExited.wait(timeout: .now() + 1.0)
         thread = nil
         closeAll()
     }
@@ -107,21 +117,26 @@ public final class RemoServer {
     // MARK: Socket setup
 
     private func openListenSocket() -> Bool {
-        let fd = socket(AF_INET, SOCK_STREAM, 0)
+        // Dual-stack: an AF_INET6 socket with IPV6_V6ONLY off also accepts IPv4 (v4-mapped),
+        // so the companion can reach the phone over either family.
+        let fd = socket(AF_INET6, SOCK_STREAM, 0)
         guard fd >= 0 else { return false }
 
         var yes: Int32 = 1
+        var no: Int32 = 0
         setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &yes, socklen_t(MemoryLayout<Int32>.size))
         setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, &yes, socklen_t(MemoryLayout<Int32>.size))
+        setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &no, socklen_t(MemoryLayout<Int32>.size))
 
-        var addr = sockaddr_in()
-        addr.sin_family = sa_family_t(AF_INET)
-        addr.sin_addr.s_addr = INADDR_ANY
-        addr.sin_port = port.bigEndian
+        var addr = sockaddr_in6()
+        addr.sin6_len = UInt8(MemoryLayout<sockaddr_in6>.size)
+        addr.sin6_family = sa_family_t(AF_INET6)
+        addr.sin6_addr = in6addr_any
+        addr.sin6_port = port.bigEndian
 
         let bindResult = withUnsafePointer(to: &addr) { ptr -> Int32 in
             ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) { sa in
-                bind(fd, sa, socklen_t(MemoryLayout<sockaddr_in>.size))
+                bind(fd, sa, socklen_t(MemoryLayout<sockaddr_in6>.size))
             }
         }
         guard bindResult == 0, listen(fd, 64) == 0 else {
@@ -180,7 +195,9 @@ public final class RemoServer {
             }
             lock.unlock()
 
-            let n = poll(&pfds, nfds_t(pfds.count), 200)
+            // No timeout: every event (I/O, accept, broadcast, stop) wakes poll via an fd,
+            // so there is no idle busy-tick.
+            let n = poll(&pfds, nfds_t(pfds.count), -1)
             if n < 0 {
                 if errno == EINTR { continue }
                 break
@@ -204,7 +221,12 @@ public final class RemoServer {
                 }
             }
         }
-        closeAll()
+        // stop() waits on this then closes fds. If we instead exited on a poll error
+        // (running still true), own the teardown ourselves.
+        let stoppedByRequest = !running
+        running = false
+        loopExited.signal()
+        if !stoppedByRequest { closeAll() }
     }
 
     private func drainWakePipe() {
@@ -220,10 +242,15 @@ public final class RemoServer {
             setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, &yes, socklen_t(MemoryLayout<Int32>.size))
             setNonBlocking(fd)
             lock.lock()
-            clients[fd] = Client(fd: fd)
-            let count = clients.count
+            let full = clients.count >= maxClients
+            if !full { clients[fd] = Client(fd: fd) }
             lock.unlock()
-            notifyCount(count)
+            if full {
+                // Bound memory: refuse beyond the cap instead of letting a peer open fds at will.
+                close(fd)
+            } else {
+                notifyCount()
+            }
         }
     }
 
@@ -235,15 +262,14 @@ public final class RemoServer {
     private func removeClient(_ fd: Int32) {
         lock.lock()
         let existed = clients.removeValue(forKey: fd) != nil
-        let count = clients.count
         lock.unlock()
         if existed {
             close(fd)
-            notifyCount(count)
+            notifyCount()
         }
     }
 
-    private func notifyCount(_ count: Int) {
+    private func notifyCount() {
         let pairedCount: Int = {
             lock.lock(); defer { lock.unlock() }
             return clients.values.filter { $0.paired }.count
@@ -251,7 +277,6 @@ public final class RemoServer {
         DispatchQueue.main.async { [weak self] in
             self?.onClientCountChanged?(pairedCount)
         }
-        _ = count
     }
 
     // MARK: Read / write
@@ -414,7 +439,16 @@ public final class RemoServer {
                     client.fragmentData = frame.payload
                 }
             case .continuation:
+                // A continuation with no started message is a protocol violation — drop it.
+                guard client.fragmentOpcode != nil else {
+                    enqueue(WebSocketEncoder.close(), to: client, closeAfter: true)
+                    return
+                }
                 client.fragmentData.append(frame.payload)
+                if client.fragmentData.count > maxFragmentBytes {
+                    enqueue(WebSocketEncoder.close(), to: client, closeAfter: true)
+                    return
+                }
                 if frame.fin {
                     let data = client.fragmentData
                     client.fragmentOpcode = nil
@@ -423,6 +457,10 @@ public final class RemoServer {
                 }
             }
         }
+        // Oversized/hostile frame seen by the decoder — sever the connection.
+        if client.decoder.exceededLimit {
+            removeClient(client.fd)
+        }
     }
 
     private func handleMessage(_ data: Data, from client: Client) {
@@ -430,15 +468,23 @@ public final class RemoServer {
 
         switch message {
         case .hello(let candidate):
+            if client.paired { return }
             if !pin.isEmpty && candidate == pin {
                 client.paired = true
+                client.pinAttempts = 0
                 send(.paired, to: client)
                 if let words = quickWordsProvider?() {
                     send(.quickWords(words), to: client)
                 }
-                notifyCount(0)
+                notifyCount()
             } else {
+                client.pinAttempts += 1
                 send(.deny(reason: "pin"), to: client)
+                // Throttle brute force: drop the connection after a few wrong PINs so an
+                // attacker can't sweep the keyspace on one socket.
+                if client.pinAttempts >= maxPinAttempts {
+                    enqueue(WebSocketEncoder.close(), to: client, closeAfter: true)
+                }
             }
         case .ping:
             send(.pong, to: client)

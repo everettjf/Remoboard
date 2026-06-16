@@ -2,11 +2,11 @@
 //  BonjourAdvertiser.swift
 //  RemoboardKit
 //
-//  Publishes a `_remoboard._tcp` Bonjour service so the desktop companion can
-//  discover the phone on the local network. The actual HTTP/WebSocket listener lives
-//  in the keyboard extension; this advertisement just announces the device's address
-//  and port. Advertising is done from the host app (not the extension) because Bonjour
-//  needs the local-network permission, which can be granted by an app but not a keyboard.
+//  Publishes a `_remoboard._tcp` Bonjour service so the desktop companion can discover
+//  the phone on the local network. This is started by the keyboard extension alongside
+//  the server (they share the same lifetime), so the advertised endpoint always points at
+//  a live listener. Bonjour needs the local-network permission; if the user declines it,
+//  advertising silently fails but the server still works via the manually entered IP.
 //
 
 import Foundation

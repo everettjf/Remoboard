@@ -17,8 +17,9 @@ sources are preserved under [`ObjcVersion/`](ObjcVersion/) for reference.
   This deletes the entire vendored `boost_1_70_0` tree (~63k files).
 - **Versioned JSON protocol** over WebSocket, replacing the `command##rkb-…##content`
   string separator. See `RemoboardKit/Sources/Protocol.swift`.
-- **PIN pairing.** The keyboard shows a 4-digit PIN; the browser must send it before any
-  input is honored, so a random person on the same Wi-Fi can't type into your phone.
+- **PIN pairing.** The keyboard shows a 6-digit PIN (stable for the session); a client must
+  send it before any input is honored, and the server drops a connection after 5 wrong
+  attempts, so a random person on the same Wi-Fi can't type into your phone.
 - **Rebuilt web UI** (Svelte, single offline file): proper CJK/IME handling via
   composition events, live mirror of the phone's text field, robust exponential-backoff
   reconnect + heartbeat, quick-word chips, dark mode, responsive layout.
@@ -29,7 +30,8 @@ sources are preserved under [`ObjcVersion/`](ObjcVersion/) for reference.
   `remoboard://` URL scheme) to copy, share, or keep it.
 - **macOS menu-bar companion** (`mac/`) — discovers phones via Bonjour
   (`_remoboard._tcp`), pairs with the PIN, and lets you type, manage the clipboard, and
-  hand off from the menu bar. The host app advertises the Bonjour service.
+  hand off from the menu bar. The keyboard extension advertises the Bonjour service while
+  active, so a discovered device always has a live server.
 - Bluetooth / legacy IP modes dropped.
 
 ## Layout
@@ -83,9 +85,10 @@ On device: enable Remoboard in **Settings → General → Keyboard → Keyboards
 
 ### macOS companion
 
-The `RemoboardMac` scheme builds the menu-bar app. Run it, open the **Remoboard** app on
-your phone once so it advertises over Bonjour, pick the device (or enter its IP), type the
-PIN, and type from the menu bar.
+The `RemoboardMac` scheme builds the menu-bar app. Run it, switch to the Remoboard keyboard
+on your phone (it advertises over Bonjour while active), pick the device (or enter its IP),
+type the PIN, and type from the menu bar. If pairing is denied, re-enter the PIN shown on
+the phone and connect again.
 
 ```bash
 xcodebuild -project Remoboard.xcodeproj -scheme RemoboardMac \
@@ -94,7 +97,7 @@ xcodebuild -project Remoboard.xcodeproj -scheme RemoboardMac \
 
 ## Protocol (v1)
 
-Client → phone: `{"v":1,"t":"hello","pin":"4821"}`, `{"t":"input","text":"…","seq":7}`,
+Client → phone: `{"v":1,"t":"hello","pin":"482103"}`, `{"t":"input","text":"…","seq":7}`,
 `{"t":"delete","seq":8}`, `{"t":"move","dir":"left","seq":9}`,
 `{"t":"clip-set","text":"…"}`, `{"t":"clip-get"}`, `{"t":"handoff","text":"…"}`, `{"t":"ping"}`.
 

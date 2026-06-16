@@ -87,27 +87,50 @@ public enum WebSocketEncoder {
 }
 
 /// Incremental decoder. Feed it bytes as they arrive; pull complete frames out.
+///
+/// Uses a read cursor instead of copying/`removeFirst`-ing the whole buffer per frame,
+/// so parsing a burst of small frames is linear, not quadratic. Rejects oversized frames
+/// (and runaway buffering) up front so a hostile client can't exhaust the extension's
+/// memory budget.
 public final class WebSocketDecoder {
     private var buffer = Data()
+    private var cursor = 0
 
-    public init() {}
+    /// Largest single frame payload we will accept (defends the ~50 MB extension budget).
+    public let maxFrameSize: Int
+
+    /// Set once an oversized frame or runaway buffer is seen; the caller must drop the connection.
+    public private(set) var exceededLimit = false
+
+    public init(maxFrameSize: Int = 1 << 20) {
+        self.maxFrameSize = maxFrameSize
+    }
 
     public func append(_ data: Data) {
         buffer.append(data)
+        // Even before a length field is parsed, never let the backlog grow without bound.
+        if buffer.count - cursor > maxFrameSize + (1 << 16) {
+            exceededLimit = true
+        }
     }
 
-    /// Returns the next complete frame, or nil if more bytes are needed.
+    /// Returns the next complete frame, or nil if more bytes are needed (or the limit was hit).
     public func next() -> WebSocketFrame? {
-        guard buffer.count >= 2 else { return nil }
+        if exceededLimit { return nil }
 
-        let bytes = [UInt8](buffer)
-        let b0 = bytes[0]
-        let b1 = bytes[1]
+        let base = buffer.startIndex
+        func byte(_ i: Int) -> UInt8 { buffer[base + cursor + i] }
+        func available() -> Int { buffer.count - cursor }
+
+        guard available() >= 2 else { compact(); return nil }
+
+        let b0 = byte(0)
+        let b1 = byte(1)
 
         let fin = (b0 & 0x80) != 0
         guard let opcode = WebSocketOpcode(rawValue: b0 & 0x0F) else {
-            // Unknown opcode — drop one byte and resync.
-            buffer.removeFirst(1)
+            // Unknown opcode — skip one byte and resync.
+            cursor += 1
             return next()
         }
         let masked = (b1 & 0x80) != 0
@@ -115,34 +138,54 @@ public final class WebSocketDecoder {
         var offset = 2
 
         if payloadLength == 126 {
-            guard bytes.count >= 4 else { return nil }
-            payloadLength = (Int(bytes[2]) << 8) | Int(bytes[3])
+            guard available() >= 4 else { compact(); return nil }
+            payloadLength = (Int(byte(2)) << 8) | Int(byte(3))
             offset = 4
         } else if payloadLength == 127 {
-            guard bytes.count >= 10 else { return nil }
+            guard available() >= 10 else { compact(); return nil }
             var len = 0
-            for i in 2..<10 { len = (len << 8) | Int(bytes[i]) }
+            for i in 2..<10 {
+                // Reject anything that would overflow Int or exceed the cap before allocating.
+                if len > (Int.max >> 8) { exceededLimit = true; return nil }
+                len = (len << 8) | Int(byte(i))
+            }
             payloadLength = len
             offset = 10
         }
 
-        var maskKey: [UInt8] = []
-        if masked {
-            guard bytes.count >= offset + 4 else { return nil }
-            maskKey = Array(bytes[offset..<offset + 4])
-            offset += 4
+        guard payloadLength >= 0, payloadLength <= maxFrameSize else {
+            exceededLimit = true
+            return nil
         }
 
-        guard bytes.count >= offset + payloadLength else { return nil }
+        if masked { offset += 4 }
+        guard available() >= offset + payloadLength else { compact(); return nil }
 
-        var payload = [UInt8](bytes[offset..<offset + payloadLength])
+        let maskStart = masked ? offset - 4 : offset
+        let payloadStart = base + cursor + offset
+        var payload = buffer.subdata(in: payloadStart..<payloadStart + payloadLength)
         if masked {
+            let m0 = byte(maskStart), m1 = byte(maskStart + 1)
+            let m2 = byte(maskStart + 2), m3 = byte(maskStart + 3)
+            let mask = [m0, m1, m2, m3]
             for i in 0..<payload.count {
-                payload[i] ^= maskKey[i % 4]
+                payload[payload.startIndex + i] ^= mask[i % 4]
             }
         }
 
-        buffer.removeFirst(offset + payloadLength)
-        return WebSocketFrame(fin: fin, opcode: opcode, payload: Data(payload))
+        cursor += offset + payloadLength
+        return WebSocketFrame(fin: fin, opcode: opcode, payload: payload)
+    }
+
+    /// Reclaims consumed bytes once the cursor has advanced far enough to be worth it.
+    private func compact() {
+        guard cursor > 0 else { return }
+        if cursor >= buffer.count {
+            buffer.removeAll(keepingCapacity: true)
+            cursor = 0
+        } else if cursor > (1 << 16) {
+            buffer = buffer.subdata(in: (buffer.startIndex + cursor)..<buffer.endIndex)
+            cursor = 0
+        }
     }
 }

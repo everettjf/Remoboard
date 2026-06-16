@@ -12,6 +12,7 @@ import RemoboardKit
 final class KeyboardViewController: UIInputViewController {
 
     private let server = RemoServer.make(port: 7777)
+    private let advertiser = BonjourAdvertiser()
 
     private let statusLabel = UILabel()
     private let urlLabel = UILabel()
@@ -26,6 +27,7 @@ final class KeyboardViewController: UIInputViewController {
     private var quickWords: [String] = []
     private var contextThrottle = Throttle(interval: 0.08)
     private var serverRunning = false
+    private var connectURL: String?
 
     // MARK: Lifecycle
 
@@ -33,6 +35,8 @@ final class KeyboardViewController: UIInputViewController {
         super.viewDidLoad()
         quickWords = Settings.shared.quickWords
         buildUI()
+        configColors()
+        updateReturnTitle()
         wireServer()
     }
 
@@ -47,8 +51,15 @@ final class KeyboardViewController: UIInputViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        advertiser.stop()
         server.stop()
         serverRunning = false
+    }
+
+    override func textDidChange(_ textInput: UITextInput?) {
+        super.textDidChange(textInput)
+        configColors()
+        updateReturnTitle()
     }
 
     // MARK: Server
@@ -65,21 +76,31 @@ final class KeyboardViewController: UIInputViewController {
 
     private func startServerIfNeeded() {
         guard !serverRunning else { return }
-        let pin = Self.makePIN()
+        let pin = Self.sessionPIN()
         server.pin = pin
         server.start()
         serverRunning = true
         pinLabel.text = "PIN  \(pin)"
         updateURLs()
         updateStatus(connectedCount: 0)
+        advertiser.start(name: UIDevice.current.name, port: 7777)
     }
 
     private func updateURLs() {
-        if let primary = LocalAddresses.primaryIPv4() {
-            urlLabel.text = "http://\(primary.ip):7777"
-        } else {
+        guard let primary = LocalAddresses.primaryIPv4() else {
+            connectURL = nil
             urlLabel.text = NSLocalizedString("WifiNotFound", comment: "")
+            return
         }
+        connectURL = "http://\(primary.ip):7777"
+        // Show the primary URL plus any other reachable interfaces as backups, so a user
+        // whose computer is only on a secondary network can still find a working address.
+        var urls = [connectURL!]
+        urls.append(contentsOf: LocalAddresses.ipv4()
+            .filter { $0.ip != primary.ip }
+            .map { "http://\($0.ip):7777" })
+        urlLabel.numberOfLines = 0
+        urlLabel.text = urls.joined(separator: "\n")
     }
 
     private func updateStatus(connectedCount count: Int) {
@@ -160,8 +181,48 @@ final class KeyboardViewController: UIInputViewController {
 
     // MARK: PIN
 
-    private static func makePIN() -> String {
-        String(format: "%04d", Int.random(in: 0...9999))
+    // Generated once per extension process and reused, so reconnecting clients (which
+    // resend their cached PIN) keep working when the keyboard is dismissed and re-shown.
+    private static var cachedPIN: String?
+    private static func sessionPIN() -> String {
+        if let pin = cachedPIN { return pin }
+        let pin = String(format: "%06d", Int.random(in: 0...999_999))
+        cachedPIN = pin
+        return pin
+    }
+
+    // MARK: Appearance
+
+    private func configColors() {
+        let dark = textDocumentProxy.keyboardAppearance == .dark
+        let titleColor: UIColor = dark ? .white : .black
+        let buttonBg: UIColor = dark ? UIColor(white: 1, alpha: 0.18) : UIColor(white: 0, alpha: 0.08)
+        for button in [nextKeyboardButton, wordsButton, clipButton, appButton, returnButton] {
+            button.setTitleColor(titleColor, for: .normal)
+            button.tintColor = titleColor
+            button.backgroundColor = buttonBg
+        }
+        statusLabel.textColor = titleColor
+        urlLabel.textColor = titleColor
+        pinLabel.textColor = titleColor
+    }
+
+    private func updateReturnTitle() {
+        let key: String
+        switch textDocumentProxy.returnKeyType {
+        case .send: key = "Send"
+        case .search: key = "Search"
+        case .done: key = "Done"
+        case .go: key = "Go"
+        default: key = "Return"
+        }
+        returnButton.setTitle(NSLocalizedString(key, comment: ""), for: .normal)
+    }
+
+    @objc private func copyConnectURL() {
+        guard let url = connectURL, !url.isEmpty else { return }
+        UIPasteboard.general.string = url
+        server.broadcast(.info(message: NSLocalizedString("ClipboardCopiedToPhone", comment: "")))
     }
 }
 
@@ -202,6 +263,8 @@ private extension KeyboardViewController {
         urlLabel.font = .monospacedSystemFont(ofSize: 15, weight: .semibold)
         urlLabel.textAlignment = .center
         urlLabel.adjustsFontSizeToFitWidth = true
+        urlLabel.isUserInteractionEnabled = true
+        urlLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(copyConnectURL)))
 
         pinLabel.font = .monospacedSystemFont(ofSize: 17, weight: .bold)
         pinLabel.textAlignment = .center

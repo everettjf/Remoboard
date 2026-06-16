@@ -28,8 +28,10 @@
     conn = new Connection({
       onState: (s) => {
         socketState = s
+        // Never assume paired on socket open — the server re-pairs every new connection,
+        // and treating the socket as paired early drops keystrokes. Wait for the 'paired'
+        // message (handleMessage). Keep showing the typing UI during reconnect.
         if (s === 'reconnecting' && phase === 'paired') phase = 'reconnecting'
-        if (s === 'open' && phase === 'reconnecting') phase = conn.pin ? 'paired' : 'pairing'
         if (s === 'open' && phase === 'connecting') phase = 'pairing'
       },
       onMessage: (msg) => handleMessage(msg),
@@ -44,6 +46,8 @@
         denied = false
         phase = 'paired'
         queueMicrotask(() => textarea && textarea.focus())
+        // Flush anything typed during a reconnect window now that we're really paired.
+        syncBuffer()
         break
       case 'deny':
         denied = true
@@ -75,17 +79,20 @@
     toastTimer = setTimeout(() => { toast = '' }, 2200)
   }
 
-  function getPhoneClip() { conn.send({ t: 'clip-get' }) }
+  function getPhoneClip() {
+    if (phase !== 'paired') return
+    conn.send({ t: 'clip-get' })
+  }
 
   function pushPhoneClip() {
     const text = clipSend
-    if (!text) return
+    if (!text || phase !== 'paired') return
     conn.send({ t: 'clip-set', text })
     clipSend = ''
   }
 
   function sendToApp() {
-    if (!buffer) return
+    if (!buffer || phase !== 'paired') return
     conn.send({ t: 'handoff', text: buffer })
     showToast(t('sendToApp'))
   }
@@ -136,6 +143,7 @@
 
   function syncBuffer() {
     if (composing) return
+    if (phase !== 'paired') return   // buffered locally; flushed when 'paired' arrives
     sendDiff(lastSent, buffer)
     lastSent = buffer
   }
@@ -153,7 +161,7 @@
 
   // When the buffer is empty, keys drive the phone cursor directly.
   function onKeydown(e) {
-    if (composing || buffer.length > 0) return
+    if (composing || buffer.length > 0 || phase !== 'paired') return
     let dir = null
     if (e.key === 'Enter') { conn.send({ t: 'input', text: '\n', seq: seq++ }); e.preventDefault(); return }
     if (e.key === 'Backspace') { conn.send({ t: 'delete', seq: seq++ }); e.preventDefault(); return }
@@ -172,6 +180,7 @@
   }
 
   function sendQuickWord(word) {
+    if (phase !== 'paired') return
     conn.send({ t: 'input', text: word, seq: seq++ })
   }
 

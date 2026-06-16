@@ -111,6 +111,7 @@ struct PopoverView: View {
     private func connectDiscovered(_ device: Discovery.Device) {
         discovery.resolve(device) { resolved in
             guard let (host, port) = resolved else { return }
+            manualHost = host   // reflect the address so the user can re-pair if denied
             client.connect(host: host, port: port, pin: pin)
         }
     }
@@ -191,6 +192,7 @@ struct PopoverView: View {
                             NSPasteboard.general.clearContents()
                             NSPasteboard.general.setString(clip, forType: .string)
                             copied = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { copied = false }
                         }
                         .controlSize(.small)
                     }

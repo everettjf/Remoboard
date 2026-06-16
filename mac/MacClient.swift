@@ -32,8 +32,12 @@ final class MacClient: ObservableObject {
     private var seq = 0
     private var lastSent = ""
     private var shouldReconnect = false
+    private var backoff: TimeInterval = 1
     private var pingTimer: Timer?
     private var reconnectWork: DispatchWorkItem?
+
+    /// True once an endpoint has been chosen, so the UI can offer a one-tap re-pair.
+    var hasEndpoint: Bool { !host.isEmpty }
 
     // MARK: Connection
 
@@ -42,8 +46,15 @@ final class MacClient: ObservableObject {
         self.port = port
         self.pin = pin
         self.endpointLabel = "\(host):\(port)"
+        backoff = 1
         shouldReconnect = true
         openSocket()
+    }
+
+    /// Re-pair with the already-chosen endpoint using a fresh PIN (after a deny).
+    func retry(pin: String) {
+        guard hasEndpoint else { return }
+        connect(host: host, port: port, pin: pin)
     }
 
     func disconnect() {
@@ -90,9 +101,11 @@ final class MacClient: ObservableObject {
         resetMirror()
         guard shouldReconnect else { phase = .disconnected; return }
         phase = .connecting
+        let delay = backoff
+        backoff = min(backoff * 2, 8)   // exponential backoff, matching the web client
         let work = DispatchWorkItem { [weak self] in self?.openSocket() }
         reconnectWork = work
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: work)
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: work)
     }
 
     // MARK: Inbound
@@ -106,9 +119,15 @@ final class MacClient: ObservableObject {
         switch obj["t"] as? String {
         case "paired":
             phase = .paired
+            backoff = 1   // reset backoff after a healthy connection
         case "deny":
+            // Stop auto-reconnecting (don't hammer with a bad PIN) but keep the endpoint so
+            // the user can re-pair with a fresh PIN from the popover.
             phase = .denied
             shouldReconnect = false
+            stopPing()
+            task?.cancel(with: .goingAway, reason: nil)
+            task = nil
         case "context":
             contextBefore = obj["before"] as? String ?? ""
             contextAfter = obj["after"] as? String ?? ""

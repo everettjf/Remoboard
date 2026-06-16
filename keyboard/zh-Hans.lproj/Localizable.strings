@@ -3,6 +3,10 @@
 "Clip" = "剪贴板→电脑";
 "OpenApp" = "→应用";
 "Return" = "换行";
+"Send" = "发送";
+"Search" = "搜索";
+"Done" = "完成";
+"Go" = "前往";
 "ClipboardCopiedToPhone" = "已复制到手机剪贴板";
 "StatusWaiting" = "在电脑上打开下方网址";
 "StatusConnected" = "已连接 — 可从电脑输入";
