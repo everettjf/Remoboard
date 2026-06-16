@@ -25,7 +25,7 @@ targets:
         buildPhase: resources
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.everettjf.RemoboardKit
+        PRODUCT_BUNDLE_IDENTIFIER: com.everettjf.remoboardkit
         DEFINES_MODULE: "YES"
         SKIP_INSTALL: "YES"
         GENERATE_INFOPLIST_FILE: "YES"
@@ -49,7 +49,7 @@ targets:
         PRODUCT_NAME: Remoboard
         INFOPLIST_FILE: remoboard/Info.plist
         CODE_SIGN_ENTITLEMENTS: remoboard/Remoboard.entitlements
-        GENERATE_INFOPLIST_FILE: "NO"
+        GENERATE_INFOPLIST_FILE: "YES"
 
   RemoboardMac:
     type: application
@@ -66,7 +66,7 @@ targets:
         PRODUCT_NAME: Remoboard
         INFOPLIST_FILE: mac/Info.plist
         CODE_SIGN_ENTITLEMENTS: mac/RemoboardMac.entitlements
-        GENERATE_INFOPLIST_FILE: "NO"
+        GENERATE_INFOPLIST_FILE: "YES"
 
   RemoKeyboard:
     type: app-extension
@@ -85,7 +85,7 @@ targets:
         PRODUCT_NAME: RemoKeyboard
         INFOPLIST_FILE: keyboard/Info.plist
         CODE_SIGN_ENTITLEMENTS: keyboard/RemoKeyboard.entitlements
-        GENERATE_INFOPLIST_FILE: "NO"
+        GENERATE_INFOPLIST_FILE: "YES"
 
 # Explicit shared schemes. The iOS app target shares the project name "Remoboard",
 # which makes XcodeGen's auto-scheme generation skip it, so declare schemes here.
