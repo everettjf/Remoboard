@@ -16,7 +16,7 @@ under `ObjcVersion/` and is not built.
 - `mac/` — macOS menu-bar companion (SwiftUI): Bonjour discovery + WebSocket client.
 - `web/` — Svelte source for the browser UI; `npm run deploy` builds a single offline
   `index.html` into `RemoboardKit/Resources/site/`.
-- `project.yml` — XcodeGen definition. `Remoboard.xcodeproj` is generated and gitignored.
+- `project.yml` — XcodeGen definition. `Remoboard.xcodeproj` is generated from `project.yml` and committed; regenerate with `xcodegen generate`.
 
 ## Build & Run
 

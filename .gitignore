@@ -1,5 +1,6 @@
-# Xcode project is generated from project.yml via XcodeGen.
-Remoboard.xcodeproj/
+# The Xcode project is generated from project.yml via XcodeGen and committed for
+# convenience (open without running xcodegen). Regenerate with `xcodegen generate`.
+# Per-user data inside it is still ignored below (xcuserdata / *.xcuserstate).
 
 # Build output
 DerivedData/

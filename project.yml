@@ -86,3 +86,31 @@ targets:
         INFOPLIST_FILE: keyboard/Info.plist
         CODE_SIGN_ENTITLEMENTS: keyboard/RemoKeyboard.entitlements
         GENERATE_INFOPLIST_FILE: "NO"
+
+# Explicit shared schemes. The iOS app target shares the project name "Remoboard",
+# which makes XcodeGen's auto-scheme generation skip it, so declare schemes here.
+schemes:
+  Remoboard:
+    build:
+      targets:
+        Remoboard: all
+    run:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+  RemoboardMac:
+    build:
+      targets:
+        RemoboardMac: all
+    run:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

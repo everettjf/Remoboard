@@ -1,0 +1,822 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		027CFF0B314B7FA6CE90A9B8 /* HandoffStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7910BBEFE3697F5EFFDFDECA /* HandoffStore.swift */; };
+		0D1ED0286765015514524637 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7DFE7C86C387B11110B4C /* KeyboardViewController.swift */; };
+		1EBFDDD3462B917D1B6898B2 /* Discovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F40995D4D6407B0FD75D94 /* Discovery.swift */; };
+		21AF6E0154EEA4C6A6F703DF /* RemoboardMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591B4C8BF035DDE6B25D7FFE /* RemoboardMacApp.swift */; };
+		2252034E664E7AE8445162FC /* RemoboardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A2984D1B3E0DD13C254B71 /* RemoboardKit.framework */; };
+		25FC3D1CC54501A1863391B6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A611063E3029FD59661DEC6 /* Localizable.strings */; };
+		2DC27CA46E0AA7585E87D577 /* LocalAddresses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F846714371AEE0DA4A510 /* LocalAddresses.swift */; };
+		2FFAD4326BC7B82CCF275C75 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A60F1AF2BB17E84B2652D /* HomeView.swift */; };
+		334DA04F14CBA6843C789884 /* MacClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB940539DB4E02D612161728 /* MacClient.swift */; };
+		34EFC1EC94B2EF7A494BA56C /* RemoboardKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D7A2984D1B3E0DD13C254B71 /* RemoboardKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3D7458AED51DF23CAA8B74A1 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE68773A292B9F6EBC0DAC /* WebSocket.swift */; };
+		624740D50C949D25BA82FBEE /* RemoboardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A2984D1B3E0DD13C254B71 /* RemoboardKit.framework */; };
+		6C06F5C43F24B0FE958BCB4F /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB41723FC56321007DC9E57 /* PopoverView.swift */; };
+		7536EBDEB38280768520A16D /* BonjourAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9CED59CD6FCCEFB03E52EE /* BonjourAdvertiser.swift */; };
+		7E44166F95196D36F3F80889 /* QuickWordsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5976EFF3CC2341F001D310 /* QuickWordsView.swift */; };
+		9335F721B2C274B568CD0EEA /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2734A06864460EFB911D455 /* Settings.swift */; };
+		9B3FA05CDBB9311EB86B322E /* TestInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF5C3E0F42C1EFCE672FD67 /* TestInputView.swift */; };
+		BC2E71115FD8B2349261E1C5 /* RemoboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22DDDDFF098D7EC68E27B3E /* RemoboardApp.swift */; };
+		BE75547BC55E9F823834FFA7 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 3DF393386CFA7ABC90A29E09 /* index.html */; };
+		CBDB1E662DED734721019A85 /* RemoServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF490C743834B15B4F601F3E /* RemoServer.swift */; };
+		D0AFCC1E92DDC56308D0527E /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D48BC7CCD6F15C5DDEDDD20 /* Protocol.swift */; };
+		D6C77884029DF6D13A7BD99E /* SiteResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96228149702EC5FDDE9AE2B /* SiteResources.swift */; };
+		D77F413B36FAC5E784F2F7B2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 713E1BAAFA938584F3DDF70D /* Localizable.strings */; };
+		F1A80AF64DE3A7AD3C52C5E3 /* ReceivedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49126DABD9A9C932F18DF3 /* ReceivedView.swift */; };
+		F3D163B38319503966CC80F7 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55A672B6E3115388C795D5D /* Localization.swift */; };
+		F6F2D8CBCF513743E2D378CC /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = 1FFF57AF4BCA795A0FE6C142 /* favicon.ico */; };
+		FC03C17EA83A5D0594D07DEC /* RemoKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AE2F5C224CE10872F6D04590 /* RemoKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		984A686A4097A118FE22B937 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9561FED25BB81CA9197A3227 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C90DA9391551AD49EED4FE68;
+			remoteInfo = RemoboardKit;
+		};
+		A3D9F74CAA337991E75FDF9E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9561FED25BB81CA9197A3227 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C90DA9391551AD49EED4FE68;
+			remoteInfo = RemoboardKit;
+		};
+		D506E343803F55CAD787C7B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9561FED25BB81CA9197A3227 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0B098621589ADA52C9EEFF4A;
+			remoteInfo = RemoKeyboard;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		24D5AB2E3DD4E5D7D5DBE307 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				34EFC1EC94B2EF7A494BA56C /* RemoboardKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4A89E84AC35115D7F9B76EDA /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FC03C17EA83A5D0594D07DEC /* RemoKeyboard.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		16C0269EFAED8B29218985AA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1DADDCABC0E9013B7ABD1369 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		1FFF57AF4BCA795A0FE6C142 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
+		355F846714371AEE0DA4A510 /* LocalAddresses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAddresses.swift; sourceTree = "<group>"; };
+		3CE7DFE7C86C387B11110B4C /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		3DF393386CFA7ABC90A29E09 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		4D48BC7CCD6F15C5DDEDDD20 /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		4EFE68773A292B9F6EBC0DAC /* WebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
+		521A60F1AF2BB17E84B2652D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		57EBE2E37C39809B5105F581 /* RemoboardMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoboardMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		591B4C8BF035DDE6B25D7FFE /* RemoboardMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoboardMacApp.swift; sourceTree = "<group>"; };
+		5DF5C3E0F42C1EFCE672FD67 /* TestInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestInputView.swift; sourceTree = "<group>"; };
+		7910BBEFE3697F5EFFDFDECA /* HandoffStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandoffStore.swift; sourceTree = "<group>"; };
+		8ABEE3DC0D033EE1F3B32FDB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		8C49126DABD9A9C932F18DF3 /* ReceivedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedView.swift; sourceTree = "<group>"; };
+		A2734A06864460EFB911D455 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		AD9E97904C0A15E1EFC18C54 /* Remoboard.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Remoboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE2F5C224CE10872F6D04590 /* RemoKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = RemoKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5F8C9724C7C185AB086DD89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B96228149702EC5FDDE9AE2B /* SiteResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteResources.swift; sourceTree = "<group>"; };
+		BF490C743834B15B4F601F3E /* RemoServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoServer.swift; sourceTree = "<group>"; };
+		C8F40995D4D6407B0FD75D94 /* Discovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discovery.swift; sourceTree = "<group>"; };
+		CC9CED59CD6FCCEFB03E52EE /* BonjourAdvertiser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonjourAdvertiser.swift; sourceTree = "<group>"; };
+		D7A2984D1B3E0DD13C254B71 /* RemoboardKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RemoboardKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFB41723FC56321007DC9E57 /* PopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverView.swift; sourceTree = "<group>"; };
+		E22DDDDFF098D7EC68E27B3E /* RemoboardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoboardApp.swift; sourceTree = "<group>"; };
+		EB5976EFF3CC2341F001D310 /* QuickWordsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickWordsView.swift; sourceTree = "<group>"; };
+		EB940539DB4E02D612161728 /* MacClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacClient.swift; sourceTree = "<group>"; };
+		F55A672B6E3115388C795D5D /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		88296A9C69A72662A600D3D6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				624740D50C949D25BA82FBEE /* RemoboardKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BADB3F21C85AEC6364BC3F21 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2252034E664E7AE8445162FC /* RemoboardKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		05FA80631B5B249915A63FDC /* remoboard */ = {
+			isa = PBXGroup;
+			children = (
+				7910BBEFE3697F5EFFDFDECA /* HandoffStore.swift */,
+				521A60F1AF2BB17E84B2652D /* HomeView.swift */,
+				713E1BAAFA938584F3DDF70D /* Localizable.strings */,
+				EB5976EFF3CC2341F001D310 /* QuickWordsView.swift */,
+				8C49126DABD9A9C932F18DF3 /* ReceivedView.swift */,
+				E22DDDDFF098D7EC68E27B3E /* RemoboardApp.swift */,
+				5DF5C3E0F42C1EFCE672FD67 /* TestInputView.swift */,
+			);
+			path = remoboard;
+			sourceTree = "<group>";
+		};
+		24C5FA5AC1A961A0400A5061 = {
+			isa = PBXGroup;
+			children = (
+				83854C81C12429D183380084 /* keyboard */,
+				71BC8C4D92C3D75B7F515165 /* mac */,
+				05FA80631B5B249915A63FDC /* remoboard */,
+				27C7C36B47442258C2FB26A5 /* RemoboardKit */,
+				560E702FE2E84070B3A17E45 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		27C7C36B47442258C2FB26A5 /* RemoboardKit */ = {
+			isa = PBXGroup;
+			children = (
+				E7A0789FE57BE1476ABE88B6 /* Resources */,
+				622F665CCA44ADCB9C4D8110 /* Sources */,
+			);
+			path = RemoboardKit;
+			sourceTree = "<group>";
+		};
+		560E702FE2E84070B3A17E45 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AD9E97904C0A15E1EFC18C54 /* Remoboard.app */,
+				D7A2984D1B3E0DD13C254B71 /* RemoboardKit.framework */,
+				57EBE2E37C39809B5105F581 /* RemoboardMac.app */,
+				AE2F5C224CE10872F6D04590 /* RemoKeyboard.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		622F665CCA44ADCB9C4D8110 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				CC9CED59CD6FCCEFB03E52EE /* BonjourAdvertiser.swift */,
+				355F846714371AEE0DA4A510 /* LocalAddresses.swift */,
+				4D48BC7CCD6F15C5DDEDDD20 /* Protocol.swift */,
+				BF490C743834B15B4F601F3E /* RemoServer.swift */,
+				A2734A06864460EFB911D455 /* Settings.swift */,
+				B96228149702EC5FDDE9AE2B /* SiteResources.swift */,
+				4EFE68773A292B9F6EBC0DAC /* WebSocket.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		71BC8C4D92C3D75B7F515165 /* mac */ = {
+			isa = PBXGroup;
+			children = (
+				C8F40995D4D6407B0FD75D94 /* Discovery.swift */,
+				F55A672B6E3115388C795D5D /* Localization.swift */,
+				EB940539DB4E02D612161728 /* MacClient.swift */,
+				DFB41723FC56321007DC9E57 /* PopoverView.swift */,
+				591B4C8BF035DDE6B25D7FFE /* RemoboardMacApp.swift */,
+			);
+			path = mac;
+			sourceTree = "<group>";
+		};
+		7747F76BE0A649889B7829A5 /* site */ = {
+			isa = PBXGroup;
+			children = (
+				1FFF57AF4BCA795A0FE6C142 /* favicon.ico */,
+				3DF393386CFA7ABC90A29E09 /* index.html */,
+			);
+			path = site;
+			sourceTree = "<group>";
+		};
+		83854C81C12429D183380084 /* keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				3CE7DFE7C86C387B11110B4C /* KeyboardViewController.swift */,
+				4A611063E3029FD59661DEC6 /* Localizable.strings */,
+			);
+			path = keyboard;
+			sourceTree = "<group>";
+		};
+		E7A0789FE57BE1476ABE88B6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7747F76BE0A649889B7829A5 /* site */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0B098621589ADA52C9EEFF4A /* RemoKeyboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0FD0E48C55855633862B89BD /* Build configuration list for PBXNativeTarget "RemoKeyboard" */;
+			buildPhases = (
+				388796E47DA0A57609D11313 /* Sources */,
+				334E4B952BE05713CD6CDDA8 /* Resources */,
+				88296A9C69A72662A600D3D6 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C38803EAED0779CEC1A016E3 /* PBXTargetDependency */,
+			);
+			name = RemoKeyboard;
+			packageProductDependencies = (
+			);
+			productName = RemoKeyboard;
+			productReference = AE2F5C224CE10872F6D04590 /* RemoKeyboard.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		21A9D3792BDF255B4E62DEAC /* Remoboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1465BDEE0A7A7966D5D57A65 /* Build configuration list for PBXNativeTarget "Remoboard" */;
+			buildPhases = (
+				5C4121418DCD8106AF876B83 /* Sources */,
+				AB9DF7DE14DF2C598F4FDCEC /* Resources */,
+				BADB3F21C85AEC6364BC3F21 /* Frameworks */,
+				4A89E84AC35115D7F9B76EDA /* Embed Foundation Extensions */,
+				24D5AB2E3DD4E5D7D5DBE307 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				17067F568C5717D87AD5552B /* PBXTargetDependency */,
+				FE0327A24147CF6542BF1B85 /* PBXTargetDependency */,
+			);
+			name = Remoboard;
+			packageProductDependencies = (
+			);
+			productName = Remoboard;
+			productReference = AD9E97904C0A15E1EFC18C54 /* Remoboard.app */;
+			productType = "com.apple.product-type.application";
+		};
+		272795DD8A78BED6BE841281 /* RemoboardMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3853AA969992BF11791C5838 /* Build configuration list for PBXNativeTarget "RemoboardMac" */;
+			buildPhases = (
+				C43F9333F2F4A77DF012595B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RemoboardMac;
+			packageProductDependencies = (
+			);
+			productName = RemoboardMac;
+			productReference = 57EBE2E37C39809B5105F581 /* RemoboardMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C90DA9391551AD49EED4FE68 /* RemoboardKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C22DE5964A4760B71190BB6 /* Build configuration list for PBXNativeTarget "RemoboardKit" */;
+			buildPhases = (
+				FFAC001021B66548A89080F4 /* Sources */,
+				B0055CE9F8679E3937E62FC0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RemoboardKit;
+			packageProductDependencies = (
+			);
+			productName = RemoboardKit;
+			productReference = D7A2984D1B3E0DD13C254B71 /* RemoboardKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9561FED25BB81CA9197A3227 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					0B098621589ADA52C9EEFF4A = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					21A9D3792BDF255B4E62DEAC = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					272795DD8A78BED6BE841281 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					C90DA9391551AD49EED4FE68 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 5B98E12C1360E0E44023EA2E /* Build configuration list for PBXProject "Remoboard" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+				"zh-Hans",
+			);
+			mainGroup = 24C5FA5AC1A961A0400A5061;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0B098621589ADA52C9EEFF4A /* RemoKeyboard */,
+				21A9D3792BDF255B4E62DEAC /* Remoboard */,
+				C90DA9391551AD49EED4FE68 /* RemoboardKit */,
+				272795DD8A78BED6BE841281 /* RemoboardMac */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		334E4B952BE05713CD6CDDA8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25FC3D1CC54501A1863391B6 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB9DF7DE14DF2C598F4FDCEC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D77F413B36FAC5E784F2F7B2 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0055CE9F8679E3937E62FC0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F6F2D8CBCF513743E2D378CC /* favicon.ico in Resources */,
+				BE75547BC55E9F823834FFA7 /* index.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		388796E47DA0A57609D11313 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D1ED0286765015514524637 /* KeyboardViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C4121418DCD8106AF876B83 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				027CFF0B314B7FA6CE90A9B8 /* HandoffStore.swift in Sources */,
+				2FFAD4326BC7B82CCF275C75 /* HomeView.swift in Sources */,
+				7E44166F95196D36F3F80889 /* QuickWordsView.swift in Sources */,
+				F1A80AF64DE3A7AD3C52C5E3 /* ReceivedView.swift in Sources */,
+				BC2E71115FD8B2349261E1C5 /* RemoboardApp.swift in Sources */,
+				9B3FA05CDBB9311EB86B322E /* TestInputView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C43F9333F2F4A77DF012595B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1EBFDDD3462B917D1B6898B2 /* Discovery.swift in Sources */,
+				F3D163B38319503966CC80F7 /* Localization.swift in Sources */,
+				334DA04F14CBA6843C789884 /* MacClient.swift in Sources */,
+				6C06F5C43F24B0FE958BCB4F /* PopoverView.swift in Sources */,
+				21AF6E0154EEA4C6A6F703DF /* RemoboardMacApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFAC001021B66548A89080F4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7536EBDEB38280768520A16D /* BonjourAdvertiser.swift in Sources */,
+				2DC27CA46E0AA7585E87D577 /* LocalAddresses.swift in Sources */,
+				D0AFCC1E92DDC56308D0527E /* Protocol.swift in Sources */,
+				CBDB1E662DED734721019A85 /* RemoServer.swift in Sources */,
+				9335F721B2C274B568CD0EEA /* Settings.swift in Sources */,
+				D6C77884029DF6D13A7BD99E /* SiteResources.swift in Sources */,
+				3D7458AED51DF23CAA8B74A1 /* WebSocket.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		17067F568C5717D87AD5552B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C90DA9391551AD49EED4FE68 /* RemoboardKit */;
+			targetProxy = 984A686A4097A118FE22B937 /* PBXContainerItemProxy */;
+		};
+		C38803EAED0779CEC1A016E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C90DA9391551AD49EED4FE68 /* RemoboardKit */;
+			targetProxy = A3D9F74CAA337991E75FDF9E /* PBXContainerItemProxy */;
+		};
+		FE0327A24147CF6542BF1B85 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0B098621589ADA52C9EEFF4A /* RemoKeyboard */;
+			targetProxy = D506E343803F55CAD787C7B2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		4A611063E3029FD59661DEC6 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B5F8C9724C7C185AB086DD89 /* en */,
+				8ABEE3DC0D033EE1F3B32FDB /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		713E1BAAFA938584F3DDF70D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				16C0269EFAED8B29218985AA /* en */,
+				1DADDCABC0E9013B7ABD1369 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		08EFE188269B1DAED6BD4E79 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = keyboard/RemoKeyboard.entitlements;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = keyboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remoboard.keyboard;
+				PRODUCT_NAME = RemoKeyboard;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		293E4EBAEA19DE36BC164B95 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = keyboard/RemoKeyboard.entitlements;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = keyboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remoboard.keyboard;
+				PRODUCT_NAME = RemoKeyboard;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3C722C09CFEE75277AE58564 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4DE332ADBE9BE4AB79DA0544 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		75B964AF8A636F9132759E25 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.RemoboardKit;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		A541206B68E2F945F1D86009 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = mac/RemoboardMac.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = mac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remoboard.mac;
+				PRODUCT_NAME = Remoboard;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		CCDD658CB21C90481C945377 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = mac/RemoboardMac.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = mac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remoboard.mac;
+				PRODUCT_NAME = Remoboard;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DE3D0FC62E9CC94EA2D4F439 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.RemoboardKit;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		E116CD1D7520DAC14155BC2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = remoboard/Remoboard.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = remoboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remoboard;
+				PRODUCT_NAME = Remoboard;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F1BA6CE6EA618408A6D98F58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = remoboard/Remoboard.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = remoboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remoboard;
+				PRODUCT_NAME = Remoboard;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0FD0E48C55855633862B89BD /* Build configuration list for PBXNativeTarget "RemoKeyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08EFE188269B1DAED6BD4E79 /* Debug */,
+				293E4EBAEA19DE36BC164B95 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		1465BDEE0A7A7966D5D57A65 /* Build configuration list for PBXNativeTarget "Remoboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E116CD1D7520DAC14155BC2B /* Debug */,
+				F1BA6CE6EA618408A6D98F58 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3853AA969992BF11791C5838 /* Build configuration list for PBXNativeTarget "RemoboardMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CCDD658CB21C90481C945377 /* Debug */,
+				A541206B68E2F945F1D86009 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5B98E12C1360E0E44023EA2E /* Build configuration list for PBXProject "Remoboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DE332ADBE9BE4AB79DA0544 /* Debug */,
+				3C722C09CFEE75277AE58564 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7C22DE5964A4760B71190BB6 /* Build configuration list for PBXNativeTarget "RemoboardKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE3D0FC62E9CC94EA2D4F439 /* Debug */,
+				75B964AF8A636F9132759E25 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9561FED25BB81CA9197A3227 /* Project object */;
+}
