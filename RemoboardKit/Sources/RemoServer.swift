@@ -71,6 +71,12 @@ public final class RemoServer {
 
     // MARK: Lifecycle
 
+    // `running` is read by the worker and written by the caller, so all access goes through
+    // the lock — this gives the worker a happens-before view of stop()'s write (a plain Bool
+    // would be a data race the compiler could cache/hoist).
+    private func setRunning(_ value: Bool) { lock.lock(); running = value; lock.unlock() }
+    private func isRunning() -> Bool { lock.lock(); defer { lock.unlock() }; return running }
+
     public func start() {
         stop()
         signal(SIGPIPE, SIG_IGN)
@@ -80,8 +86,11 @@ public final class RemoServer {
             return
         }
 
-        running = true
         loopExited = DispatchSemaphore(value: 0)
+        setRunning(true)
+        // NOTE: `self?.runLoop()` keeps a strong `self` for the call's duration, so the server
+        // cannot be deallocated mid-loop. Do not refactor to re-fetch `weak self` per
+        // iteration, or deinit could fire on the worker thread and self-deadlock in stop().
         let t = Thread { [weak self] in self?.runLoop() }
         t.name = "rkb.server"
         t.stackSize = 512 * 1024
@@ -90,16 +99,20 @@ public final class RemoServer {
     }
 
     public func stop() {
-        guard running else {
+        lock.lock()
+        let wasRunning = running
+        running = false
+        lock.unlock()
+
+        guard wasRunning else {
             closeAll()
             return
         }
-        running = false
         wake()
         // Wait for the poll loop to actually exit before closing fds, so we never close a
-        // descriptor the worker is mid-syscall on (which could be reused under us). The
-        // worker re-checks `running` on every poll timeout tick, so this wait reliably
-        // succeeds well within the window even if the wake byte is somehow missed.
+        // descriptor the worker is mid-syscall on. The worker re-checks `running` (under the
+        // lock, so the write is visible) on every poll tick, so this wait reliably succeeds.
+        // fds are closed ONLY here, never on the worker thread, so closeAll() can't race itself.
         _ = loopExited.wait(timeout: .now() + 2.0)
         thread = nil
         closeAll()
@@ -185,7 +198,7 @@ public final class RemoServer {
     // MARK: Event loop
 
     private func runLoop() {
-        while running {
+        while isRunning() {
             var pfds: [pollfd] = []
             pfds.append(pollfd(fd: listenFD, events: Int16(POLLIN), revents: 0))
             pfds.append(pollfd(fd: wakePipe[0], events: Int16(POLLIN), revents: 0))
@@ -207,7 +220,7 @@ public final class RemoServer {
                 if errno == EINTR { continue }
                 break
             }
-            if !running { break }
+            if !isRunning() { break }
 
             for pfd in pfds {
                 guard pfd.revents != 0 else { continue }
@@ -226,12 +239,11 @@ public final class RemoServer {
                 }
             }
         }
-        // stop() waits on this then closes fds. If we instead exited on a poll error
-        // (running still true), own the teardown ourselves.
-        let stoppedByRequest = !running
-        running = false
+        // Mark stopped and hand off to whoever calls stop()/start() to close the fds — the
+        // worker never closes fds itself, so closeAll() is only ever invoked from one thread
+        // and can't double-close or close a descriptor a restarted server just opened.
+        setRunning(false)
         loopExited.signal()
-        if !stoppedByRequest { closeAll() }
     }
 
     private func drainWakePipe() {

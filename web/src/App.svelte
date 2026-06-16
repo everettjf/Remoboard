@@ -46,9 +46,13 @@
         denied = false
         phase = 'paired'
         queueMicrotask(() => textarea && textarea.focus())
-        // Resync the baseline to the current buffer rather than replaying a diff: after a
-        // reconnect the phone's field may have changed independently, so replaying old
-        // deletes/inserts could corrupt it. Future keystrokes diff from here on.
+        // Deliver text appended while disconnected, but never replay deletes: after a
+        // reconnect the phone's field may have changed independently, so only a pure
+        // append (buffer extends the last-sent prefix) is safe to flush. Anything else
+        // just resyncs the baseline. Future keystrokes diff from here on.
+        if (buffer.startsWith(lastSent) && buffer.length > lastSent.length) {
+          gatedSend({ t: 'input', text: buffer.slice(lastSent.length), seq: seq++ })
+        }
         lastSent = buffer
         break
       case 'deny':
@@ -139,15 +143,18 @@
     while (p < min && a[p] === b[p]) p++
     const deletions = a.length - p
     const insertion = b.slice(p).join('')
-    for (let i = 0; i < deletions; i++) gatedSend({ t: 'delete', seq: seq++ })
-    if (insertion.length) gatedSend({ t: 'input', text: insertion, seq: seq++ })
+    let ok = true
+    for (let i = 0; i < deletions; i++) ok = gatedSend({ t: 'delete', seq: seq++ }) && ok
+    if (insertion.length) ok = gatedSend({ t: 'input', text: insertion, seq: seq++ }) && ok
+    return ok   // false if the socket wasn't actually OPEN (e.g. CLOSING mid-paired)
   }
 
   function syncBuffer() {
     if (composing) return
     if (phase !== 'paired') return   // buffered locally; baseline resynced when 'paired' arrives
-    sendDiff(lastSent, buffer)
-    lastSent = buffer
+    // Only advance the baseline for what actually went out, so a failed send is re-diffed
+    // (not silently marked delivered).
+    if (sendDiff(lastSent, buffer)) lastSent = buffer
   }
 
   function onInput() {

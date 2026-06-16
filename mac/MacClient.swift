@@ -121,6 +121,8 @@ final class MacClient: ObservableObject {
             // the user can re-pair with a fresh PIN from the popover.
             phase = .denied
             shouldReconnect = false
+            reconnectWork?.cancel()   // cancel any reconnect scheduled by an earlier drop
+            reconnectWork = nil
             stopPing()
             task?.cancel(with: .goingAway, reason: nil)
             task = nil
