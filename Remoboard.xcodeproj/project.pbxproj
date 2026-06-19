@@ -86,6 +86,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		027273A6E846B87B4A15286B /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		16C0269EFAED8B29218985AA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1DADDCABC0E9013B7ABD1369 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		1FFF57AF4BCA795A0FE6C142 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
@@ -93,28 +94,43 @@
 		3CE7DFE7C86C387B11110B4C /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		3DF393386CFA7ABC90A29E09 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		4D48BC7CCD6F15C5DDEDDD20 /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		4DB191DD91440BD4E967BDE0 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4EFE68773A292B9F6EBC0DAC /* WebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
+		4F1A4483E732FD4C8899C6CC /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		521A60F1AF2BB17E84B2652D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		57EBE2E37C39809B5105F581 /* RemoboardMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoboardMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		591B4C8BF035DDE6B25D7FFE /* RemoboardMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoboardMacApp.swift; sourceTree = "<group>"; };
 		5DF5C3E0F42C1EFCE672FD67 /* TestInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestInputView.swift; sourceTree = "<group>"; };
+		5EE8E1C9F7FD63F86A2D892B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		63C1764BF85671D1FA6FB82C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		77EF7E9795301A1F23111CA9 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7910BBEFE3697F5EFFDFDECA /* HandoffStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandoffStore.swift; sourceTree = "<group>"; };
+		83C00A9CEDE38F8B3FC17B4F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8ABEE3DC0D033EE1F3B32FDB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		8C40E8A890ECC6020DE14003 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8C49126DABD9A9C932F18DF3 /* ReceivedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedView.swift; sourceTree = "<group>"; };
+		9975487F1D672CD78208B05D /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		A2734A06864460EFB911D455 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		AD9E97904C0A15E1EFC18C54 /* Remoboard.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Remoboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE2F5C224CE10872F6D04590 /* RemoKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = RemoKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5F8C9724C7C185AB086DD89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B96228149702EC5FDDE9AE2B /* SiteResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteResources.swift; sourceTree = "<group>"; };
+		BB794D364D823246CCE17276 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BF490C743834B15B4F601F3E /* RemoServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoServer.swift; sourceTree = "<group>"; };
+		C1CD6F9AB083851FFAB36DE0 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C7E6A69D6D5CEA7E4E8A40C0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C8F40995D4D6407B0FD75D94 /* Discovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discovery.swift; sourceTree = "<group>"; };
 		CC9CED59CD6FCCEFB03E52EE /* BonjourAdvertiser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonjourAdvertiser.swift; sourceTree = "<group>"; };
 		D7A2984D1B3E0DD13C254B71 /* RemoboardKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RemoboardKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDF8BE31F342118E18F3B0FE /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DFB41723FC56321007DC9E57 /* PopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverView.swift; sourceTree = "<group>"; };
 		E22DDDDFF098D7EC68E27B3E /* RemoboardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoboardApp.swift; sourceTree = "<group>"; };
+		E74720C98ABC1E2039532736 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EB5976EFF3CC2341F001D310 /* QuickWordsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickWordsView.swift; sourceTree = "<group>"; };
 		EB940539DB4E02D612161728 /* MacClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacClient.swift; sourceTree = "<group>"; };
+		F3695E89F5BB335D19F605DC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F55A672B6E3115388C795D5D /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		F608DD2616FC8751D28C7DEB /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -348,7 +364,15 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				Base,
+				de,
 				en,
+				es,
+				fr,
+				it,
+				ja,
+				ko,
+				"pt-BR",
+				ru,
 				"zh-Hans",
 			);
 			mainGroup = 24C5FA5AC1A961A0400A5061;
@@ -465,7 +489,15 @@
 		4A611063E3029FD59661DEC6 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				5EE8E1C9F7FD63F86A2D892B /* de */,
 				B5F8C9724C7C185AB086DD89 /* en */,
+				C7E6A69D6D5CEA7E4E8A40C0 /* es */,
+				4DB191DD91440BD4E967BDE0 /* fr */,
+				4F1A4483E732FD4C8899C6CC /* it */,
+				C1CD6F9AB083851FFAB36DE0 /* ja */,
+				BB794D364D823246CCE17276 /* ko */,
+				F608DD2616FC8751D28C7DEB /* pt-BR */,
+				63C1764BF85671D1FA6FB82C /* ru */,
 				8ABEE3DC0D033EE1F3B32FDB /* zh-Hans */,
 			);
 			name = Localizable.strings;
@@ -474,7 +506,15 @@
 		713E1BAAFA938584F3DDF70D /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				83C00A9CEDE38F8B3FC17B4F /* de */,
 				16C0269EFAED8B29218985AA /* en */,
+				027273A6E846B87B4A15286B /* es */,
+				F3695E89F5BB335D19F605DC /* fr */,
+				8C40E8A890ECC6020DE14003 /* it */,
+				77EF7E9795301A1F23111CA9 /* ja */,
+				DDF8BE31F342118E18F3B0FE /* ko */,
+				9975487F1D672CD78208B05D /* pt-BR */,
+				E74720C98ABC1E2039532736 /* ru */,
 				1DADDCABC0E9013B7ABD1369 /* zh-Hans */,
 			);
 			name = Localizable.strings;

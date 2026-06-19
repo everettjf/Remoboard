@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte'
   import { Connection } from './connection.js'
-  import { translate, detectLang } from './i18n.js'
+  import { translate, detectLang, availableLangs } from './i18n.js'
   import { loadThemePref, saveThemePref, applyTheme, watchSystem } from './theme.js'
 
   // ---- settings (persisted) ----
@@ -384,11 +384,12 @@
       </div>
 
       <div class="label">{t('language')}</div>
-      <div class="seg">
-        <button class:active={langPref === 'auto'} onclick={() => persistLang('auto')}>{t('langAuto')}</button>
-        <button class:active={langPref === 'en'} onclick={() => persistLang('en')}>{t('langEn')}</button>
-        <button class:active={langPref === 'zh'} onclick={() => persistLang('zh')}>{t('langZh')}</button>
-      </div>
+      <select class="field" value={langPref} onchange={(e) => persistLang(e.currentTarget.value)}>
+        <option value="auto">{t('langAuto')}</option>
+        {#each availableLangs as l}
+          <option value={l.code}>{l.label}</option>
+        {/each}
+      </select>
     </div>
   </div>
 {/if}

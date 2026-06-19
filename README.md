@@ -22,7 +22,11 @@ sources are preserved under [`ObjcVersion/`](ObjcVersion/) for reference.
   attempts, so a random person on the same Wi-Fi can't type into your phone.
 - **Rebuilt web UI** (Svelte, single offline file): proper CJK/IME handling via
   composition events, live mirror of the phone's text field, robust exponential-backoff
-  reconnect + heartbeat, quick-word chips, dark mode, responsive layout.
+  reconnect + heartbeat, quick-word management, clipboard, send history, light/dark
+  (follows the system) and a responsive, mobile-friendly layout.
+- **Localized into 10 languages** (English, 简体中文, 日本語, 한국어, Deutsch, Français,
+  Español, Português, Русский, Italiano) across the web UI, host app, keyboard, and Mac
+  companion.
 - **SwiftUI host app** and a **Swift/UIKit keyboard extension**.
 - **Remote clipboard** — push text to / pull text from the phone's system clipboard
   from any client (browser or Mac).

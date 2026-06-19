@@ -1,0 +1,13 @@
+"Next" = "전환";
+"Words" = "문구";
+"Handoff" = "핸드오프";
+"Return" = "줄바꿈";
+"Send" = "보내기";
+"Search" = "검색";
+"Done" = "완료";
+"Go" = "이동";
+"StatusWaiting" = "컴퓨터에서 아래 URL을 여세요";
+"StatusConnected" = "연결됨 — 컴퓨터에서 입력하세요";
+"WifiNotFound" = "Wi-Fi에 연결되지 않음";
+"GuideAllowFullAccess" = "설정 → 키보드 에서 Remoboard의 '전체 접근 허용'을 켜세요.";
+"ClipboardCopiedToPhone" = "휴대폰 클립보드에 복사됨";

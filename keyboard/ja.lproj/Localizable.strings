@@ -1,0 +1,13 @@
+"Next" = "切替";
+"Words" = "定型文";
+"Handoff" = "ハンドオフ";
+"Return" = "改行";
+"Send" = "送信";
+"Search" = "検索";
+"Done" = "完了";
+"Go" = "移動";
+"StatusWaiting" = "コンピュータで下のURLを開いてください";
+"StatusConnected" = "接続済み — コンピュータから入力できます";
+"WifiNotFound" = "Wi-Fiに接続されていません";
+"GuideAllowFullAccess" = "設定 → キーボード で Remoboard の「フルアクセスを許可」をオンにしてください。";
+"ClipboardCopiedToPhone" = "スマホのクリップボードにコピーしました";
