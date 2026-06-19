@@ -496,7 +496,7 @@
     padding: 8px 6px; font-size: 14px;
   }
   .seg button.active { background: var(--accent); color: var(--accent-text); font-weight: 600; }
-  .request-lang { display: block; text-align: center; text-decoration: none; margin-top: 6px; }
+  .request-lang { display: block; text-align: center; text-decoration: none; margin-top: 6px; color: var(--accent); border-color: var(--accent); }
 
   @media (max-width: 480px) {
     main { padding: 12px 12px 40px; gap: 12px; }
