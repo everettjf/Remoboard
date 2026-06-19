@@ -4,9 +4,13 @@
   import { translate, detectLang, availableLangs } from './i18n.js'
   import { loadThemePref, saveThemePref, applyTheme, watchSystem } from './theme.js'
 
+  // localStorage can throw (Safari private mode / sandboxed contexts) — never let it crash init.
+  const safeGet = (k) => { try { return localStorage.getItem(k) } catch { return null } }
+  const safeSet = (k, v) => { try { localStorage.setItem(k, v) } catch {} }
+
   // ---- settings (persisted) ----
   let themePref = $state(loadThemePref())                                  // system | light | dark
-  let langPref = $state(localStorage.getItem('rkb-lang') || 'auto')        // auto | en | zh
+  let langPref = $state(safeGet('rkb-lang') || 'auto')                     // auto | <lang code>
   let settingsOpen = $state(false)
 
   let lang = $derived(langPref === 'auto' ? detectLang() : langPref)
@@ -60,7 +64,7 @@
   })
 
   function persistTheme(p) { themePref = p; saveThemePref(p) }
-  function persistLang(l) { langPref = l; localStorage.setItem('rkb-lang', l) }
+  function persistLang(l) { langPref = l; safeSet('rkb-lang', l) }
 
   function handleMessage(msg) {
     switch (msg.t) {
@@ -162,15 +166,17 @@
   function sendQuickWord(word) { gatedSend({ t: 'input', text: word, seq: seq++ }) }
 
   // ---- quick words management (synced to phone) ----
+  // Only apply the edit locally if it was actually sent — otherwise the UI would show
+  // words the phone never received (and a rebroadcast would silently revert them).
   function pushWords(words) {
+    if (!gatedSend({ t: 'words-set', items: words })) return false
     quickWords = words
-    gatedSend({ t: 'words-set', items: words })
+    return true
   }
   function addWord() {
     const w = newWord.trim()
     if (!w) return
-    pushWords([...quickWords, w])
-    newWord = ''
+    if (pushWords([...quickWords, w])) newWord = ''
   }
   function removeWord(i) { pushWords(quickWords.filter((_, idx) => idx !== i)) }
   function moveWord(i, delta) {
@@ -211,8 +217,14 @@
   // ---- handoff received from phone ----
   function toURL(s) {
     const v = (s || '').trim()
-    if (/^[a-z][a-z0-9+.-]*:\/\//i.test(v)) return v
-    if (/^[\w-]+(\.[\w-]+)+(\/\S*)?$/.test(v) && !/\s/.test(v)) return 'https://' + v
+    // Only ever treat http(s) as a clickable link — never javascript:, data:, file:, etc.
+    if (/^https?:\/\//i.test(v)) {
+      try {
+        const u = new URL(v)
+        return u.protocol === 'http:' || u.protocol === 'https:' ? u.href : null
+      } catch { return null }
+    }
+    if (!/\s/.test(v) && /^[\w-]+(\.[\w-]+)+(\/\S*)?$/.test(v)) return 'https://' + v
     return null
   }
   function handleHandoff(text) {

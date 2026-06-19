@@ -3,12 +3,15 @@ const KEY = 'rkb-theme'
 const mq = () => window.matchMedia('(prefers-color-scheme: dark)')
 
 export function loadThemePref() {
-  const v = localStorage.getItem(KEY)
-  return v === 'light' || v === 'dark' ? v : 'system'
+  // localStorage can throw in private mode / sandboxed contexts — fall back to system.
+  try {
+    const v = localStorage.getItem(KEY)
+    return v === 'light' || v === 'dark' ? v : 'system'
+  } catch { return 'system' }
 }
 
 export function saveThemePref(pref) {
-  localStorage.setItem(KEY, pref)
+  try { localStorage.setItem(KEY, pref) } catch {}
 }
 
 export function effectiveTheme(pref) {

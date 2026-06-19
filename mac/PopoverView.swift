@@ -124,6 +124,13 @@ struct PopoverView: View {
 
     private var typingView: some View {
         VStack(alignment: .leading, spacing: 10) {
+            if !client.info.isEmpty {
+                Text(client.info)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+
             // Echo of the phone's field
             VStack(alignment: .leading, spacing: 2) {
                 Text(t("onPhone")).font(.caption2).foregroundStyle(.secondary)
