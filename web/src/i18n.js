@@ -31,6 +31,7 @@ const strings = {
     receivedFromPhone: 'Received from phone', openLink: 'Open link', dismiss: 'Dismiss',
     settings: 'Settings', theme: 'Appearance', themeSystem: 'System', themeLight: 'Light',
     themeDark: 'Dark', language: 'Language', langAuto: 'Auto',
+    requestLang: 'Request a language',
   },
   zh: {
     connecting: '连接中…', reconnecting: '重新连接中…', connected: '已连接',
@@ -48,6 +49,7 @@ const strings = {
     receivedFromPhone: '来自手机', openLink: '打开链接', dismiss: '关闭',
     settings: '设置', theme: '外观', themeSystem: '跟随系统', themeLight: '浅色',
     themeDark: '深色', language: '语言', langAuto: '自动',
+    requestLang: '请求新增语言',
   },
   ja: {
     connecting: '接続中…', reconnecting: '再接続中…', connected: '接続済み',
@@ -65,6 +67,7 @@ const strings = {
     receivedFromPhone: 'スマホから受信', openLink: 'リンクを開く', dismiss: '閉じる',
     settings: '設定', theme: '外観', themeSystem: 'システムに合わせる', themeLight: 'ライト',
     themeDark: 'ダーク', language: '言語', langAuto: '自動',
+    requestLang: '言語をリクエスト',
   },
   ko: {
     connecting: '연결 중…', reconnecting: '다시 연결 중…', connected: '연결됨',
@@ -82,6 +85,7 @@ const strings = {
     receivedFromPhone: '휴대폰에서 수신', openLink: '링크 열기', dismiss: '닫기',
     settings: '설정', theme: '모양', themeSystem: '시스템', themeLight: '라이트',
     themeDark: '다크', language: '언어', langAuto: '자동',
+    requestLang: '언어 요청',
   },
   de: {
     connecting: 'Verbinden…', reconnecting: 'Neu verbinden…', connected: 'Verbunden',
@@ -99,6 +103,7 @@ const strings = {
     receivedFromPhone: 'Vom Telefon empfangen', openLink: 'Link öffnen', dismiss: 'Schließen',
     settings: 'Einstellungen', theme: 'Erscheinungsbild', themeSystem: 'System', themeLight: 'Hell',
     themeDark: 'Dunkel', language: 'Sprache', langAuto: 'Auto',
+    requestLang: 'Sprache anfragen',
   },
   fr: {
     connecting: 'Connexion…', reconnecting: 'Reconnexion…', connected: 'Connecté',
@@ -116,6 +121,7 @@ const strings = {
     receivedFromPhone: 'Reçu du téléphone', openLink: 'Ouvrir le lien', dismiss: 'Fermer',
     settings: 'Réglages', theme: 'Apparence', themeSystem: 'Système', themeLight: 'Clair',
     themeDark: 'Sombre', language: 'Langue', langAuto: 'Auto',
+    requestLang: 'Demander une langue',
   },
   es: {
     connecting: 'Conectando…', reconnecting: 'Reconectando…', connected: 'Conectado',
@@ -133,6 +139,7 @@ const strings = {
     receivedFromPhone: 'Recibido del teléfono', openLink: 'Abrir enlace', dismiss: 'Cerrar',
     settings: 'Ajustes', theme: 'Apariencia', themeSystem: 'Sistema', themeLight: 'Claro',
     themeDark: 'Oscuro', language: 'Idioma', langAuto: 'Auto',
+    requestLang: 'Solicitar un idioma',
   },
   pt: {
     connecting: 'Conectando…', reconnecting: 'Reconectando…', connected: 'Conectado',
@@ -150,6 +157,7 @@ const strings = {
     receivedFromPhone: 'Recebido do telefone', openLink: 'Abrir link', dismiss: 'Fechar',
     settings: 'Ajustes', theme: 'Aparência', themeSystem: 'Sistema', themeLight: 'Claro',
     themeDark: 'Escuro', language: 'Idioma', langAuto: 'Auto',
+    requestLang: 'Solicitar um idioma',
   },
   ru: {
     connecting: 'Подключение…', reconnecting: 'Переподключение…', connected: 'Подключено',
@@ -167,6 +175,7 @@ const strings = {
     receivedFromPhone: 'Получено с телефона', openLink: 'Открыть ссылку', dismiss: 'Закрыть',
     settings: 'Настройки', theme: 'Оформление', themeSystem: 'Система', themeLight: 'Светлая',
     themeDark: 'Тёмная', language: 'Язык', langAuto: 'Авто',
+    requestLang: 'Запросить язык',
   },
   it: {
     connecting: 'Connessione…', reconnecting: 'Riconnessione…', connected: 'Connesso',
@@ -184,6 +193,7 @@ const strings = {
     receivedFromPhone: 'Ricevuto dal telefono', openLink: 'Apri link', dismiss: 'Chiudi',
     settings: 'Impostazioni', theme: 'Aspetto', themeSystem: 'Sistema', themeLight: 'Chiaro',
     themeDark: 'Scuro', language: 'Lingua', langAuto: 'Auto',
+    requestLang: 'Richiedi una lingua',
   },
 }
 

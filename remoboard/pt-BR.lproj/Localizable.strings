@@ -19,3 +19,6 @@
 "received.share" = "Compartilhar";
 "received.done" = "Concluir";
 "handoff.ready" = "Handoff pronto — abra-o no Handoff do seu Mac (Dock ou alternador de apps) e digite lá.";
+"home.requestlang" = "Solicitar um idioma";
+"home.quickwords.sub" = "Gerencie suas frases reutilizáveis";
+"home.testinput.sub" = "Teste a digitação remota aqui";

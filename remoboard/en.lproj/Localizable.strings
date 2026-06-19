@@ -22,3 +22,6 @@
 "received.share" = "Share";
 "received.done" = "Done";
 "handoff.ready" = "Handoff ready — open it from Handoff on your Mac (Dock or app switcher), then type there.";
+"home.requestlang" = "Request a language";
+"home.quickwords.sub" = "Manage your reusable phrases";
+"home.testinput.sub" = "Try remote typing right here";

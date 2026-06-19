@@ -366,6 +366,13 @@
           <option value={l.code}>{l.label}</option>
         {/each}
       </select>
+
+      <a
+        class="btn ghost sm request-lang"
+        href="https://github.com/everettjf/Remoboard/issues/new?title=Language%20request:%20"
+        target="_blank"
+        rel="noreferrer noopener"
+      >🌐 {t('requestLang')}</a>
     </div>
   </div>
 {/if}
@@ -489,6 +496,7 @@
     padding: 8px 6px; font-size: 14px;
   }
   .seg button.active { background: var(--accent); color: var(--accent-text); font-weight: 600; }
+  .request-lang { display: block; text-align: center; text-decoration: none; margin-top: 6px; }
 
   @media (max-width: 480px) {
     main { padding: 12px 12px 40px; gap: 12px; }

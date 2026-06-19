@@ -2,69 +2,36 @@
 //  HomeView.swift
 //  Remoboard
 //
-//  Onboarding + entry point. The host app explains how to enable the keyboard and
-//  lets the user manage quick words and try the remote input out.
+//  Home / onboarding. A brand hero, a visual setup card with one primary action,
+//  quick-action tiles for the main features, and a footer — the pattern used by
+//  well-designed keyboard utility apps.
 //
 
 import SwiftUI
+import UIKit
 
 struct HomeView: View {
     @EnvironmentObject private var handoff: HandoffStore
 
+    private let issuesURL = URL(string: "https://github.com/everettjf/Remoboard/issues/new?title=Language%20request:%20")!
+    private let siteURL = URL(string: "https://xnu.app/remoboard")!
+
     var body: some View {
         NavigationView {
-            List {
-                Section {
-                    HStack(spacing: 14) {
-                        Image(systemName: "keyboard.badge.ellipsis")
-                            .font(.system(size: 30, weight: .semibold))
-                            .foregroundStyle(.white)
-                            .frame(width: 58, height: 58)
-                            .background(
-                                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                    .fill(Color.accentColor)
-                            )
-                        Text(NSLocalizedString("home.tagline", comment: ""))
-                            .font(.body)
-                            .foregroundStyle(.secondary)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    .padding(.vertical, 6)
+            ScrollView {
+                VStack(spacing: 22) {
+                    hero
+                    setupCard
+                    quickActions
+                    footer
                 }
-
-                Section(NSLocalizedString("home.howto.title", comment: "")) {
-                    StepRow(number: 1, text: NSLocalizedString("home.howto.step1", comment: ""))
-                    StepRow(number: 2, text: NSLocalizedString("home.howto.step2", comment: ""))
-                    StepRow(number: 3, text: NSLocalizedString("home.howto.step3", comment: ""))
-                    StepRow(number: 4, text: NSLocalizedString("home.howto.step4", comment: ""))
-                }
-
-                Section {
-                    NavigationLink {
-                        QuickWordsView()
-                    } label: {
-                        Label(NSLocalizedString("home.quickwords", comment: ""), systemImage: "text.badge.star")
-                    }
-                    NavigationLink {
-                        TestInputView()
-                    } label: {
-                        Label(NSLocalizedString("home.testinput", comment: ""), systemImage: "keyboard")
-                    }
-                }
-
-                Section {
-                    Button {
-                        if let url = URL(string: UIApplication.openSettingsURLString) {
-                            UIApplication.shared.open(url)
-                        }
-                    } label: {
-                        Label(NSLocalizedString("home.opensettings", comment: ""), systemImage: "gear")
-                    }
-                } footer: {
-                    Text(NSLocalizedString("home.fullaccess.note", comment: ""))
-                }
+                .padding(20)
+                .frame(maxWidth: 600)
+                .frame(maxWidth: .infinity)
             }
-            .navigationTitle("Remoboard")
+            .background(Color(.systemGroupedBackground).ignoresSafeArea())
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(.stack)
         .sheet(isPresented: Binding(
@@ -79,22 +46,154 @@ struct HomeView: View {
             Button("OK", role: .cancel) {}
         }
     }
+
+    // MARK: Hero
+
+    private var hero: some View {
+        VStack(spacing: 14) {
+            Image(systemName: "keyboard.badge.ellipsis")
+                .font(.system(size: 40, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 84, height: 84)
+                .background(
+                    RoundedRectangle(cornerRadius: 22, style: .continuous)
+                        .fill(LinearGradient(colors: [Color.accentColor, Color.accentColor.opacity(0.7)],
+                                             startPoint: .topLeading, endPoint: .bottomTrailing))
+                )
+                .shadow(color: Color.accentColor.opacity(0.35), radius: 12, y: 6)
+            Text("Remoboard")
+                .font(.largeTitle.bold())
+            Text(NSLocalizedString("home.tagline", comment: ""))
+                .font(.callout)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 12)
+    }
+
+    // MARK: Setup card
+
+    private var setupCard: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(NSLocalizedString("home.howto.title", comment: ""))
+                .font(.headline)
+
+            VStack(spacing: 14) {
+                StepRow(number: 1, text: NSLocalizedString("home.howto.step1", comment: ""))
+                StepRow(number: 2, text: NSLocalizedString("home.howto.step2", comment: ""))
+                StepRow(number: 3, text: NSLocalizedString("home.howto.step3", comment: ""))
+                StepRow(number: 4, text: NSLocalizedString("home.howto.step4", comment: ""))
+            }
+
+            Button {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            } label: {
+                Label(NSLocalizedString("home.opensettings", comment: ""), systemImage: "gear")
+                    .font(.body.weight(.semibold))
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+
+            Text(NSLocalizedString("home.fullaccess.note", comment: ""))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .padding(18)
+        .background(card)
+    }
+
+    // MARK: Quick actions
+
+    private var quickActions: some View {
+        HStack(spacing: 14) {
+            NavigationLink {
+                QuickWordsView()
+            } label: {
+                ActionTile(icon: "text.badge.star",
+                           title: NSLocalizedString("home.quickwords", comment: ""),
+                           subtitle: NSLocalizedString("home.quickwords.sub", comment: ""))
+            }
+            .buttonStyle(.plain)
+
+            NavigationLink {
+                TestInputView()
+            } label: {
+                ActionTile(icon: "keyboard",
+                           title: NSLocalizedString("home.testinput", comment: ""),
+                           subtitle: NSLocalizedString("home.testinput.sub", comment: ""))
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    // MARK: Footer
+
+    private var footer: some View {
+        VStack(spacing: 10) {
+            Link(destination: issuesURL) {
+                Label(NSLocalizedString("home.requestlang", comment: ""), systemImage: "globe")
+                    .font(.subheadline)
+            }
+            Link("xnu.app", destination: siteURL)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .padding(.top, 4)
+    }
+
+    private var card: some View {
+        RoundedRectangle(cornerRadius: 16, style: .continuous)
+            .fill(Color(.secondarySystemGroupedBackground))
+    }
 }
 
 private struct StepRow: View {
     let number: Int
     let text: String
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .top, spacing: 14) {
             Text("\(number)")
                 .font(.subheadline.bold())
                 .foregroundStyle(.white)
-                .frame(width: 24, height: 24)
+                .frame(width: 26, height: 26)
                 .background(Circle().fill(Color.accentColor))
             Text(text)
+                .font(.subheadline)
                 .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(.vertical, 2)
+    }
+}
+
+private struct ActionTile: View {
+    let icon: String
+    let title: String
+    let subtitle: String
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Image(systemName: icon)
+                .font(.title2)
+                .foregroundStyle(Color.accentColor)
+            Text(title)
+                .font(.headline)
+                .foregroundStyle(.primary)
+            Text(subtitle)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Spacer(minLength: 0)
+        }
+        .frame(maxWidth: .infinity, minHeight: 120, alignment: .topLeading)
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(Color(.secondarySystemGroupedBackground))
+        )
     }
 }
 

@@ -50,6 +50,7 @@ targets:
         INFOPLIST_FILE: remoboard/Info.plist
         CODE_SIGN_ENTITLEMENTS: remoboard/Remoboard.entitlements
         GENERATE_INFOPLIST_FILE: "YES"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
 
   RemoboardMac:
     type: application

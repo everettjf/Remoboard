@@ -19,3 +19,6 @@
 "received.share" = "Partager";
 "received.done" = "Terminé";
 "handoff.ready" = "Handoff prêt — ouvrez-le depuis Handoff sur votre Mac (Dock ou sélecteur d'apps), puis tapez là.";
+"home.requestlang" = "Demander une langue";
+"home.quickwords.sub" = "Gérez vos phrases réutilisables";
+"home.testinput.sub" = "Testez la saisie à distance ici";
