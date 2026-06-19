@@ -15,13 +15,21 @@ struct HomeView: View {
         NavigationView {
             List {
                 Section {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Remoboard")
-                            .font(.largeTitle.bold())
+                    HStack(spacing: 14) {
+                        Image(systemName: "keyboard.badge.ellipsis")
+                            .font(.system(size: 30, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .frame(width: 58, height: 58)
+                            .background(
+                                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                    .fill(Color.accentColor)
+                            )
                         Text(NSLocalizedString("home.tagline", comment: ""))
+                            .font(.body)
                             .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
-                    .padding(.vertical, 4)
+                    .padding(.vertical, 6)
                 }
 
                 Section(NSLocalizedString("home.howto.title", comment: "")) {
