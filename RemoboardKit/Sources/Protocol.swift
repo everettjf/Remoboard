@@ -55,8 +55,6 @@ public enum OutboundMessage {
     case quickWords([String])
     /// The phone's current clipboard contents (reply to `clipboardGet`, or a push).
     case clipboard(text: String)
-    /// Handoff from the phone: the client should open this (URL) or surface it.
-    case open(text: String)
     /// Heartbeat reply.
     case pong
     /// Human readable status line.
@@ -116,9 +114,6 @@ public enum WireCodec {
             dict["items"] = items
         case .clipboard(let text):
             dict["t"] = "clip"
-            dict["text"] = text
-        case .open(let text):
-            dict["t"] = "open"
             dict["text"] = text
         case .pong:
             dict["t"] = "pong"

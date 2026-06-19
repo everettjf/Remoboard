@@ -18,3 +18,4 @@
 "received.copied" = "Скопировано";
 "received.share" = "Поделиться";
 "received.done" = "Готово";
+"handoff.ready" = "Handoff готов — откройте его в Handoff на Mac (Dock или переключатель приложений) и печатайте там.";

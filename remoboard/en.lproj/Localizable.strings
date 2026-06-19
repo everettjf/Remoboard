@@ -21,3 +21,4 @@
 "received.copied" = "Copied";
 "received.share" = "Share";
 "received.done" = "Done";
+"handoff.ready" = "Handoff ready — open it from Handoff on your Mac (Dock or app switcher), then type there.";

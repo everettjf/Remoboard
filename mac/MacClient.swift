@@ -8,7 +8,6 @@
 //
 
 import Foundation
-import AppKit
 
 @MainActor
 final class MacClient: ObservableObject {
@@ -134,26 +133,10 @@ final class MacClient: ObservableObject {
             quickWords = obj["items"] as? [String] ?? []
         case "clip":
             phoneClip = obj["text"] as? String ?? ""
-        case "open":
-            handleHandoff(obj["text"] as? String ?? "")
         case "info":
             flashInfo(obj["message"] as? String ?? "")
         default:
             break
-        }
-    }
-
-    /// Handoff from the phone: open a URL in the default browser/app, otherwise copy it.
-    private func handleHandoff(_ raw: String) {
-        let text = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !text.isEmpty else { return }
-        if let url = Self.openableURL(text) {
-            NSWorkspace.shared.open(url)
-            flashInfo("Opened \(url.absoluteString)")
-        } else {
-            NSPasteboard.general.clearContents()
-            NSPasteboard.general.setString(text, forType: .string)
-            flashInfo("Copied from phone")
         }
     }
 
@@ -164,17 +147,6 @@ final class MacClient: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             if self?.info == message { self?.info = "" }
         }
-    }
-
-    /// A web URL we should open. Restricted to http/https so a paired phone can never make
-    /// the Mac launch file:, smb:, javascript:, or arbitrary scheme handlers via NSWorkspace.
-    static func openableURL(_ text: String) -> URL? {
-        guard !text.contains(" "), !text.contains("\n") else { return nil }
-        if let u = URL(string: text), let scheme = u.scheme?.lowercased() {
-            return (scheme == "http" || scheme == "https") && u.host != nil ? u : nil
-        }
-        if text.contains("."), let u = URL(string: "https://\(text)"), u.host != nil { return u }
-        return nil
     }
 
     // MARK: Outbound

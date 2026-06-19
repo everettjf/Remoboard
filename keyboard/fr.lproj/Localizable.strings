@@ -11,6 +11,3 @@
 "WifiNotFound" = "Wi-Fi non connecté";
 "GuideAllowFullAccess" = "Activez « Autoriser l'accès complet » pour Remoboard dans Réglages → Clavier.";
 "ClipboardCopiedToPhone" = "Copié dans le presse-papiers du téléphone";
-"HandoffSent" = "Envoyé à l'ordinateur";
-"HandoffNoClient" = "Aucun ordinateur connecté";
-"HandoffEmpty" = "Rien à envoyer";

@@ -36,7 +36,6 @@
   let clipSend = $state('')
   let copiedFlag = $state(false)
   let history = $state([])
-  let received = $state(null)        // { text, url } handoff from phone
   let toast = $state('')
 
   // ---- non-reactive ----
@@ -90,9 +89,6 @@
         break
       case 'clip':
         phoneClip = msg.text ?? ''
-        break
-      case 'open':
-        handleHandoff(msg.text ?? '')
         break
       case 'info':
         showToast(msg.message ?? '')
@@ -214,24 +210,6 @@
     if (ok) { copiedFlag = true; setTimeout(() => { copiedFlag = false }, 1500) }
   }
 
-  // ---- handoff received from phone ----
-  function toURL(s) {
-    const v = (s || '').trim()
-    // Only ever treat http(s) as a clickable link — never javascript:, data:, file:, etc.
-    if (/^https?:\/\//i.test(v)) {
-      try {
-        const u = new URL(v)
-        return u.protocol === 'http:' || u.protocol === 'https:' ? u.href : null
-      } catch { return null }
-    }
-    if (!/\s/.test(v) && /^[\w-]+(\.[\w-]+)+(\/\S*)?$/.test(v)) return 'https://' + v
-    return null
-  }
-  function handleHandoff(text) {
-    if (!text.trim()) return
-    received = { text, url: toURL(text) }
-  }
-
   function submitPin() {
     const pin = pinInput.trim()
     if (!pin) return
@@ -254,20 +232,6 @@
       <button class="icon-btn" aria-label={t('settings')} onclick={() => (settingsOpen = true)}>⚙</button>
     </div>
   </header>
-
-  {#if received}
-    <section class="handoff">
-      <div class="handoff-label">{t('receivedFromPhone')}</div>
-      <div class="handoff-body">{received.text}</div>
-      <div class="handoff-actions">
-        {#if received.url}
-          <a class="btn primary sm" href={received.url} target="_blank" rel="noreferrer noopener">{t('openLink')}</a>
-        {/if}
-        <button class="btn sm" onclick={() => copyText(received.text)}>{copiedFlag ? t('copied') : t('copyHere')}</button>
-        <button class="btn ghost sm" onclick={() => (received = null)}>{t('dismiss')}</button>
-      </div>
-    </section>
-  {/if}
 
   {#if phase === 'paired' || phase === 'reconnecting'}
     <section class="echo">
@@ -479,10 +443,6 @@
   .clip-result { display: flex; align-items: center; gap: 10px; margin-top: 2px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
   .clip-text { flex: 1; font-size: 15px; word-break: break-word; white-space: pre-wrap; }
 
-  .handoff { background: var(--surface); border: 1px solid var(--accent); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
-  .handoff-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); }
-  .handoff-body { font-size: 15px; word-break: break-word; }
-  .handoff-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
   button, .btn { cursor: pointer; font-family: inherit; }
   .chip {

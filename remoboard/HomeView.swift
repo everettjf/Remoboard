@@ -75,6 +75,9 @@ struct HomeView: View {
                 ReceivedView(text: text) { handoff.receivedText = nil }
             }
         }
+        .alert(NSLocalizedString("handoff.ready", comment: ""), isPresented: $handoff.handoffReady) {
+            Button("OK", role: .cancel) {}
+        }
     }
 }
 

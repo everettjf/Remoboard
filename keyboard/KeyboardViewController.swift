@@ -148,7 +148,7 @@ final class KeyboardViewController: UIInputViewController {
             sendPhoneClipboard()
             return
         case .handoff(let text):
-            openHostApp(withText: text)
+            openHostApp(query: "text", value: text)
             return
         case .setQuickWords(let items):
             Settings.shared.quickWords = items
@@ -168,12 +168,12 @@ final class KeyboardViewController: UIInputViewController {
         server.broadcast(.clipboard(text: text))
     }
 
-    /// Opens the Remoboard host app via its URL scheme, carrying `text`.
-    /// Keyboard extensions can't call UIApplication.open, so we walk the responder
-    /// chain for an object that implements the legacy `openURL:` selector.
-    private func openHostApp(withText text: String) {
-        let encoded = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        guard let url = URL(string: "remoboard://handoff?text=\(encoded)") else { return }
+    /// Opens the Remoboard host app via its URL scheme (`remoboard://handoff?<query>=<value>`).
+    /// Keyboard extensions can't call UIApplication.open, so we walk the responder chain for
+    /// an object that implements the legacy `openURL:` selector.
+    private func openHostApp(query: String, value: String) {
+        let encoded = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        guard let url = URL(string: "remoboard://handoff?\(query)=\(encoded)") else { return }
         let selector = NSSelectorFromString("openURL:")
         var responder: UIResponder? = self
         while let current = responder {
@@ -359,25 +359,15 @@ private extension KeyboardViewController {
         broadcastContext()
     }
 
-    // Handoff: send what's in the field (or the clipboard) to the connected computer,
-    // which opens it (URL) or copies it. Reverse of remote typing.
+    // Handoff (Apple Continuity): hand the connection URL to the host app, which publishes
+    // it as a browsing-web NSUserActivity. The same URL then shows up in Handoff on your Mac,
+    // so you can open the Remoboard web page there and keep typing from the computer.
     @objc func tapHandoff() {
-        let before = textDocumentProxy.documentContextBeforeInput ?? ""
-        let after = textDocumentProxy.documentContextAfterInput ?? ""
-        var text = (before + after).trimmingCharacters(in: .whitespacesAndNewlines)
-        if text.isEmpty {
-            text = (UIPasteboard.general.string ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-        guard !text.isEmpty else {
-            flashStatus(NSLocalizedString("HandoffEmpty", comment: ""))
+        guard let url = connectURL, !url.isEmpty else {
+            flashStatus(NSLocalizedString("WifiNotFound", comment: ""))
             return
         }
-        guard connectedCount > 0 else {
-            flashStatus(NSLocalizedString("HandoffNoClient", comment: ""))
-            return
-        }
-        server.broadcast(.open(text: text))
-        flashStatus(NSLocalizedString("HandoffSent", comment: ""))
+        openHostApp(query: "url", value: url)
     }
 }
 

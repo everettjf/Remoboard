@@ -18,3 +18,4 @@
 "received.copied" = "コピーしました";
 "received.share" = "共有";
 "received.done" = "完了";
+"handoff.ready" = "Handoff の準備ができました — Mac の Handoff（Dock やアプリスイッチャー）から開いて入力できます。";

@@ -18,3 +18,4 @@
 "received.copied" = "Copiado";
 "received.share" = "Compartir";
 "received.done" = "Listo";
+"handoff.ready" = "Handoff listo — ábrelo desde Handoff en tu Mac (Dock o selector de apps) y escribe ahí.";

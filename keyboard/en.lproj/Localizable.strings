@@ -11,6 +11,3 @@
 "StatusConnected" = "Connected — type from your computer";
 "WifiNotFound" = "Wi-Fi not connected";
 "GuideAllowFullAccess" = "Please enable \"Allow Full Access\" for Remoboard in Settings → Keyboard.";
-"HandoffSent" = "Sent to computer";
-"HandoffNoClient" = "No computer connected";
-"HandoffEmpty" = "Nothing to send";

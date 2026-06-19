@@ -21,3 +21,4 @@
 "received.copied" = "已复制";
 "received.share" = "分享";
 "received.done" = "完成";
+"handoff.ready" = "接力已就绪 — 在 Mac 的接力（程序坞或多任务）中打开它，即可在电脑上输入。";

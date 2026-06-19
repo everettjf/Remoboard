@@ -18,3 +18,4 @@
 "received.copied" = "복사됨";
 "received.share" = "공유";
 "received.done" = "완료";
+"handoff.ready" = "핸드오프 준비 완료 — Mac의 핸드오프(Dock 또는 앱 전환기)에서 열어 입력하세요.";

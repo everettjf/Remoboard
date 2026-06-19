@@ -11,6 +11,3 @@
 "WifiNotFound" = "Wi-Fi에 연결되지 않음";
 "GuideAllowFullAccess" = "설정 → 키보드 에서 Remoboard의 '전체 접근 허용'을 켜세요.";
 "ClipboardCopiedToPhone" = "휴대폰 클립보드에 복사됨";
-"HandoffSent" = "컴퓨터로 보냈습니다";
-"HandoffNoClient" = "연결된 컴퓨터가 없습니다";
-"HandoffEmpty" = "보낼 내용이 없습니다";
