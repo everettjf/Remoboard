@@ -28,6 +28,7 @@ final class KeyboardViewController: UIInputViewController {
     private var contextThrottle = Throttle(interval: 0.08)
     private var serverRunning = false
     private var connectURL: String?
+    private var connectedCount = 0
 
     // MARK: Lifecycle
 
@@ -107,8 +108,21 @@ final class KeyboardViewController: UIInputViewController {
     }
 
     private func updateStatus(connectedCount count: Int) {
+        connectedCount = count
         let key = count > 0 ? "StatusConnected" : "StatusWaiting"
         statusLabel.text = NSLocalizedString(key, comment: "")
+    }
+
+    /// Briefly show a message in the status label, then restore the connection status.
+    private func flashStatus(_ message: String) {
+        // Make sure the status (not the words page) is visible so the message is seen.
+        wordsTable.isHidden = true
+        infoStack.isHidden = false
+        statusLabel.text = message
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+            guard let self, self.statusLabel.text == message else { return }
+            self.updateStatus(connectedCount: self.connectedCount)
+        }
     }
 
     // MARK: Applying remote operations
@@ -354,8 +368,16 @@ private extension KeyboardViewController {
         if text.isEmpty {
             text = (UIPasteboard.general.string ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         }
-        guard !text.isEmpty else { return }
+        guard !text.isEmpty else {
+            flashStatus(NSLocalizedString("HandoffEmpty", comment: ""))
+            return
+        }
+        guard connectedCount > 0 else {
+            flashStatus(NSLocalizedString("HandoffNoClient", comment: ""))
+            return
+        }
         server.broadcast(.open(text: text))
+        flashStatus(NSLocalizedString("HandoffSent", comment: ""))
     }
 }
 

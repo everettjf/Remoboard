@@ -11,3 +11,6 @@
 "WifiNotFound" = "Wi-Fiに接続されていません";
 "GuideAllowFullAccess" = "設定 → キーボード で Remoboard の「フルアクセスを許可」をオンにしてください。";
 "ClipboardCopiedToPhone" = "スマホのクリップボードにコピーしました";
+"HandoffSent" = "パソコンに送信しました";
+"HandoffNoClient" = "パソコンが接続されていません";
+"HandoffEmpty" = "送信する内容がありません";
