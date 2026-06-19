@@ -17,10 +17,10 @@ final class KeyboardViewController: UIInputViewController {
     private let statusLabel = UILabel()
     private let urlLabel = UILabel()
     private let pinLabel = UILabel()
+    private let infoStack = UIStackView()
     private let nextKeyboardButton = UIButton(type: .system)
     private let wordsButton = UIButton(type: .system)
-    private let clipButton = UIButton(type: .system)
-    private let appButton = UIButton(type: .system)
+    private let handoffButton = UIButton(type: .system)
     private let returnButton = UIButton(type: .system)
     private let wordsTable = UITableView()
 
@@ -136,6 +136,12 @@ final class KeyboardViewController: UIInputViewController {
         case .handoff(let text):
             openHostApp(withText: text)
             return
+        case .setQuickWords(let items):
+            Settings.shared.quickWords = items
+            quickWords = items
+            wordsTable.reloadData()
+            server.broadcast(.quickWords(items))   // keep every client in sync
+            return
         case .hello, .ping, .unknown:
             break
         }
@@ -200,7 +206,7 @@ final class KeyboardViewController: UIInputViewController {
         let dark = textDocumentProxy.keyboardAppearance == .dark
         let titleColor: UIColor = dark ? .white : .black
         let buttonBg: UIColor = dark ? UIColor(white: 1, alpha: 0.18) : UIColor(white: 0, alpha: 0.08)
-        for button in [nextKeyboardButton, wordsButton, clipButton, appButton, returnButton] {
+        for button in [nextKeyboardButton, wordsButton, handoffButton, returnButton] {
             button.setTitleColor(titleColor, for: .normal)
             button.tintColor = titleColor
             button.backgroundColor = buttonBg
@@ -272,7 +278,9 @@ private extension KeyboardViewController {
         pinLabel.font = .monospacedSystemFont(ofSize: 17, weight: .bold)
         pinLabel.textAlignment = .center
 
-        let infoStack = UIStackView(arrangedSubviews: [statusLabel, urlLabel, pinLabel])
+        infoStack.addArrangedSubview(statusLabel)
+        infoStack.addArrangedSubview(urlLabel)
+        infoStack.addArrangedSubview(pinLabel)
         infoStack.axis = .vertical
         infoStack.spacing = 4
         infoStack.alignment = .fill
@@ -283,16 +291,13 @@ private extension KeyboardViewController {
         configureBarButton(wordsButton, title: NSLocalizedString("Words", comment: ""))
         wordsButton.addTarget(self, action: #selector(toggleWords), for: .touchUpInside)
 
-        configureBarButton(clipButton, title: NSLocalizedString("Clip", comment: ""))
-        clipButton.addTarget(self, action: #selector(tapClip), for: .touchUpInside)
-
-        configureBarButton(appButton, title: NSLocalizedString("OpenApp", comment: ""))
-        appButton.addTarget(self, action: #selector(tapApp), for: .touchUpInside)
+        configureBarButton(handoffButton, title: NSLocalizedString("Handoff", comment: ""))
+        handoffButton.addTarget(self, action: #selector(tapHandoff), for: .touchUpInside)
 
         configureBarButton(returnButton, title: NSLocalizedString("Return", comment: ""))
         returnButton.addTarget(self, action: #selector(tapReturn), for: .touchUpInside)
 
-        let buttonStack = UIStackView(arrangedSubviews: [nextKeyboardButton, wordsButton, clipButton, appButton, returnButton])
+        let buttonStack = UIStackView(arrangedSubviews: [nextKeyboardButton, wordsButton, handoffButton, returnButton])
         buttonStack.axis = .horizontal
         buttonStack.distribution = .fillEqually
         buttonStack.spacing = 6
@@ -327,9 +332,12 @@ private extension KeyboardViewController {
     }
 
     @objc func toggleWords() {
+        let showWords = wordsTable.isHidden
         quickWords = Settings.shared.quickWords
         wordsTable.reloadData()
-        wordsTable.isHidden.toggle()
+        wordsTable.isHidden = !showWords
+        // Words and the connection info (URL/PIN) are mutually exclusive pages.
+        infoStack.isHidden = showWords
     }
 
     @objc func tapReturn() {
@@ -337,16 +345,17 @@ private extension KeyboardViewController {
         broadcastContext()
     }
 
-    @objc func tapClip() {
-        sendPhoneClipboard()
-    }
-
-    @objc func tapApp() {
+    // Handoff: send what's in the field (or the clipboard) to the connected computer,
+    // which opens it (URL) or copies it. Reverse of remote typing.
+    @objc func tapHandoff() {
         let before = textDocumentProxy.documentContextBeforeInput ?? ""
         let after = textDocumentProxy.documentContextAfterInput ?? ""
-        let text = before + after
+        var text = (before + after).trimmingCharacters(in: .whitespacesAndNewlines)
+        if text.isEmpty {
+            text = (UIPasteboard.general.string ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        }
         guard !text.isEmpty else { return }
-        openHostApp(withText: text)
+        server.broadcast(.open(text: text))
     }
 }
 

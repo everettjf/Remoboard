@@ -33,7 +33,8 @@ public final class Settings {
     // MARK: - Quick words
 
     public static let defaultWords = [
-        "好的", "收到", "搞定", "先转后看", "一会儿见", "赞",
+        "OK", "Thanks!", "On my way", "Got it", "👍",
+        "好的", "收到", "稍等",
     ]
 
     public var quickWords: [String] {

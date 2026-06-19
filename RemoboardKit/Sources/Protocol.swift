@@ -35,6 +35,8 @@ public enum InboundMessage {
     case clipboardGet
     /// Open the Remoboard host app on the phone carrying this text.
     case handoff(text: String)
+    /// Replace the user's quick words (managed from a client).
+    case setQuickWords([String])
     /// Heartbeat.
     case ping
     /// Anything we don't recognise (forward compatibility).
@@ -53,6 +55,8 @@ public enum OutboundMessage {
     case quickWords([String])
     /// The phone's current clipboard contents (reply to `clipboardGet`, or a push).
     case clipboard(text: String)
+    /// Handoff from the phone: the client should open this (URL) or surface it.
+    case open(text: String)
     /// Heartbeat reply.
     case pong
     /// Human readable status line.
@@ -86,6 +90,8 @@ public enum WireCodec {
             return .clipboardGet
         case "handoff":
             return .handoff(text: dict["text"] as? String ?? "")
+        case "words-set":
+            return .setQuickWords((dict["items"] as? [Any])?.compactMap { $0 as? String } ?? [])
         case "ping":
             return .ping
         default:
@@ -110,6 +116,9 @@ public enum WireCodec {
             dict["items"] = items
         case .clipboard(let text):
             dict["t"] = "clip"
+            dict["text"] = text
+        case .open(let text):
+            dict["t"] = "open"
             dict["text"] = text
         case .pong:
             dict["t"] = "pong"

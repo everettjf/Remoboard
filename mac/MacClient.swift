@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import AppKit
 
 @MainActor
 final class MacClient: ObservableObject {
@@ -133,11 +134,39 @@ final class MacClient: ObservableObject {
             quickWords = obj["items"] as? [String] ?? []
         case "clip":
             phoneClip = obj["text"] as? String ?? ""
+        case "open":
+            handleHandoff(obj["text"] as? String ?? "")
         case "info":
             info = obj["message"] as? String ?? ""
         default:
             break
         }
+    }
+
+    /// Handoff from the phone: open a URL in the default browser/app, otherwise copy it.
+    private func handleHandoff(_ raw: String) {
+        let text = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !text.isEmpty else { return }
+        if let url = Self.openableURL(text) {
+            NSWorkspace.shared.open(url)
+            info = "Opened \(url.absoluteString)"
+        } else {
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(text, forType: .string)
+            info = "Copied from phone"
+        }
+    }
+
+    /// A URL we should actually open: an explicit scheme, or a bare domain we can https://.
+    static func openableURL(_ text: String) -> URL? {
+        guard !text.contains(" "), !text.contains("\n") else { return nil }
+        if let u = URL(string: text), let scheme = u.scheme?.lowercased(), !scheme.isEmpty {
+            // http/https need a host; custom schemes (mailto:, etc.) are fine as-is.
+            if scheme == "http" || scheme == "https" { return u.host != nil ? u : nil }
+            return u
+        }
+        if text.contains("."), let u = URL(string: "https://\(text)"), u.host != nil { return u }
+        return nil
     }
 
     // MARK: Outbound
