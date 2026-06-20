@@ -15,6 +15,9 @@ under `ObjcVersion/` and is not built.
   handoff (publishes an Apple Continuity activity from the connection URL).
 - `web/` — Svelte source for the browser UI; `npm run deploy` builds a single offline
   `index.html` into `RemoboardKit/Resources/site/`.
+- `packages/` — developer client libraries that speak the same WebSocket protocol:
+  `node/` (`remoboard` npm), `python/` (`remoboard` pip), `mcp/` (`remoboard-mcp` MCP
+  server). Keep them in sync with `RemoboardKit/Sources/Protocol.swift`.
 - `project.yml` — XcodeGen definition. `Remoboard.xcodeproj` is generated from `project.yml` and committed; regenerate with `xcodegen generate`.
 
 ## Build & Run

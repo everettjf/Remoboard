@@ -12,5 +12,15 @@ xcuserdata/
 web/node_modules/
 web/dist/
 
+# Developer packages
+packages/*/node_modules/
+packages/node/package-lock.json
+packages/mcp/package-lock.json
+packages/python/dist/
+packages/python/build/
+packages/python/*.egg-info/
+__pycache__/
+*.pyc
+
 # macOS
 .DS_Store

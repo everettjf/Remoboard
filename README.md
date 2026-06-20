@@ -90,6 +90,22 @@ Phone → client: `{"t":"paired"}`, `{"t":"deny","reason":"pin"}`,
 `{"t":"context","before":"…","after":"…"}`, `{"t":"quickwords","items":[…]}`,
 `{"t":"clip","text":"…"}`, `{"t":"info","message":"…"}`, `{"t":"pong"}`.
 
+## Developer packages
+
+Client libraries that drive the keyboard from code (see [`packages/`](packages)):
+
+- **[`remoboard`](packages/node)** (Node.js) — `npm install remoboard`
+- **[`remoboard`](packages/python)** (Python) — `pip install remoboard`
+- **[`remoboard-mcp`](packages/mcp)** (MCP server) — let an AI assistant type into your phone
+
+```js
+import { RemoboardClient } from 'remoboard'
+const rb = new RemoboardClient({ host: '192.168.1.20', pin: '482103' })
+await rb.connect()
+await rb.type('Hello 世界 👋')
+await rb.enter()
+```
+
 ## License
 
 MIT. See [LICENSE](LICENSE).

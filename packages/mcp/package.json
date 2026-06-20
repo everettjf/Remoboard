@@ -1,0 +1,23 @@
+{
+  "name": "remoboard-mcp",
+  "version": "1.0.0",
+  "description": "Model Context Protocol server for Remoboard — let an AI assistant type into your phone.",
+  "type": "module",
+  "bin": {
+    "remoboard-mcp": "src/server.js"
+  },
+  "files": ["src", "README.md"],
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "keywords": ["mcp", "model-context-protocol", "remoboard", "remote-keyboard", "ios"],
+  "license": "MIT",
+  "homepage": "https://github.com/everettjf/Remoboard",
+  "repository": { "type": "git", "url": "https://github.com/everettjf/Remoboard.git" },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "remoboard": "file:../node",
+    "zod": "^3.23.8"
+  }
+}

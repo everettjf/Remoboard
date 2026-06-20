@@ -1,0 +1,26 @@
+{
+  "name": "remoboard",
+  "version": "1.0.0",
+  "description": "Type into a phone running the Remoboard keyboard from Node.js — the official client for the Remoboard WebSocket protocol.",
+  "type": "module",
+  "main": "src/index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "files": ["src", "index.d.ts", "README.md"],
+  "scripts": {
+    "example": "node examples/basic.mjs"
+  },
+  "keywords": ["remoboard", "remote-keyboard", "websocket", "ios", "automation", "input"],
+  "license": "MIT",
+  "homepage": "https://github.com/everettjf/Remoboard",
+  "repository": { "type": "git", "url": "https://github.com/everettjf/Remoboard.git" },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
