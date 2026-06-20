@@ -1,5 +1,10 @@
 # Remoboard (Swift)
 
+[![npm: remoboard](https://img.shields.io/npm/v/remoboard?label=npm%20remoboard&color=cb3837)](https://www.npmjs.com/package/remoboard)
+[![npm: remoboard-mcp](https://img.shields.io/npm/v/remoboard-mcp?label=npm%20remoboard-mcp&color=cb3837)](https://www.npmjs.com/package/remoboard-mcp)
+[![PyPI: remoboard](https://img.shields.io/pypi/v/remoboard?label=PyPI%20remoboard&color=3776ab)](https://pypi.org/project/remoboard/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Remoboard (远程输入法) lets you type in your computer's browser and have the text
 appear instantly on your phone, inside whatever app you're using. The phone runs a
 custom keyboard extension that hosts a tiny web server; you open the URL it shows,
@@ -92,19 +97,35 @@ Phone → client: `{"t":"paired"}`, `{"t":"deny","reason":"pin"}`,
 
 ## Developer packages
 
-Client libraries that drive the keyboard from code (see [`packages/`](packages)):
+Client libraries that drive the keyboard from code (see [`packages/`](packages)). All
+published and speak the same WebSocket protocol:
 
-- **[`remoboard`](packages/node)** (Node.js) — `npm install remoboard`
-- **[`remoboard`](packages/python)** (Python) — `pip install remoboard`
-- **[`remoboard-mcp`](packages/mcp)** (MCP server) — let an AI assistant type into your phone
+| Package | Install | Docs |
+| --- | --- | --- |
+| [`remoboard`](https://www.npmjs.com/package/remoboard) (Node.js) | `npm install remoboard` | [packages/node](packages/node) |
+| [`remoboard`](https://pypi.org/project/remoboard/) (Python) | `pip install remoboard` | [packages/python](packages/python) |
+| [`remoboard-mcp`](https://www.npmjs.com/package/remoboard-mcp) (MCP server) | `npx -y remoboard-mcp` | [packages/mcp](packages/mcp) |
 
 ```js
+// Node
 import { RemoboardClient } from 'remoboard'
 const rb = new RemoboardClient({ host: '192.168.1.20', pin: '482103' })
 await rb.connect()
 await rb.type('Hello 世界 👋')
 await rb.enter()
 ```
+
+```python
+# Python
+from remoboard import RemoboardSync
+with RemoboardSync(host='192.168.1.20', pin='482103') as rb:
+    rb.type('Hello 世界 👋')
+    rb.enter()
+```
+
+The MCP server lets an AI assistant (Claude, …) type into your phone — add it with
+`npx -y remoboard-mcp` and `REMOBOARD_HOST` / `REMOBOARD_PIN`; see
+[packages/mcp](packages/mcp).
 
 ## License
 
