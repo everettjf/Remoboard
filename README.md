@@ -25,17 +25,12 @@ sources are preserved under [`ObjcVersion/`](ObjcVersion/) for reference.
   reconnect + heartbeat, quick-word management, clipboard, send history, light/dark
   (follows the system) and a responsive, mobile-friendly layout.
 - **Localized into 10 languages** (English, 简体中文, 日本語, 한국어, Deutsch, Français,
-  Español, Português, Русский, Italiano) across the web UI, host app, keyboard, and Mac
-  companion.
+  Español, Português, Русский, Italiano) across the web UI, host app, and keyboard.
 - **SwiftUI host app** and a **Swift/UIKit keyboard extension**.
 - **Remote clipboard** — push text to / pull text from the phone's system clipboard
-  from any client (browser or Mac).
-- **Handoff to the app** — send the current text into the Remoboard host app (via the
-  `remoboard://` URL scheme) to copy, share, or keep it.
-- **macOS menu-bar companion** (`mac/`) — discovers phones via Bonjour
-  (`_remoboard._tcp`), pairs with the PIN, and lets you type, manage the clipboard, and
-  hand off from the menu bar. The keyboard extension advertises the Bonjour service while
-  active, so a discovered device always has a live server.
+  from the browser.
+- **Handoff** — hand the connection URL to the host app, which publishes an Apple
+  Continuity activity so you can resume on your Mac via Handoff.
 - Bluetooth / legacy IP modes dropped.
 
 ## Layout
@@ -48,12 +43,10 @@ RemoboardKit/        Shared framework (app + extension)
     LocalAddresses.swift IPv4 interface enumeration
     WebSocket.swift      RFC 6455 handshake + frame codec
     RemoServer.swift     POSIX-socket HTTP/WebSocket server + pairing
-    BonjourAdvertiser.swift  Publishes _remoboard._tcp for companion discovery
     SiteResources.swift  Loads the bundled web UI
   Resources/site/      Built web UI (index.html, favicon.ico)
 keyboard/            RemoKeyboard extension (UIKit)
 remoboard/           Host app (SwiftUI)
-mac/                 macOS menu-bar companion (SwiftUI)
 web/                 Svelte source for the browser UI
 project.yml          XcodeGen project definition
 ObjcVersion/         Original Objective-C/C++ app (archived)
@@ -86,18 +79,6 @@ xcodebuild -project Remoboard.xcodeproj -scheme Remoboard \
 On device: enable Remoboard in **Settings → General → Keyboard → Keyboards**, turn on
 **Allow Full Access**, switch to the Remoboard keyboard, then open the shown
 `http://<phone-ip>:7777` URL on your computer and enter the PIN.
-
-### macOS companion
-
-The `RemoboardMac` scheme builds the menu-bar app. Run it, switch to the Remoboard keyboard
-on your phone (it advertises over Bonjour while active), pick the device (or enter its IP),
-type the PIN, and type from the menu bar. If pairing is denied, re-enter the PIN shown on
-the phone and connect again.
-
-```bash
-xcodebuild -project Remoboard.xcodeproj -scheme RemoboardMac \
-  -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO build
-```
 
 ## Protocol (v1)
 

@@ -12,7 +12,6 @@ import RemoboardKit
 final class KeyboardViewController: UIInputViewController {
 
     private let server = RemoServer.make(port: 7777)
-    private let advertiser = BonjourAdvertiser()
 
     private let statusLabel = UILabel()
     private let urlLabel = UILabel()
@@ -52,7 +51,6 @@ final class KeyboardViewController: UIInputViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        advertiser.stop()
         server.stop()
         serverRunning = false
     }
@@ -84,7 +82,6 @@ final class KeyboardViewController: UIInputViewController {
         pinLabel.text = "PIN  \(pin)"
         updateURLs()
         updateStatus(connectedCount: 0)
-        advertiser.start(name: UIDevice.current.name, port: 7777)
     }
 
     private func updateURLs() {

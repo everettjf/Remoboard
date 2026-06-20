@@ -12,8 +12,7 @@ under `ObjcVersion/` and is not built.
 - `keyboard/` — `RemoKeyboard` extension (UIKit). Hosts the server, injects text via
   `UITextDocumentProxy`.
 - `remoboard/` — host app (SwiftUI): onboarding, quick-word management, test input,
-  handoff receiver, Bonjour advertising.
-- `mac/` — macOS menu-bar companion (SwiftUI): Bonjour discovery + WebSocket client.
+  handoff (publishes an Apple Continuity activity from the connection URL).
 - `web/` — Svelte source for the browser UI; `npm run deploy` builds a single offline
   `index.html` into `RemoboardKit/Resources/site/`.
 - `project.yml` — XcodeGen definition. `Remoboard.xcodeproj` is generated from `project.yml` and committed; regenerate with `xcodegen generate`.
@@ -25,9 +24,6 @@ under `ObjcVersion/` and is not built.
 - `cd web && npm run deploy` after any change under `web/`; commit the regenerated
   `RemoboardKit/Resources/site/index.html`.
 - Compile check (iOS): `xcodebuild -project Remoboard.xcodeproj -scheme Remoboard -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build`.
-- Compile check (macOS companion): `xcodebuild -project Remoboard.xcodeproj -scheme RemoboardMac -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO build`.
-- The macOS companion (`mac/`) is a separate target; it re-implements the wire protocol
-  with raw JSON (no RemoboardKit dependency) and uses `URLSessionWebSocketTask` as a client.
 - Real-device run is required to actually use the keyboard (extensions are limited in
   the simulator) and needs Full Access enabled.
 
@@ -41,7 +37,8 @@ under `ObjcVersion/` and is not built.
 - Shared state goes through `Settings` (App Group `group.everettjf.remoboard`).
 - Wire protocol changes go in `RemoboardKit/Sources/Protocol.swift` and the web client
   (`web/src/`) together; bump `RemoProtocol.version` for breaking changes.
-- Add new user-facing strings to both `en.lproj` and `zh-Hans.lproj`.
+- Add new user-facing strings to all 10 `.lproj` (en, zh-Hans, ja, ko, de, fr, es,
+  pt-BR, ru, it) and to `web/src/i18n.js`.
 
 ## Testing
 

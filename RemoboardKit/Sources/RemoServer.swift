@@ -135,7 +135,7 @@ public final class RemoServer {
 
     private func openListenSocket() -> Bool {
         // Dual-stack: an AF_INET6 socket with IPV6_V6ONLY off also accepts IPv4 (v4-mapped),
-        // so the companion can reach the phone over either family.
+        // so a browser can reach the phone over either family.
         let fd = socket(AF_INET6, SOCK_STREAM, 0)
         guard fd >= 0 else { return false }
 
