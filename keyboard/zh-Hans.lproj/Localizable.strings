@@ -11,3 +11,4 @@
 "StatusConnected" = "已连接 — 可从电脑输入";
 "WifiNotFound" = "Wi-Fi 未连接";
 "GuideAllowFullAccess" = "请在 设置 → 键盘 中为 Remoboard 开启\"允许完全访问\"。";
+"HandoffFailed" = "无法打开 Remoboard";

@@ -11,3 +11,4 @@
 "WifiNotFound" = "Wi-Fi не подключён";
 "GuideAllowFullAccess" = "Включите «Разрешить полный доступ» для Remoboard в Настройки → Клавиатура.";
 "ClipboardCopiedToPhone" = "Скопировано в буфер обмена телефона";
+"HandoffFailed" = "Не удалось открыть Remoboard";

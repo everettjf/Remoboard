@@ -61,6 +61,14 @@ final class KeyboardViewController: UIInputViewController {
         updateReturnTitle()
     }
 
+    override func traitCollectionDidChange(_ previous: UITraitCollection?) {
+        super.traitCollectionDidChange(previous)
+        // System light/dark toggled while the keyboard is on screen — re-tint.
+        if traitCollection.userInterfaceStyle != previous?.userInterfaceStyle {
+            configColors()
+        }
+    }
+
     // MARK: Server
 
     private func wireServer() {
@@ -166,20 +174,23 @@ final class KeyboardViewController: UIInputViewController {
     }
 
     /// Opens the Remoboard host app via its URL scheme (`remoboard://handoff?<query>=<value>`).
-    /// Keyboard extensions can't call UIApplication.open, so we walk the responder chain for
-    /// an object that implements the legacy `openURL:` selector.
-    private func openHostApp(query: String, value: String) {
+    /// Keyboard extensions can't reach `UIApplication.shared`, so we walk the responder chain
+    /// to find the `UIApplication` instance and call the modern `open(_:)` on it. The old trick
+    /// of `perform("openURL:")` on whatever responds silently no-ops on current iOS (that
+    /// single-argument selector was removed years ago), which is why Handoff did nothing.
+    @discardableResult
+    private func openHostApp(query: String, value: String) -> Bool {
         let encoded = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        guard let url = URL(string: "remoboard://handoff?\(query)=\(encoded)") else { return }
-        let selector = NSSelectorFromString("openURL:")
+        guard let url = URL(string: "remoboard://handoff?\(query)=\(encoded)") else { return false }
         var responder: UIResponder? = self
         while let current = responder {
-            if current.responds(to: selector) {
-                current.perform(selector, with: url)
-                return
+            if let app = current as? UIApplication {
+                app.open(url, options: [:], completionHandler: nil)
+                return true
             }
             responder = current.next
         }
+        return false
     }
 
     private func broadcastContext() {
@@ -213,8 +224,19 @@ final class KeyboardViewController: UIInputViewController {
 
     // MARK: Appearance
 
+    /// The host text field requests an appearance via `keyboardAppearance`. When it asks for
+    /// `.default` (the common case) we follow the system light/dark setting instead of forcing
+    /// light — otherwise our black text renders on the dark system keyboard background.
+    private var isDarkAppearance: Bool {
+        switch textDocumentProxy.keyboardAppearance {
+        case .dark: return true
+        case .light: return false
+        default: return traitCollection.userInterfaceStyle == .dark
+        }
+    }
+
     private func configColors() {
-        let dark = textDocumentProxy.keyboardAppearance == .dark
+        let dark = isDarkAppearance
         let titleColor: UIColor = dark ? .white : .black
         let buttonBg: UIColor = dark ? UIColor(white: 1, alpha: 0.18) : UIColor(white: 0, alpha: 0.08)
         for button in [nextKeyboardButton, wordsButton, handoffButton, returnButton] {
@@ -257,6 +279,7 @@ extension KeyboardViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "word") ?? UITableViewCell(style: .default, reuseIdentifier: "word")
         cell.textLabel?.text = quickWords[indexPath.row]
+        cell.textLabel?.textColor = isDarkAppearance ? .white : .black
         cell.backgroundColor = .clear
         return cell
     }
@@ -330,7 +353,7 @@ private extension KeyboardViewController {
             root.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             root.topAnchor.constraint(equalTo: view.topAnchor, constant: 6),
             root.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -6),
-            wordsTable.heightAnchor.constraint(greaterThanOrEqualToConstant: 120),
+            wordsTable.heightAnchor.constraint(greaterThanOrEqualToConstant: 200),
             buttonStack.heightAnchor.constraint(equalToConstant: 36),
         ])
     }
@@ -364,7 +387,9 @@ private extension KeyboardViewController {
             flashStatus(NSLocalizedString("WifiNotFound", comment: ""))
             return
         }
-        openHostApp(query: "url", value: url)
+        if !openHostApp(query: "url", value: url) {
+            flashStatus(NSLocalizedString("HandoffFailed", comment: ""))
+        }
     }
 }
 

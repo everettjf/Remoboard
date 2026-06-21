@@ -11,3 +11,4 @@
 "WifiNotFound" = "Wi-Fi no conectado";
 "GuideAllowFullAccess" = "Activa «Permitir acceso completo» para Remoboard en Ajustes → Teclado.";
 "ClipboardCopiedToPhone" = "Copiado al portapapeles del teléfono";
+"HandoffFailed" = "No se pudo abrir Remoboard";
