@@ -42,25 +42,12 @@ struct HomeView: View {
                 ReceivedView(text: text) { handoff.receivedText = nil }
             }
         }
-        .alert(NSLocalizedString("handoff.ready", comment: ""), isPresented: $handoff.handoffReady) {
-            Button("OK", role: .cancel) {}
-        }
     }
 
     // MARK: Hero
 
     private var hero: some View {
         VStack(spacing: 14) {
-            Image(systemName: "keyboard.badge.ellipsis")
-                .font(.system(size: 40, weight: .semibold))
-                .foregroundStyle(.white)
-                .frame(width: 84, height: 84)
-                .background(
-                    RoundedRectangle(cornerRadius: 22, style: .continuous)
-                        .fill(LinearGradient(colors: [Color.accentColor, Color.accentColor.opacity(0.7)],
-                                             startPoint: .topLeading, endPoint: .bottomTrailing))
-                )
-                .shadow(color: Color.accentColor.opacity(0.35), radius: 12, y: 6)
             Text("Remoboard")
                 .font(.largeTitle.bold())
             Text(NSLocalizedString("home.tagline", comment: ""))

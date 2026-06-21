@@ -15,7 +15,6 @@ import SwiftUI
 @MainActor
 final class HandoffStore: ObservableObject {
     @Published var receivedText: String?
-    @Published var handoffReady = false
 
     private var activity: NSUserActivity?
 
@@ -41,6 +40,5 @@ final class HandoffStore: ObservableObject {
         activity.webpageURL = webURL
         activity.becomeCurrent()
         self.activity = activity
-        handoffReady = true
     }
 }
