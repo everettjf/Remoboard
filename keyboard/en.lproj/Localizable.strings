@@ -8,7 +8,7 @@
 "Go" = "Go";
 "ClipboardCopiedToPhone" = "Copied to phone clipboard";
 "StatusWaiting" = "Open the URL below on your computer";
-"StatusConnected" = "Connected — type from your computer";
+"StatusConnected" = "Connected! Start typing on your computer";
 "WifiNotFound" = "Wi-Fi not connected";
 "GuideAllowFullAccess" = "Please enable \"Allow Full Access\" for Remoboard in Settings → Keyboard.";
 "HandoffFailed" = "Couldn't open Remoboard";

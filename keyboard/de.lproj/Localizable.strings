@@ -7,7 +7,7 @@
 "Done" = "Fertig";
 "Go" = "Los";
 "StatusWaiting" = "Öffne die URL unten auf deinem Computer";
-"StatusConnected" = "Verbunden – tippe von deinem Computer";
+"StatusConnected" = "Verbunden! Tippe jetzt auf deinem Computer";
 "WifiNotFound" = "Kein WLAN verbunden";
 "GuideAllowFullAccess" = "Aktiviere „Vollzugriff erlauben“ für Remoboard unter Einstellungen → Tastatur.";
 "ClipboardCopiedToPhone" = "In die Telefon-Zwischenablage kopiert";

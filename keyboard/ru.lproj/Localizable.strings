@@ -7,7 +7,7 @@
 "Done" = "Готово";
 "Go" = "Перейти";
 "StatusWaiting" = "Откройте URL ниже на компьютере";
-"StatusConnected" = "Подключено — печатайте с компьютера";
+"StatusConnected" = "Подключено! Начните печатать на компьютере";
 "WifiNotFound" = "Wi-Fi не подключён";
 "GuideAllowFullAccess" = "Включите «Разрешить полный доступ» для Remoboard в Настройки → Клавиатура.";
 "ClipboardCopiedToPhone" = "Скопировано в буфер обмена телефона";

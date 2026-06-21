@@ -7,7 +7,7 @@
 "Done" = "完了";
 "Go" = "移動";
 "StatusWaiting" = "コンピュータで下のURLを開いてください";
-"StatusConnected" = "接続済み — コンピュータから入力できます";
+"StatusConnected" = "接続しました！パソコンで入力を始めましょう";
 "WifiNotFound" = "Wi-Fiに接続されていません";
 "GuideAllowFullAccess" = "設定 → キーボード で Remoboard の「フルアクセスを許可」をオンにしてください。";
 "ClipboardCopiedToPhone" = "スマホのクリップボードにコピーしました";

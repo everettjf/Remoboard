@@ -8,7 +8,7 @@
 "Go" = "前往";
 "ClipboardCopiedToPhone" = "已复制到手机剪贴板";
 "StatusWaiting" = "在电脑上打开下方网址";
-"StatusConnected" = "已连接 — 可从电脑输入";
+"StatusConnected" = "已连接！在电脑上开始输入吧";
 "WifiNotFound" = "Wi-Fi 未连接";
 "GuideAllowFullAccess" = "请在 设置 → 键盘 中为 Remoboard 开启\"允许完全访问\"。";
 "HandoffFailed" = "无法打开 Remoboard";

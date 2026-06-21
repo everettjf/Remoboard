@@ -7,7 +7,7 @@
 "Done" = "Fine";
 "Go" = "Vai";
 "StatusWaiting" = "Apri l'URL qui sotto sul computer";
-"StatusConnected" = "Connesso — scrivi dal computer";
+"StatusConnected" = "Connesso! Inizia a digitare sul computer";
 "WifiNotFound" = "Wi-Fi non connesso";
 "GuideAllowFullAccess" = "Attiva \"Consenti accesso completo\" per Remoboard in Impostazioni → Tastiera.";
 "ClipboardCopiedToPhone" = "Copiato negli appunti del telefono";
