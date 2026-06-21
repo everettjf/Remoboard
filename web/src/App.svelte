@@ -42,6 +42,7 @@
   let conn
   let seq = 0
   let lastSent = ''
+  let phoneCaret = 0   // our belief of the phone caret, in codepoints within lastSent
   let composing = false
   let toastTimer
   let pairGraceTimer
@@ -81,6 +82,7 @@
           gatedSend({ t: 'input', text: buffer.slice(lastSent.length), seq: seq++ })
         }
         lastSent = buffer
+        phoneCaret = Array.from(buffer).length   // resync: the phone caret is at the end
         break
       case 'deny':
         denied = true
@@ -117,46 +119,76 @@
     return conn.send(obj)
   }
 
-  // ---- live diff send (compare by codepoints so emoji never split) ----
-  function sendDiff(oldStr, newStr) {
-    const a = Array.from(oldStr)
-    const b = Array.from(newStr)
-    let p = 0
-    const min = Math.min(a.length, b.length)
-    while (p < min && a[p] === b[p]) p++
-    const deletions = a.length - p
-    const insertion = b.slice(p).join('')
-    let ok = true
-    for (let i = 0; i < deletions; i++) ok = gatedSend({ t: 'delete', seq: seq++ }) && ok
-    if (insertion.length) ok = gatedSend({ t: 'input', text: insertion, seq: seq++ }) && ok
-    return ok
+  // ---- caret-aware live mirror ----
+  // The box is a true mirror of what we've typed on the phone, including caret position,
+  // so editing/moving in the middle stays in sync instead of being appended. We work in
+  // codepoints throughout so emoji (surrogate pairs) are never split.
+  function cps(str) { return Array.from(str) }
+  // The textarea caret (UTF-16 selectionStart) as a codepoint offset.
+  function webCaretCp() {
+    const u16 = textarea ? textarea.selectionStart : buffer.length
+    return Array.from(buffer.slice(0, u16)).length
+  }
+  // Walk the phone caret to an absolute codepoint offset using single-step moves; the phone
+  // only understands directional moves, so we emit the exact left/right delta ourselves.
+  function moveCaretTo(targetCp) {
+    while (phoneCaret > targetCp) { gatedSend({ t: 'move', dir: 'left', seq: seq++ }); phoneCaret-- }
+    while (phoneCaret < targetCp) { gatedSend({ t: 'move', dir: 'right', seq: seq++ }); phoneCaret++ }
   }
 
-  function syncBuffer() {
+  // Reconcile the phone with the box: a single contiguous edit (prefix + suffix match)
+  // applied at the right caret position, then align the caret with the box.
+  function syncToPhone() {
     if (composing || phase !== 'paired') return
-    if (sendDiff(lastSent, buffer)) lastSent = buffer
+    const oldA = cps(lastSent), newA = cps(buffer)
+    let p = 0
+    const min = Math.min(oldA.length, newA.length)
+    while (p < min && oldA[p] === newA[p]) p++
+    let s = 0
+    while (s < min - p && oldA[oldA.length - 1 - s] === newA[newA.length - 1 - s]) s++
+    const delCount = oldA.length - p - s
+    const insA = newA.slice(p, newA.length - s)
+    if (delCount > 0 || insA.length > 0) {
+      moveCaretTo(oldA.length - s)                 // caret at the end of the changed region
+      for (let i = 0; i < delCount; i++) { gatedSend({ t: 'delete', seq: seq++ }); phoneCaret-- }
+      if (insA.length) { gatedSend({ t: 'input', text: insA.join(''), seq: seq++ }); phoneCaret += insA.length }
+      lastSent = buffer
+    }
+    moveCaretTo(webCaretCp())
   }
 
-  function onInput() { if (!composing) syncBuffer() }
+  // Caret moved in the box (arrow keys, click) without changing text — mirror just the move.
+  function syncCaret() {
+    if (composing || phase !== 'paired' || buffer !== lastSent) return
+    moveCaretTo(webCaretCp())
+  }
+
+  function onInput() { if (!composing) syncToPhone() }
   function onCompositionStart() { composing = true }
-  function onCompositionEnd() { composing = false; syncBuffer() }
+  function onCompositionEnd() { composing = false; syncToPhone() }
 
   function onKeydown(e) {
     if (composing || phase !== 'paired') return
-    // Arrow keys always drive the phone's caret — even mid-draft. moveCursor() commits
-    // the draft first so the next keystrokes land at the phone's new caret, not appended.
-    let dir = null
-    if (e.key === 'ArrowLeft') dir = 'left'
-    else if (e.key === 'ArrowRight') dir = 'right'
-    else if (e.key === 'ArrowUp') dir = 'up'
-    else if (e.key === 'ArrowDown') dir = 'down'
-    if (dir) { e.preventDefault(); moveCursor(dir); return }
-    // Enter / Backspace act on the phone only when there's no pending draft, so you can
-    // still add newlines and edit the draft locally while composing.
+    // With an empty box there's no local text to navigate, so keys drive the phone's caret
+    // directly — this is the "remote control" mode (also reaches text already on the phone).
     if (buffer.length === 0) {
-      if (e.key === 'Enter') { gatedSend({ t: 'input', text: '\n', seq: seq++ }); e.preventDefault() }
-      else if (e.key === 'Backspace') { gatedSend({ t: 'delete', seq: seq++ }); e.preventDefault() }
+      let dir = null
+      if (e.key === 'ArrowLeft') dir = 'left'
+      else if (e.key === 'ArrowRight') dir = 'right'
+      else if (e.key === 'ArrowUp') dir = 'up'
+      else if (e.key === 'ArrowDown') dir = 'down'
+      if (dir) { gatedSend({ t: 'move', dir, seq: seq++ }); e.preventDefault(); return }
+      if (e.key === 'Enter') { gatedSend({ t: 'input', text: '\n', seq: seq++ }); e.preventDefault(); return }
+      if (e.key === 'Backspace') { gatedSend({ t: 'delete', seq: seq++ }); e.preventDefault(); return }
+      return
     }
+    // With text in the box, let the textarea move its own caret / edit; onKeyup + onInput
+    // mirror the result to the phone (no clearing, caret stays in sync).
+  }
+
+  function onKeyup(e) {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' ||
+        e.key === 'ArrowDown' || e.key === 'Home' || e.key === 'End') syncCaret()
   }
 
   function clearBuffer() {
@@ -164,6 +196,7 @@
     if (snip) history = [snip, ...history.filter((h) => h !== snip)].slice(0, 12)
     buffer = ''
     lastSent = ''
+    phoneCaret = 0
     textarea && textarea.focus()
   }
 
@@ -173,27 +206,60 @@
 
   function sendQuickWord(word) { gatedSend({ t: 'input', text: word, seq: seq++ }) }
 
-  // Commit the local draft to the phone, then drop our mirror baseline so subsequent
-  // typing diffs from empty and lands wherever the phone's caret now is. Without this,
-  // moving the caret would desync (we'd keep appending to the old draft tail).
-  function commitDraft() {
-    if (buffer.length) syncBuffer()   // flush any not-yet-sent text first
-    buffer = ''
-    lastSent = ''
-  }
-
-  // Cursor controls (hardware arrows + on-screen pad): move the phone's caret anytime.
+  // On-screen pad. With text in the box, move the box's own caret and let syncCaret mirror it
+  // (keeps everything in sync, no clearing). With an empty box, drive the phone directly.
   function moveCursor(dir) {
     if (phase !== 'paired') return
-    commitDraft()
-    gatedSend({ t: 'move', dir, seq: seq++ })
+    if (buffer.length === 0) { gatedSend({ t: 'move', dir, seq: seq++ }); return }
+    if (textarea) {
+      if (dir === 'left' || dir === 'right') moveCaretChars(dir === 'left' ? -1 : 1)
+      else moveCaretLine(dir === 'up' ? -1 : 1)
+      syncCaret()
+    }
     textarea && textarea.focus()
   }
   function phoneDelete() {
     if (phase !== 'paired') return
-    commitDraft()
-    gatedSend({ t: 'delete', seq: seq++ })
-    textarea && textarea.focus()
+    if (buffer.length === 0) { gatedSend({ t: 'delete', seq: seq++ }); return }
+    const pos = textarea ? textarea.selectionStart : buffer.length
+    if (pos <= 0) return
+    const beforeArr = Array.from(buffer.slice(0, pos))
+    const removed = beforeArr[beforeArr.length - 1] ?? ''
+    if (!removed) return
+    moveCaretTo(beforeArr.length)                 // align phone caret with the box caret
+    gatedSend({ t: 'delete', seq: seq++ }); phoneCaret--
+    const newPos = pos - removed.length
+    buffer = buffer.slice(0, newPos) + buffer.slice(pos)
+    lastSent = buffer
+    queueMicrotask(() => { textarea && textarea.setSelectionRange(newPos, newPos); textarea && textarea.focus() })
+  }
+
+  // Move the box caret by whole codepoints (so emoji move as one).
+  function moveCaretChars(delta) {
+    if (!textarea) return
+    const pos = textarea.selectionStart
+    let target = pos
+    if (delta < 0) { const b = Array.from(buffer.slice(0, pos)); target = pos - (b[b.length - 1]?.length ?? 1) }
+    else { const after = buffer.slice(pos); const ch = Array.from(after)[0]; target = pos + (ch?.length ?? 0) }
+    target = Math.max(0, Math.min(buffer.length, target))
+    textarea.setSelectionRange(target, target)
+  }
+  // Move the box caret up/down one visual line, keeping the column.
+  function moveCaretLine(delta) {
+    if (!textarea) return
+    const pos = textarea.selectionStart
+    const lineStart = buffer.lastIndexOf('\n', pos - 1) + 1
+    const col = pos - lineStart
+    let target
+    if (delta < 0) {
+      if (lineStart === 0) { target = 0 }
+      else { const prevStart = buffer.lastIndexOf('\n', lineStart - 2) + 1; target = Math.min(prevStart + col, lineStart - 1) }
+    } else {
+      const lineEnd = buffer.indexOf('\n', pos)
+      if (lineEnd < 0) { target = buffer.length }
+      else { const nextStart = lineEnd + 1; const ne = buffer.indexOf('\n', nextStart); const nextEnd = ne < 0 ? buffer.length : ne; target = Math.min(nextStart + col, nextEnd) }
+    }
+    textarea.setSelectionRange(target, target)
   }
 
   // ---- quick words management (synced to phone) ----
@@ -282,6 +348,8 @@
         bind:value={buffer}
         oninput={onInput}
         onkeydown={onKeydown}
+        onkeyup={onKeyup}
+        onclick={syncCaret}
         oncompositionstart={onCompositionStart}
         oncompositionend={onCompositionEnd}
         placeholder={t('composeHint')}
