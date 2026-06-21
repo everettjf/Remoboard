@@ -167,6 +167,11 @@
 
   function sendQuickWord(word) { gatedSend({ t: 'input', text: word, seq: seq++ }) }
 
+  // On-screen cursor controls: always move the phone's caret, regardless of whether the
+  // compose box has pending text (hardware arrows only do this when the box is empty).
+  function moveCursor(dir) { gatedSend({ t: 'move', dir, seq: seq++ }) }
+  function phoneDelete() { gatedSend({ t: 'delete', seq: seq++ }) }
+
   // ---- quick words management (synced to phone) ----
   // Only apply the edit locally if it was actually sent — otherwise the UI would show
   // words the phone never received (and a rebroadcast would silently revert them).
@@ -259,12 +264,19 @@
         autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
       ></textarea>
       <div class="composer-row">
-        <div class="hint">{t('emptyHintKeys')}</div>
+        <div class="cursor-pad" aria-label={t('cursorControls')}>
+          <button class="cbtn" title={t('cursorLeft')} aria-label={t('cursorLeft')} onclick={() => moveCursor('left')}>←</button>
+          <button class="cbtn" title={t('cursorUp')} aria-label={t('cursorUp')} onclick={() => moveCursor('up')}>↑</button>
+          <button class="cbtn" title={t('cursorDown')} aria-label={t('cursorDown')} onclick={() => moveCursor('down')}>↓</button>
+          <button class="cbtn" title={t('cursorRight')} aria-label={t('cursorRight')} onclick={() => moveCursor('right')}>→</button>
+          <button class="cbtn" title={t('cursorDelete')} aria-label={t('cursorDelete')} onclick={phoneDelete}>⌫</button>
+        </div>
         <div class="composer-right">
           <span class="count">{Array.from(buffer).length} {t('chars')}</span>
           <button class="btn ghost sm" title={t('clearHint')} onclick={clearBuffer}>{t('clear')}</button>
         </div>
       </div>
+      <div class="hint">{t('emptyHintKeys')}</div>
     </section>
 
     <section class="block">
@@ -433,8 +445,18 @@
   textarea:focus { border-color: var(--accent); }
   .composer-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
   .composer-right { display: flex; align-items: center; gap: 10px; }
-  .hint { font-size: 12px; color: var(--muted); flex: 1; min-width: 160px; }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 8px; }
   .count { font-size: 12px; color: var(--muted); white-space: nowrap; }
+
+  .cursor-pad { display: flex; gap: 6px; }
+  .cbtn {
+    min-width: 38px; height: 34px; padding: 0 8px;
+    border: 1px solid var(--border); border-radius: 9px;
+    background: var(--surface2); color: var(--text);
+    font-size: 16px; line-height: 1; display: inline-flex; align-items: center; justify-content: center;
+  }
+  .cbtn:hover { border-color: var(--accent); }
+  .cbtn:active { background: var(--accent); color: var(--accent-text); }
 
   .block { display: flex; flex-direction: column; gap: 8px; }
   .block-head { display: flex; align-items: center; justify-content: space-between; }
