@@ -27,3 +27,6 @@
 "home.pin.title" = "连接需要 PIN 码";
 "home.pin.note" = "默认关闭——同一 Wi-Fi 下打开网页的人都能输入。开启后需输入键盘上显示的配对码。";
 "home.feedback" = "反馈";
+"home.port.title" = "服务器端口";
+"home.port.note" = "默认 7777。仅当该端口被占用时才需要修改。下次打开键盘时生效。";
+"home.port.apply" = "应用";

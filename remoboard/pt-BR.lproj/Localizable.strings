@@ -24,3 +24,6 @@
 "home.pin.title" = "Exigir um PIN para conectar";
 "home.pin.note" = "Desativado por padrão — qualquer pessoa no seu Wi-Fi que abrir a página pode digitar. Ative para exigir o código mostrado no teclado.";
 "home.feedback" = "Feedback";
+"home.port.title" = "Porta do servidor";
+"home.port.note" = "O padrão é 7777. Altere apenas se essa porta já estiver em uso. Entra em vigor na próxima vez que abrir o teclado.";
+"home.port.apply" = "Aplicar";

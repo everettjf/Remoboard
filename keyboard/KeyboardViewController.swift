@@ -11,10 +11,12 @@ import RemoboardKit
 
 final class KeyboardViewController: UIInputViewController {
 
-    private let server = RemoServer.make(port: 7777)
+    private var server = RemoServer.make(port: UInt16(Settings.shared.port))
+    private var serverPort = UInt16(Settings.shared.port)
 
     private let statusLabel = UILabel()
     private let urlLabel = UILabel()
+    private let urlScroll = UIScrollView()
     private let pinLabel = UILabel()
     private let infoStack = UIStackView()
     private let nextKeyboardButton = UIButton(type: .system)
@@ -83,6 +85,15 @@ final class KeyboardViewController: UIInputViewController {
 
     private func startServerIfNeeded() {
         guard !serverRunning else { return }
+        // Port may have been changed in the app since this server was built — rebuild on the
+        // new port and re-wire its callbacks.
+        let desiredPort = UInt16(Settings.shared.port)
+        if desiredPort != serverPort {
+            server.stop()
+            server = RemoServer.make(port: desiredPort)
+            serverPort = desiredPort
+            wireServer()
+        }
         let requirePIN = Settings.shared.requirePIN
         server.requirePIN = requirePIN
         if requirePIN {
@@ -111,11 +122,11 @@ final class KeyboardViewController: UIInputViewController {
             urlLabel.text = NSLocalizedString("WifiNotFound", comment: "")
             return
         }
-        connectURL = "http://\(primary.ip):7777"
+        connectURL = "http://\(primary.ip):\(serverPort)"
         // Show the primary URL plus any other reachable interfaces as backups, so a user
         // whose computer is only on a secondary network can still find a working address.
         var urls = [connectURL!]
-        urls.append(contentsOf: all.filter { $0.ip != primary.ip }.map { "http://\($0.ip):7777" })
+        urls.append(contentsOf: all.filter { $0.ip != primary.ip }.map { "http://\($0.ip):\(serverPort)" })
         urlLabel.numberOfLines = 0
         urlLabel.text = urls.joined(separator: "\n")
     }
@@ -307,21 +318,38 @@ private extension KeyboardViewController {
         view.backgroundColor = .clear
 
         statusLabel.font = .systemFont(ofSize: 15, weight: .medium)
-        statusLabel.textAlignment = .center
+        statusLabel.textAlignment = .natural        // left-aligned (follows RTL where applicable)
         statusLabel.numberOfLines = 2
         statusLabel.text = NSLocalizedString("StatusWaiting", comment: "")
 
+        // One URL per line, left-aligned and full-size (no shrink-to-fit), inside a scroll view
+        // capped in height — so when there are many interface addresses you can scroll to see
+        // them all instead of them squeezing into illegible centered text.
         urlLabel.font = .monospacedSystemFont(ofSize: 15, weight: .semibold)
-        urlLabel.textAlignment = .center
-        urlLabel.adjustsFontSizeToFitWidth = true
+        urlLabel.textAlignment = .natural
+        urlLabel.numberOfLines = 0
         urlLabel.isUserInteractionEnabled = true
         urlLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(copyConnectURL)))
+        urlLabel.translatesAutoresizingMaskIntoConstraints = false
+        urlScroll.addSubview(urlLabel)
+        urlScroll.showsVerticalScrollIndicator = true
+        let fitHeight = urlScroll.heightAnchor.constraint(equalTo: urlLabel.heightAnchor)
+        fitHeight.priority = .defaultHigh           // hug the content…
+        let capHeight = urlScroll.heightAnchor.constraint(lessThanOrEqualToConstant: 84)
+        NSLayoutConstraint.activate([
+            urlLabel.topAnchor.constraint(equalTo: urlScroll.contentLayoutGuide.topAnchor),
+            urlLabel.bottomAnchor.constraint(equalTo: urlScroll.contentLayoutGuide.bottomAnchor),
+            urlLabel.leadingAnchor.constraint(equalTo: urlScroll.contentLayoutGuide.leadingAnchor),
+            urlLabel.trailingAnchor.constraint(equalTo: urlScroll.contentLayoutGuide.trailingAnchor),
+            urlLabel.widthAnchor.constraint(equalTo: urlScroll.frameLayoutGuide.widthAnchor),
+            fitHeight, capHeight,                    // …but cap it and scroll past the cap
+        ])
 
         pinLabel.font = .monospacedSystemFont(ofSize: 17, weight: .bold)
-        pinLabel.textAlignment = .center
+        pinLabel.textAlignment = .natural
 
         infoStack.addArrangedSubview(statusLabel)
-        infoStack.addArrangedSubview(urlLabel)
+        infoStack.addArrangedSubview(urlScroll)
         infoStack.addArrangedSubview(pinLabel)
         infoStack.axis = .vertical
         infoStack.spacing = 4

@@ -14,6 +14,7 @@ import RemoboardKit
 struct HomeView: View {
     @EnvironmentObject private var handoff: HandoffStore
     @State private var requirePIN = Settings.shared.requirePIN
+    @State private var portText = String(Settings.shared.port)
 
     private let feedbackURL = URL(string: "https://github.com/everettjf/Remoboard/issues/new")!
     private let siteURL = URL(string: "https://xnu.app/remoboard")!
@@ -26,6 +27,7 @@ struct HomeView: View {
                     setupCard
                     quickActions
                     securityCard
+                    portCard
                     footer
                 }
                 .padding(20)
@@ -137,6 +139,42 @@ struct HomeView: View {
         }
         .padding(18)
         .background(card)
+    }
+
+    // MARK: Port
+
+    private var portCard: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(NSLocalizedString("home.port.title", comment: ""))
+                .font(.headline)
+            HStack {
+                TextField(String(Settings.defaultPort), text: $portText)
+                    .keyboardType(.numberPad)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(maxWidth: 140)
+                    .onChange(of: portText) { v in
+                        let digits = String(v.filter(\.isNumber).prefix(5))
+                        if digits != v { portText = digits }
+                    }
+                Spacer()
+                Button(NSLocalizedString("home.port.apply", comment: "")) { applyPort() }
+                    .buttonStyle(.bordered)
+                    .disabled(Int(portText) == Settings.shared.port)
+            }
+            Text(NSLocalizedString("home.port.note", comment: ""))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .padding(18)
+        .background(card)
+    }
+
+    private func applyPort() {
+        let p = Int(portText) ?? Settings.defaultPort
+        let clamped = min(max(p, Settings.portRange.lowerBound), Settings.portRange.upperBound)
+        Settings.shared.port = clamped
+        portText = String(clamped)
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 
     // MARK: Footer

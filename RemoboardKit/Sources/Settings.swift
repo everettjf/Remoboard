@@ -25,6 +25,20 @@ public final class Settings {
         static let connectMode = "rkb.connectMode"
         static let lastAppVersion = "rkb.lastAppVersion"
         static let requirePIN = "rkb.requirePIN"
+        static let port = "rkb.port"
+    }
+
+    /// The port the keyboard's server listens on. Defaults to 7777; users can change it from
+    /// the app if that port is taken. Clamped to the unprivileged range.
+    public static let defaultPort = 7777
+    public static let portRange = 1024...65535
+
+    public var port: Int {
+        get {
+            let p = defaults.integer(forKey: Key.port)   // unset -> 0
+            return Settings.portRange.contains(p) ? p : Settings.defaultPort
+        }
+        set { defaults.set(Settings.portRange.contains(newValue) ? newValue : Settings.defaultPort, forKey: Key.port) }
     }
 
     private init() {

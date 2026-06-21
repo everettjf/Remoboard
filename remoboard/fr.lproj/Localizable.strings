@@ -24,3 +24,6 @@
 "home.pin.title" = "Exiger un code PIN pour se connecter";
 "home.pin.note" = "Désactivé par défaut : toute personne sur votre Wi-Fi qui ouvre la page peut taper. Activez-le pour exiger le code affiché sur le clavier.";
 "home.feedback" = "Commentaires";
+"home.port.title" = "Port du serveur";
+"home.port.note" = "7777 par défaut. À modifier seulement si ce port est déjà utilisé. Pris en compte à la prochaine ouverture du clavier.";
+"home.port.apply" = "Appliquer";
