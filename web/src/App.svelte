@@ -142,15 +142,21 @@
   function onCompositionEnd() { composing = false; syncBuffer() }
 
   function onKeydown(e) {
-    if (composing || buffer.length > 0 || phase !== 'paired') return
+    if (composing || phase !== 'paired') return
+    // Arrow keys always drive the phone's caret — even mid-draft. moveCursor() commits
+    // the draft first so the next keystrokes land at the phone's new caret, not appended.
     let dir = null
-    if (e.key === 'Enter') { gatedSend({ t: 'input', text: '\n', seq: seq++ }); e.preventDefault(); return }
-    if (e.key === 'Backspace') { gatedSend({ t: 'delete', seq: seq++ }); e.preventDefault(); return }
     if (e.key === 'ArrowLeft') dir = 'left'
     else if (e.key === 'ArrowRight') dir = 'right'
     else if (e.key === 'ArrowUp') dir = 'up'
     else if (e.key === 'ArrowDown') dir = 'down'
-    if (dir) { gatedSend({ t: 'move', dir, seq: seq++ }); e.preventDefault() }
+    if (dir) { e.preventDefault(); moveCursor(dir); return }
+    // Enter / Backspace act on the phone only when there's no pending draft, so you can
+    // still add newlines and edit the draft locally while composing.
+    if (buffer.length === 0) {
+      if (e.key === 'Enter') { gatedSend({ t: 'input', text: '\n', seq: seq++ }); e.preventDefault() }
+      else if (e.key === 'Backspace') { gatedSend({ t: 'delete', seq: seq++ }); e.preventDefault() }
+    }
   }
 
   function clearBuffer() {
@@ -167,10 +173,28 @@
 
   function sendQuickWord(word) { gatedSend({ t: 'input', text: word, seq: seq++ }) }
 
-  // On-screen cursor controls: always move the phone's caret, regardless of whether the
-  // compose box has pending text (hardware arrows only do this when the box is empty).
-  function moveCursor(dir) { gatedSend({ t: 'move', dir, seq: seq++ }) }
-  function phoneDelete() { gatedSend({ t: 'delete', seq: seq++ }) }
+  // Commit the local draft to the phone, then drop our mirror baseline so subsequent
+  // typing diffs from empty and lands wherever the phone's caret now is. Without this,
+  // moving the caret would desync (we'd keep appending to the old draft tail).
+  function commitDraft() {
+    if (buffer.length) syncBuffer()   // flush any not-yet-sent text first
+    buffer = ''
+    lastSent = ''
+  }
+
+  // Cursor controls (hardware arrows + on-screen pad): move the phone's caret anytime.
+  function moveCursor(dir) {
+    if (phase !== 'paired') return
+    commitDraft()
+    gatedSend({ t: 'move', dir, seq: seq++ })
+    textarea && textarea.focus()
+  }
+  function phoneDelete() {
+    if (phase !== 'paired') return
+    commitDraft()
+    gatedSend({ t: 'delete', seq: seq++ })
+    textarea && textarea.focus()
+  }
 
   // ---- quick words management (synced to phone) ----
   // Only apply the edit locally if it was actually sent — otherwise the UI would show
