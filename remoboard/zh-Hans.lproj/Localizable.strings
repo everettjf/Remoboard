@@ -22,8 +22,8 @@
 "received.share" = "分享";
 "received.done" = "完成";
 "handoff.ready" = "接力已就绪 — 在 Mac 的接力（程序坞或多任务）中打开它，即可在电脑上输入。";
-"home.requestlang" = "请求新增语言";
 "home.quickwords.sub" = "管理你常用的短语";
 "home.testinput.sub" = "在这里直接试用远程输入";
 "home.pin.title" = "连接需要 PIN 码";
 "home.pin.note" = "默认关闭——同一 Wi-Fi 下打开网页的人都能输入。开启后需输入键盘上显示的配对码。";
+"home.feedback" = "反馈";

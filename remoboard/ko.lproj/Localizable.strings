@@ -19,8 +19,8 @@
 "received.share" = "공유";
 "received.done" = "완료";
 "handoff.ready" = "핸드오프 준비 완료 — Mac의 핸드오프(Dock 또는 앱 전환기)에서 열어 입력하세요.";
-"home.requestlang" = "언어 요청";
 "home.quickwords.sub" = "자주 쓰는 문구 관리";
 "home.testinput.sub" = "여기서 원격 입력 체험";
 "home.pin.title" = "연결 시 PIN 요구";
 "home.pin.note" = "기본값은 꺼짐 — 같은 Wi-Fi에서 페이지를 연 사람은 누구나 입력할 수 있습니다. 켜면 키보드에 표시된 코드가 필요합니다.";
+"home.feedback" = "피드백";

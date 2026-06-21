@@ -11,6 +11,7 @@
   // ---- settings (persisted) ----
   let themePref = $state(loadThemePref())                                  // system | light | dark
   let langPref = $state(safeGet('rkb-lang') || 'auto')                     // auto | <lang code>
+  let inputMode = $state(safeGet('rkb-mode') === 'send' ? 'send' : 'live') // live | send
   let settingsOpen = $state(false)
 
   let lang = $derived(langPref === 'auto' ? detectLang() : langPref)
@@ -24,8 +25,6 @@
 
   // ---- editor ----
   let buffer = $state('')
-  let phoneBefore = $state('')
-  let phoneAfter = $state('')
   let textarea = $state(null)
 
   // ---- features ----
@@ -71,6 +70,15 @@
 
   function persistTheme(p) { themePref = p; saveThemePref(p) }
   function persistLang(l) { langPref = l; safeSet('rkb-lang', l) }
+  // Switching modes starts fresh so the two models never get tangled (the old draft, if
+  // any, is stashed to Recent by clearBuffer so it's not lost).
+  function setMode(m) {
+    if (m === inputMode) return
+    clearBuffer()
+    inputMode = m
+    safeSet('rkb-mode', m)
+    textarea && textarea.focus()
+  }
 
   function handleMessage(msg) {
     switch (msg.t) {
@@ -87,10 +95,6 @@
       case 'deny':
         denied = true
         phase = 'pairing'
-        break
-      case 'context':
-        phoneBefore = msg.before ?? ''
-        phoneAfter = msg.after ?? ''
         break
       case 'quickwords':
         quickWords = Array.isArray(msg.items) ? msg.items : []
@@ -159,18 +163,31 @@
 
   // Caret moved in the box (arrow keys, click) without changing text — mirror just the move.
   function syncCaret() {
-    if (composing || phase !== 'paired' || buffer !== lastSent) return
+    if (inputMode !== 'live' || composing || phase !== 'paired' || buffer !== lastSent) return
     moveCaretTo(webCaretCp())
   }
 
-  function onInput() { if (!composing) syncToPhone() }
+  function onInput() { if (!composing && inputMode === 'live') syncToPhone() }
   function onCompositionStart() { composing = true }
-  function onCompositionEnd() { composing = false; syncToPhone() }
+  function onCompositionEnd() { composing = false; if (inputMode === 'live') syncToPhone() }
+
+  // Send mode: compose locally, push the whole message on demand, then clear.
+  function sendMessage() {
+    if (!buffer) return
+    if (gatedSend({ t: 'input', text: buffer, seq: seq++ })) clearBuffer()
+  }
 
   function onKeydown(e) {
     if (composing || phase !== 'paired') return
-    // With an empty box there's no local text to navigate, so keys drive the phone's caret
-    // directly — this is the "remote control" mode (also reaches text already on the phone).
+
+    if (inputMode === 'send') {
+      // ⌘/Ctrl + Enter sends; plain Enter stays a newline so you can compose multi-line.
+      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); sendMessage() }
+      return
+    }
+
+    // Live mode. With an empty box there's no local text to navigate, so keys drive the
+    // phone's caret directly — "remote control" (also reaches text already on the phone).
     if (buffer.length === 0) {
       let dir = null
       if (e.key === 'ArrowLeft') dir = 'left'
@@ -187,6 +204,7 @@
   }
 
   function onKeyup(e) {
+    if (inputMode !== 'live') return
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' ||
         e.key === 'ArrowDown' || e.key === 'Home' || e.key === 'End') syncCaret()
   }
@@ -335,14 +353,12 @@
   </header>
 
   {#if phase === 'paired' || phase === 'reconnecting'}
-    <section class="echo">
-      <div class="label">{t('onPhone')}</div>
-      <div class="echo-body">
-        <span>{phoneBefore}</span><span class="caret"></span><span class="dim">{phoneAfter}</span>
-      </div>
-    </section>
-
     <section class="composer">
+      <div class="mode-row" role="tablist" aria-label={t('inputMode')}>
+        <button class="seg" class:active={inputMode === 'live'} role="tab" aria-selected={inputMode === 'live'} onclick={() => setMode('live')}>{t('modeLive')}</button>
+        <button class="seg" class:active={inputMode === 'send'} role="tab" aria-selected={inputMode === 'send'} onclick={() => setMode('send')}>{t('modeSend')}</button>
+      </div>
+
       <textarea
         bind:this={textarea}
         bind:value={buffer}
@@ -352,23 +368,28 @@
         onclick={syncCaret}
         oncompositionstart={onCompositionStart}
         oncompositionend={onCompositionEnd}
-        placeholder={t('composeHint')}
+        placeholder={inputMode === 'send' ? t('composeHintSend') : t('composeHint')}
         autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
       ></textarea>
+
       <div class="composer-row">
-        <div class="cursor-pad" aria-label={t('cursorControls')}>
-          <button class="cbtn" title={t('cursorLeft')} aria-label={t('cursorLeft')} onclick={() => moveCursor('left')}>←</button>
-          <button class="cbtn" title={t('cursorUp')} aria-label={t('cursorUp')} onclick={() => moveCursor('up')}>↑</button>
-          <button class="cbtn" title={t('cursorDown')} aria-label={t('cursorDown')} onclick={() => moveCursor('down')}>↓</button>
-          <button class="cbtn" title={t('cursorRight')} aria-label={t('cursorRight')} onclick={() => moveCursor('right')}>→</button>
-          <button class="cbtn" title={t('cursorDelete')} aria-label={t('cursorDelete')} onclick={phoneDelete}>⌫</button>
-        </div>
+        {#if inputMode === 'live'}
+          <div class="cursor-pad" aria-label={t('cursorControls')}>
+            <button class="cbtn" title={t('cursorLeft')} aria-label={t('cursorLeft')} onclick={() => moveCursor('left')}>←</button>
+            <button class="cbtn" title={t('cursorUp')} aria-label={t('cursorUp')} onclick={() => moveCursor('up')}>↑</button>
+            <button class="cbtn" title={t('cursorDown')} aria-label={t('cursorDown')} onclick={() => moveCursor('down')}>↓</button>
+            <button class="cbtn" title={t('cursorRight')} aria-label={t('cursorRight')} onclick={() => moveCursor('right')}>→</button>
+            <button class="cbtn" title={t('cursorDelete')} aria-label={t('cursorDelete')} onclick={phoneDelete}>⌫</button>
+          </div>
+        {:else}
+          <button class="btn primary sm" disabled={!buffer} onclick={sendMessage}>{t('send')}</button>
+        {/if}
         <div class="composer-right">
           <span class="count">{Array.from(buffer).length} {t('chars')}</span>
           <button class="btn ghost sm" title={t('clearHint')} onclick={clearBuffer}>{t('clear')}</button>
         </div>
       </div>
-      <div class="hint">{t('emptyHintKeys')}</div>
+      <div class="hint">{inputMode === 'send' ? t('sendHint') : t('emptyHintKeys')}</div>
     </section>
 
     <section class="block">
@@ -523,13 +544,10 @@
   .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
   .empty { font-size: 13px; color: var(--muted); }
 
-  .echo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; }
-  .echo-body { font-size: 15px; line-height: 1.5; min-height: 22px; word-break: break-word; white-space: pre-wrap; margin-top: 4px; }
-  .dim { color: var(--muted); }
-  .caret { display: inline-block; width: 2px; height: 1.1em; vertical-align: text-bottom; background: var(--accent); margin: 0 1px; animation: blink 1s steps(1) infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
-
   .composer { display: flex; flex-direction: column; gap: 8px; }
+  .mode-row { display: inline-flex; align-self: flex-start; gap: 2px; padding: 3px; border-radius: 10px; background: var(--surface2); border: 1px solid var(--border); }
+  .seg { border: none; background: transparent; color: var(--muted); padding: 5px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+  .seg.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,.15); }
   textarea {
     width: 100%; min-height: 140px; resize: vertical; background: var(--surface); color: var(--text);
     border: 1px solid var(--border); border-radius: 12px; padding: 14px; font-size: 17px; line-height: 1.5; outline: none;

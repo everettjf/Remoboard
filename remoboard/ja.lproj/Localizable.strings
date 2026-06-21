@@ -19,8 +19,8 @@
 "received.share" = "共有";
 "received.done" = "完了";
 "handoff.ready" = "Handoff の準備ができました — Mac の Handoff（Dock やアプリスイッチャー）から開いて入力できます。";
-"home.requestlang" = "言語をリクエスト";
 "home.quickwords.sub" = "よく使う定型文を管理";
 "home.testinput.sub" = "ここで遠隔入力を試す";
 "home.pin.title" = "接続に PIN を要求";
 "home.pin.note" = "デフォルトはオフ — 同じ Wi-Fi でページを開いた人は誰でも入力できます。オンにするとキーボードに表示されるコードが必要になります。";
+"home.feedback" = "フィードバック";

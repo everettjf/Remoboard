@@ -15,7 +15,7 @@ struct HomeView: View {
     @EnvironmentObject private var handoff: HandoffStore
     @State private var requirePIN = Settings.shared.requirePIN
 
-    private let issuesURL = URL(string: "https://github.com/everettjf/Remoboard/issues/new?title=Language%20request:%20")!
+    private let feedbackURL = URL(string: "https://github.com/everettjf/Remoboard/issues/new")!
     private let siteURL = URL(string: "https://xnu.app/remoboard")!
 
     var body: some View {
@@ -143,8 +143,8 @@ struct HomeView: View {
 
     private var footer: some View {
         VStack(spacing: 10) {
-            Link(destination: issuesURL) {
-                Label(NSLocalizedString("home.requestlang", comment: ""), systemImage: "globe")
+            Link(destination: feedbackURL) {
+                Label(NSLocalizedString("home.feedback", comment: ""), systemImage: "bubble.left")
                     .font(.subheadline)
             }
             Link("xnu.app", destination: siteURL)

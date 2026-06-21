@@ -19,8 +19,8 @@
 "received.share" = "Teilen";
 "received.done" = "Fertig";
 "handoff.ready" = "Handoff bereit — öffne es im Handoff auf deinem Mac (Dock oder App-Umschalter) und tippe dort.";
-"home.requestlang" = "Sprache anfragen";
 "home.quickwords.sub" = "Verwalte deine Schnelltexte";
 "home.testinput.sub" = "Ferneingabe direkt testen";
 "home.pin.title" = "PIN zum Verbinden verlangen";
 "home.pin.note" = "Standardmäßig aus – jeder im WLAN, der die Seite öffnet, kann tippen. Aktiviere dies, um den auf der Tastatur angezeigten Code zu verlangen.";
+"home.feedback" = "Feedback";
