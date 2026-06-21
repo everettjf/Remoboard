@@ -22,3 +22,5 @@
 "home.requestlang" = "Solicitar un idioma";
 "home.quickwords.sub" = "Gestiona tus frases reutilizables";
 "home.testinput.sub" = "Prueba la escritura remota aquí";
+"home.pin.title" = "Requerir un PIN para conectar";
+"home.pin.note" = "Desactivado por defecto: cualquiera en tu Wi-Fi que abra la página puede escribir. Actívalo para exigir el código mostrado en el teclado.";

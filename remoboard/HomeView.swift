@@ -9,9 +9,11 @@
 
 import SwiftUI
 import UIKit
+import RemoboardKit
 
 struct HomeView: View {
     @EnvironmentObject private var handoff: HandoffStore
+    @State private var requirePIN = Settings.shared.requirePIN
 
     private let issuesURL = URL(string: "https://github.com/everettjf/Remoboard/issues/new?title=Language%20request:%20")!
     private let siteURL = URL(string: "https://xnu.app/remoboard")!
@@ -23,6 +25,7 @@ struct HomeView: View {
                     hero
                     setupCard
                     quickActions
+                    securityCard
                     footer
                 }
                 .padding(20)
@@ -115,6 +118,25 @@ struct HomeView: View {
             }
             .buttonStyle(.plain)
         }
+    }
+
+    // MARK: Security
+
+    private var securityCard: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Toggle(isOn: $requirePIN) {
+                Text(NSLocalizedString("home.pin.title", comment: ""))
+                    .font(.headline)
+            }
+            .onChange(of: requirePIN) { newValue in
+                Settings.shared.requirePIN = newValue
+            }
+            Text(NSLocalizedString("home.pin.note", comment: ""))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .padding(18)
+        .background(card)
     }
 
     // MARK: Footer

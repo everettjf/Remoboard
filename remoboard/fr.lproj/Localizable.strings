@@ -22,3 +22,5 @@
 "home.requestlang" = "Demander une langue";
 "home.quickwords.sub" = "Gérez vos phrases réutilisables";
 "home.testinput.sub" = "Testez la saisie à distance ici";
+"home.pin.title" = "Exiger un code PIN pour se connecter";
+"home.pin.note" = "Désactivé par défaut : toute personne sur votre Wi-Fi qui ouvre la page peut taper. Activez-le pour exiger le code affiché sur le clavier.";

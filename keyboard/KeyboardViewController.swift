@@ -83,11 +83,19 @@ final class KeyboardViewController: UIInputViewController {
 
     private func startServerIfNeeded() {
         guard !serverRunning else { return }
-        let pin = Self.sessionPIN()
-        server.pin = pin
+        let requirePIN = Settings.shared.requirePIN
+        server.requirePIN = requirePIN
+        if requirePIN {
+            let pin = Self.sessionPIN()
+            server.pin = pin
+            pinLabel.text = "PIN  \(pin)"
+            pinLabel.isHidden = false
+        } else {
+            server.pin = ""
+            pinLabel.isHidden = true
+        }
         server.start()
         serverRunning = true
-        pinLabel.text = "PIN  \(pin)"
         updateURLs()
         updateStatus(connectedCount: 0)
     }

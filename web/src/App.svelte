@@ -44,6 +44,7 @@
   let lastSent = ''
   let composing = false
   let toastTimer
+  let pairGraceTimer
 
   // ---- theme application ----
   $effect(() => { applyTheme(themePref) })
@@ -54,7 +55,12 @@
       onState: (s) => {
         socketState = s
         if (s === 'reconnecting' && phase === 'paired') phase = 'reconnecting'
-        if (s === 'open' && phase === 'connecting') phase = 'pairing'
+        // When the socket opens, give the server a beat to auto-pair (no-PIN mode)
+        // before revealing the PIN screen — otherwise it flashes for a frame.
+        if (s === 'open' && phase === 'connecting') {
+          clearTimeout(pairGraceTimer)
+          pairGraceTimer = setTimeout(() => { if (phase === 'connecting') phase = 'pairing' }, 600)
+        }
       },
       onMessage: (msg) => handleMessage(msg),
     })

@@ -22,3 +22,5 @@
 "home.requestlang" = "Solicitar um idioma";
 "home.quickwords.sub" = "Gerencie suas frases reutilizáveis";
 "home.testinput.sub" = "Teste a digitação remota aqui";
+"home.pin.title" = "Exigir um PIN para conectar";
+"home.pin.note" = "Desativado por padrão — qualquer pessoa no seu Wi-Fi que abrir a página pode digitar. Ative para exigir o código mostrado no teclado.";

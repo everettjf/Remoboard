@@ -24,6 +24,9 @@ public final class RemoServer {
     // MARK: Configuration & callbacks
 
     public var pin: String = ""
+    /// When false, clients are paired the moment they connect — no PIN handshake.
+    /// Set once before `start()`; toggling it takes effect on the next server restart.
+    public var requirePIN: Bool = false
     public var quickWordsProvider: (() -> [String])?
     public var onInbound: ((InboundMessage) -> Void)?
     public var onClientCountChanged: ((Int) -> Void)?
@@ -397,6 +400,16 @@ public final class RemoServer {
         if isUpgrade, let key = headers["sec-websocket-key"] {
             enqueue(WebSocketHandshake.response(forKey: key), to: client)
             client.isWebSocket = true
+            // No PIN required: pair immediately so the browser starts typing without a
+            // pairing screen. The `paired` frame also tells the page to skip the PIN UI.
+            if !requirePIN {
+                client.paired = true
+                send(.paired, to: client)
+                if let words = quickWordsProvider?() {
+                    send(.quickWords(words), to: client)
+                }
+                notifyCount()
+            }
             if !leftover.isEmpty {
                 client.decoder.append(leftover)
                 processFrames(client)

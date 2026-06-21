@@ -24,6 +24,7 @@ public final class Settings {
         static let words = "rkb.quickWords"
         static let connectMode = "rkb.connectMode"
         static let lastAppVersion = "rkb.lastAppVersion"
+        static let requirePIN = "rkb.requirePIN"
     }
 
     private init() {
@@ -66,6 +67,15 @@ public final class Settings {
 
     public func resetDefaultWords() {
         quickWords = Settings.defaultWords
+    }
+
+    // MARK: - PIN pairing
+
+    /// When off (the default), any device on the network that opens the page can type —
+    /// no pairing code. Users who want to lock it down can turn this on in the app.
+    public var requirePIN: Bool {
+        get { defaults.bool(forKey: Key.requirePIN) }   // absent -> false
+        set { defaults.set(newValue, forKey: Key.requirePIN) }
     }
 
     // MARK: - Connection mode
