@@ -12,3 +12,5 @@
 "GuideAllowFullAccess" = "Aktiviere „Vollzugriff erlauben“ für Remoboard unter Einstellungen → Tastatur.";
 "ClipboardCopiedToPhone" = "In die Telefon-Zwischenablage kopiert";
 "HandoffFailed" = "Remoboard konnte nicht geöffnet werden";
+"ShowAddress" = "Adresse zeigen";
+"HideAddress" = "Ausblenden";

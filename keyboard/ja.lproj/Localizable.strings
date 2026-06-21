@@ -12,3 +12,5 @@
 "GuideAllowFullAccess" = "設定 → キーボード で Remoboard の「フルアクセスを許可」をオンにしてください。";
 "ClipboardCopiedToPhone" = "スマホのクリップボードにコピーしました";
 "HandoffFailed" = "Remoboard を開けませんでした";
+"ShowAddress" = "アドレスを表示";
+"HideAddress" = "非表示";

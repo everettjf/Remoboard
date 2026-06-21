@@ -12,3 +12,5 @@
 "GuideAllowFullAccess" = "설정 → 키보드 에서 Remoboard의 '전체 접근 허용'을 켜세요.";
 "ClipboardCopiedToPhone" = "휴대폰 클립보드에 복사됨";
 "HandoffFailed" = "Remoboard를 열 수 없습니다";
+"ShowAddress" = "주소 표시";
+"HideAddress" = "숨기기";

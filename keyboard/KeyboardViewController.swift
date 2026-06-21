@@ -15,6 +15,7 @@ final class KeyboardViewController: UIInputViewController {
     private var serverPort = UInt16(Settings.shared.port)
 
     private let statusLabel = UILabel()
+    private let infoToggleButton = UIButton(type: .system)
     private let urlLabel = UILabel()
     private let urlScroll = UIScrollView()
     private let pinLabel = UILabel()
@@ -30,6 +31,8 @@ final class KeyboardViewController: UIInputViewController {
     private var serverRunning = false
     private var connectURL: String?
     private var connectedCount = 0
+    private var pinEnabled = false
+    private var showConnectionInfo = false   // user override to reveal the URLs while connected
 
     // MARK: Lifecycle
 
@@ -96,14 +99,13 @@ final class KeyboardViewController: UIInputViewController {
         }
         let requirePIN = Settings.shared.requirePIN
         server.requirePIN = requirePIN
+        pinEnabled = requirePIN
         if requirePIN {
             let pin = Self.sessionPIN()
             server.pin = pin
             pinLabel.text = "PIN  \(pin)"
-            pinLabel.isHidden = false
         } else {
             server.pin = ""
-            pinLabel.isHidden = true
         }
         server.start()
         serverRunning = true
@@ -133,8 +135,27 @@ final class KeyboardViewController: UIInputViewController {
 
     private func updateStatus(connectedCount count: Int) {
         connectedCount = count
+        if count == 0 { showConnectionInfo = false }   // back to idle → reveal by default again
         let key = count > 0 ? "StatusConnected" : "StatusWaiting"
         statusLabel.text = NSLocalizedString(key, comment: "")
+        updateInfoVisibility()
+    }
+
+    /// Once a computer is connected the URL/PIN block is noise, so hide it and offer a button
+    /// to bring it back (e.g. to connect another device). While waiting, it's always shown.
+    private func updateInfoVisibility() {
+        let connected = connectedCount > 0
+        let reveal = !connected || showConnectionInfo
+        urlScroll.isHidden = !reveal
+        pinLabel.isHidden = !(reveal && pinEnabled)
+        infoToggleButton.isHidden = !connected
+        let title = showConnectionInfo ? "HideAddress" : "ShowAddress"
+        infoToggleButton.setTitle(NSLocalizedString(title, comment: ""), for: .normal)
+    }
+
+    @objc private func toggleConnectionInfo() {
+        showConnectionInfo.toggle()
+        updateInfoVisibility()
     }
 
     /// Briefly show a message in the status label, then restore the connection status.
@@ -266,6 +287,8 @@ final class KeyboardViewController: UIInputViewController {
         statusLabel.textColor = titleColor
         urlLabel.textColor = titleColor
         pinLabel.textColor = titleColor
+        infoToggleButton.setTitleColor(titleColor, for: .normal)
+        infoToggleButton.tintColor = titleColor
     }
 
     private func updateReturnTitle() {
@@ -321,6 +344,18 @@ private extension KeyboardViewController {
         statusLabel.textAlignment = .natural        // left-aligned (follows RTL where applicable)
         statusLabel.numberOfLines = 2
         statusLabel.text = NSLocalizedString("StatusWaiting", comment: "")
+        statusLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
+        infoToggleButton.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
+        infoToggleButton.isHidden = true
+        infoToggleButton.setContentHuggingPriority(.required, for: .horizontal)
+        infoToggleButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+        infoToggleButton.addTarget(self, action: #selector(toggleConnectionInfo), for: .touchUpInside)
+
+        let statusRow = UIStackView(arrangedSubviews: [statusLabel, infoToggleButton])
+        statusRow.axis = .horizontal
+        statusRow.spacing = 8
+        statusRow.alignment = .center
 
         // One URL per line, left-aligned and full-size (no shrink-to-fit), inside a scroll view
         // capped in height — so when there are many interface addresses you can scroll to see
@@ -348,7 +383,7 @@ private extension KeyboardViewController {
         pinLabel.font = .monospacedSystemFont(ofSize: 17, weight: .bold)
         pinLabel.textAlignment = .natural
 
-        infoStack.addArrangedSubview(statusLabel)
+        infoStack.addArrangedSubview(statusRow)
         infoStack.addArrangedSubview(urlScroll)
         infoStack.addArrangedSubview(pinLabel)
         infoStack.axis = .vertical
