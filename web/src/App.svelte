@@ -34,7 +34,6 @@
   let phoneClip = $state(null)
   let clipSend = $state('')
   let copiedFlag = $state(false)
-  let history = $state([])
   let toast = $state('')
   let flyers = $state([])   // live-mode characters mid-flight out of the box
 
@@ -72,8 +71,7 @@
 
   function persistTheme(p) { themePref = p; saveThemePref(p) }
   function persistLang(l) { langPref = l; safeSet('rkb-lang', l) }
-  // Switching modes starts fresh so the two models never get tangled (the old draft, if
-  // any, is stashed to Recent by clearBuffer so it's not lost).
+  // Switching modes starts fresh so the two models never get tangled.
   function setMode(m) {
     if (m === inputMode) return
     clearBuffer()
@@ -262,16 +260,10 @@
   }
 
   function clearBuffer() {
-    const snip = buffer.trim()
-    if (snip) history = [snip, ...history.filter((h) => h !== snip)].slice(0, 12)
     buffer = ''
     lastSent = ''
     phoneCaret = 0
     textarea && textarea.focus()
-  }
-
-  function resend(text) {
-    gatedSend({ t: 'input', text, seq: seq++ })
   }
 
   function sendQuickWord(word) { gatedSend({ t: 'input', text: word, seq: seq++ }) }
@@ -499,20 +491,7 @@
         </div>
       {/if}
     </section>
-
-    <section class="block">
-      <div class="label">{t('history')}</div>
-      {#if history.length === 0}
-        <div class="empty">{t('noHistory')}</div>
-      {:else}
-        <div class="chips">
-          {#each history as item}
-            <button class="chip" onclick={() => resend(item)}>{item.length > 28 ? item.slice(0, 28) + '…' : item}</button>
-          {/each}
-        </div>
-      {/if}
-    </section>
-  {:else}
+  {:else if phase === 'pairing'}
     <section class="pairing">
       <div class="lock">⌨</div>
       <p class="pair-hint">{t('enterPin')}</p>
@@ -521,6 +500,11 @@
         <input class="pin" bind:value={pinInput} inputmode="numeric" placeholder={t('pinPlaceholder')} autocomplete="off" />
         <button type="submit" class="btn primary">{t('pair')}</button>
       </form>
+    </section>
+  {:else}
+    <section class="pairing">
+      <div class="lock spin">⌨</div>
+      <p class="pair-hint">{t('connecting')}</p>
     </section>
   {/if}
 
@@ -665,6 +649,9 @@
 
   .pairing { margin-top: 8vh; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
   .lock { font-size: 48px; }
+  .lock.spin { animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: .35; transform: scale(.96); } 50% { opacity: 1; transform: scale(1.04); } }
+  @media (prefers-reduced-motion: reduce) { .lock.spin { animation: none; opacity: .6; } }
   .pair-hint { color: var(--text); font-size: 16px; margin: 0; opacity: .85; }
   .error { color: var(--danger); font-size: 14px; margin: 0; }
   .pairing form { display: flex; gap: 10px; }
