@@ -36,6 +36,7 @@
   let copiedFlag = $state(false)
   let history = $state([])
   let toast = $state('')
+  let flyers = $state([])   // live-mode characters mid-flight out of the box
 
   // ---- non-reactive ----
   let conn
@@ -45,6 +46,7 @@
   let composing = false
   let toastTimer
   let pairGraceTimer
+  let flyerId = 0
 
   // ---- theme application ----
   $effect(() => { applyTheme(themePref) })
@@ -167,9 +169,44 @@
     moveCaretTo(webCaretCp())
   }
 
-  function onInput() { if (!composing && inputMode === 'live') syncToPhone() }
+  function onInput() { if (!composing && inputMode === 'live') liveBurst() }
   function onCompositionStart() { composing = true }
-  function onCompositionEnd() { composing = false; if (inputMode === 'live') syncToPhone() }
+  function onCompositionEnd() { composing = false; if (inputMode === 'live') liveBurst() }
+
+  // Live mode: the box is a launch pad, not a mirror. Each freshly typed chunk is streamed
+  // to the phone and then flies out of the box — so it feels like the characters are sent
+  // live and nothing lingers locally. (Arrows / Enter / Backspace on the now-empty box are
+  // handled by onKeydown's empty-buffer branch and drive the phone directly.)
+  function liveBurst() {
+    if (composing || phase !== 'paired' || !buffer) return
+    const text = buffer.startsWith(lastSent) ? buffer.slice(lastSent.length) : buffer
+    if (!text) { buffer = ''; lastSent = ''; phoneCaret = 0; return }
+    if (gatedSend({ t: 'input', text, seq: seq++ })) {
+      spawnFlyers(text)
+      buffer = ''
+      lastSent = ''
+      phoneCaret = 0
+    }
+  }
+
+  // Spawn the just-sent text as ghost glyphs that float up and scatter out of the textarea.
+  // Short typing scatters per character; long pastes fly as a single token.
+  function spawnFlyers(text) {
+    if (!text || !textarea) return
+    const rect = textarea.getBoundingClientRect()
+    const chars = Array.from(text)
+    const tokens = chars.length > 12 ? [text] : chars
+    const baseX = rect.left + 18
+    for (let i = 0; i < tokens.length; i++) {
+      const id = flyerId++
+      const x = Math.min(baseX + i * 15, rect.right - 24) + (Math.random() - 0.5) * 8
+      const y = rect.top + 16 + (Math.random() - 0.5) * 8
+      const dx = (Math.random() - 0.5) * 40
+      const rot = (Math.random() - 0.5) * 26
+      flyers = [...flyers, { id, text: tokens[i], x, y, dx, rot }]
+      setTimeout(() => { flyers = flyers.filter((f) => f.id !== id) }, 780)
+    }
+  }
 
   // Send mode: compose locally, push the whole message on demand, then clear.
   function sendMessage() {
@@ -490,6 +527,10 @@
   {#if toast}<div class="toast">{toast}</div>{/if}
 </main>
 
+{#each flyers as f (f.id)}
+  <span class="flyer" style="left:{f.x}px; top:{f.y}px; --dx:{f.dx}px; --rot:{f.rot}deg">{f.text}</span>
+{/each}
+
 {#if settingsOpen}
   <div class="scrim" onclick={() => (settingsOpen = false)} role="presentation">
     <div class="sheet" onclick={(e) => e.stopPropagation()} role="dialog">
@@ -638,6 +679,24 @@
     position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%);
     background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 999px;
     font-size: 14px; box-shadow: 0 6px 24px rgba(0,0,0,.4); z-index: 20;
+  }
+
+  .flyer {
+    position: fixed; pointer-events: none; z-index: 50;
+    font-size: 18px; font-weight: 700; color: var(--accent); white-space: pre;
+    text-shadow: 0 2px 10px color-mix(in srgb, var(--accent) 50%, transparent);
+    animation: flyup .78s cubic-bezier(.22,.61,.36,1) forwards;
+    will-change: transform, opacity;
+  }
+  @keyframes flyup {
+    0%   { transform: translate(0, 0) scale(1) rotate(0); opacity: .95; }
+    100% { transform: translate(var(--dx), -72px) scale(1.35) rotate(var(--rot)); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .flyer { animation-duration: .35s; }
+    @keyframes flyup {
+      0% { opacity: .9; } 100% { transform: translate(0, -12px); opacity: 0; }
+    }
   }
 
   .scrim { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 30; padding: 16px; }
