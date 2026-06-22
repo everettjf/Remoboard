@@ -149,8 +149,9 @@ final class KeyboardViewController: UIInputViewController {
         urlScroll.isHidden = !reveal
         pinLabel.isHidden = !(reveal && pinEnabled)
         infoToggleButton.isHidden = !connected
-        let title = showConnectionInfo ? "HideAddress" : "ShowAddress"
-        infoToggleButton.setTitle(NSLocalizedString(title, comment: ""), for: .normal)
+        let symbol = showConnectionInfo ? "chevron.up.circle" : "chevron.down.circle"
+        infoToggleButton.setImage(UIImage(systemName: symbol), for: .normal)
+        infoToggleButton.accessibilityLabel = NSLocalizedString(showConnectionInfo ? "HideAddress" : "ShowAddress", comment: "")
     }
 
     @objc private func toggleConnectionInfo() {
@@ -342,12 +343,15 @@ private extension KeyboardViewController {
 
         statusLabel.font = .systemFont(ofSize: 15, weight: .medium)
         statusLabel.textAlignment = .natural        // left-aligned (follows RTL where applicable)
-        statusLabel.numberOfLines = 2
+        statusLabel.numberOfLines = 1               // keep it one tidy line — shrink if needed
+        statusLabel.adjustsFontSizeToFitWidth = true
+        statusLabel.minimumScaleFactor = 0.75
         statusLabel.text = NSLocalizedString("StatusWaiting", comment: "")
         statusLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
 
-        infoToggleButton.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
+        // A compact icon (chevron) to reveal/hide the address block once connected.
         infoToggleButton.isHidden = true
+        infoToggleButton.setPreferredSymbolConfiguration(.init(pointSize: 20, weight: .semibold), forImageIn: .normal)
         infoToggleButton.setContentHuggingPriority(.required, for: .horizontal)
         infoToggleButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         infoToggleButton.addTarget(self, action: #selector(toggleConnectionInfo), for: .touchUpInside)

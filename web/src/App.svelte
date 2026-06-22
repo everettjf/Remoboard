@@ -199,8 +199,23 @@
       if (e.key === 'Backspace') { gatedSend({ t: 'delete', seq: seq++ }); e.preventDefault(); return }
       return
     }
-    // With text in the box, let the textarea move its own caret / edit; onKeyup + onInput
-    // mirror the result to the phone (no clearing, caret stays in sync).
+
+    // Text in the box: if an arrow would move past the edge of the draft, hand cursor control
+    // to the phone. The draft is already mirrored there, so stash it (recoverable from Recent),
+    // clear our local copy, and send the raw move — further arrows then drive the phone caret
+    // directly (remote-control mode), instead of dying at the box boundary.
+    const caret = textarea ? textarea.selectionStart : buffer.length
+    let overflow = null
+    if ((e.key === 'ArrowLeft' || e.key === 'ArrowUp') && caret === 0) overflow = e.key === 'ArrowLeft' ? 'left' : 'up'
+    else if ((e.key === 'ArrowRight' || e.key === 'ArrowDown') && caret >= buffer.length) overflow = e.key === 'ArrowRight' ? 'right' : 'down'
+    if (overflow) {
+      e.preventDefault()
+      clearBuffer()
+      gatedSend({ t: 'move', dir: overflow, seq: seq++ })
+      return
+    }
+    // Otherwise let the textarea move its own caret / edit; onKeyup + onInput mirror the
+    // result to the phone (no clearing, caret stays in sync).
   }
 
   function onKeyup(e) {
