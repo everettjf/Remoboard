@@ -7,8 +7,8 @@ options:
 
 settings:
   base:
-    MARKETING_VERSION: "1.0"
-    CURRENT_PROJECT_VERSION: "1"
+    MARKETING_VERSION: "7.0"
+    CURRENT_PROJECT_VERSION: "7000"
     SWIFT_VERSION: "5.0"
     DEVELOPMENT_TEAM: YPV49M8592
     CODE_SIGN_STYLE: Automatic
@@ -29,6 +29,8 @@ targets:
         DEFINES_MODULE: "YES"
         SKIP_INSTALL: "YES"
         GENERATE_INFOPLIST_FILE: "YES"
+        CURRENT_PROJECT_VERSION: "7000"
+        MARKETING_VERSION: "7.0"
 
   Remoboard:
     type: application
