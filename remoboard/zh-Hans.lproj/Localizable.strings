@@ -30,3 +30,4 @@
 "home.port.title" = "服务器端口";
 "home.port.note" = "默认 7777。仅当该端口被占用时才需要修改。下次打开键盘时生效。";
 "home.port.apply" = "应用";
+"home.moreapps" = "更多应用";

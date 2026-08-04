@@ -27,3 +27,4 @@
 "home.port.title" = "Server-Port";
 "home.port.note" = "Standard ist 7777. Nur ändern, wenn dieser Port belegt ist. Wird beim nächsten Öffnen der Tastatur wirksam.";
 "home.port.apply" = "Anwenden";
+"home.moreapps" = "Weitere Apps";

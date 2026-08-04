@@ -27,3 +27,4 @@
 "home.port.title" = "서버 포트";
 "home.port.note" = "기본값은 7777입니다. 해당 포트가 사용 중일 때만 변경하세요. 다음에 키보드를 열 때 적용됩니다.";
 "home.port.apply" = "적용";
+"home.moreapps" = "더 많은 앱";

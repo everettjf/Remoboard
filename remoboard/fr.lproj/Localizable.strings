@@ -27,3 +27,4 @@
 "home.port.title" = "Port du serveur";
 "home.port.note" = "7777 par défaut. À modifier seulement si ce port est déjà utilisé. Pris en compte à la prochaine ouverture du clavier.";
 "home.port.apply" = "Appliquer";
+"home.moreapps" = "Plus d’apps";

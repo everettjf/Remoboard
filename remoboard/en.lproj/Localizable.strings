@@ -30,3 +30,4 @@
 "home.port.title" = "Server port";
 "home.port.note" = "Default is 7777. Change it only if that port is already in use. Takes effect next time the keyboard opens.";
 "home.port.apply" = "Apply";
+"home.moreapps" = "More Apps";

@@ -28,6 +28,7 @@ struct HomeView: View {
                     quickActions
                     securityCard
                     portCard
+                    moreAppsCard
                     footer
                 }
                 .padding(20)
@@ -177,6 +178,23 @@ struct HomeView: View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 
+    // MARK: More apps
+
+    private var moreAppsCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label(NSLocalizedString("home.moreapps", comment: ""), systemImage: "square.grid.2x2")
+                .font(.headline)
+
+            AppStoreLink(name: "BSSID SCAN", systemImage: "wifi", url: "https://apps.apple.com/us/app/bssid-scan/id1442586100")
+            Divider()
+            AppStoreLink(name: "CountMyDays", systemImage: "calendar", url: "https://apps.apple.com/us/app/countmydays-days-counter/id6753280745")
+            Divider()
+            AppStoreLink(name: "ScriptWidget", systemImage: "curlybraces.square", url: "https://apps.apple.com/us/app/scriptwidget/id1555600758")
+        }
+        .padding(18)
+        .background(card)
+    }
+
     // MARK: Footer
 
     private var footer: some View {
@@ -241,6 +259,26 @@ private struct ActionTile: View {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .fill(Color(.secondarySystemGroupedBackground))
         )
+    }
+}
+
+private struct AppStoreLink: View {
+    let name: String
+    let systemImage: String
+    let url: String
+
+    var body: some View {
+        Link(destination: URL(string: url)!) {
+            HStack {
+                Label(name, systemImage: systemImage)
+                    .foregroundStyle(.primary)
+                Spacer()
+                Image(systemName: "arrow.up.right.square")
+                    .foregroundStyle(.secondary)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 }
 
