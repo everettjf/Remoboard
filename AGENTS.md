@@ -49,3 +49,10 @@ No automated tests. The server core can be exercised on macOS by compiling the F
 -only sources (`Protocol.swift`, `WebSocket.swift`, `RemoServer.swift`) into a command-line
 binary and driving it with a WebSocket client. Otherwise verify manually on device: PIN
 pairing, live typing (including CJK/IME), cursor moves, quick words, and reconnect.
+
+## Current Product Priorities
+
+- Add protocol conformance fixtures shared by Swift, Node.js, Python, MCP, and the embedded web client.
+- Test fragmented WebSocket frames, invalid UTF-8, sequence gaps, reconnects, stale PINs, oversized messages, and protocol-version mismatch.
+- Keep the AI/MCP-to-phone workflow prominent in documentation while making the pairing and Full Access trust boundary unambiguous.
+- Record lightweight connection diagnostics locally, with redacted payloads and an explicit export action for support.

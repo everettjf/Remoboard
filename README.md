@@ -130,3 +130,7 @@ The MCP server lets an AI assistant (Claude, …) type into your phone — add i
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=everettjf/remoboard&type=Date)](https://star-history.com/#everettjf/remoboard&Date)
