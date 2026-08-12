@@ -27,6 +27,7 @@ struct HomeView: View {
                     setupCard
                     quickActions
                     securityCard
+                    NavigationLink { ConnectionDiagnosticsView() } label: { Label("Connection Diagnostics & Clipboard Privacy", systemImage: "stethoscope").font(.headline).frame(maxWidth: .infinity, alignment: .leading).padding(18).background(card) }.buttonStyle(.plain)
                     portCard
                     moreAppsCard
                     footer

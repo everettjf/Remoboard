@@ -26,6 +26,11 @@ public final class Settings {
         static let lastAppVersion = "rkb.lastAppVersion"
         static let requirePIN = "rkb.requirePIN"
         static let port = "rkb.port"
+        static let diagnostics = "rkb.diagnostics"
+        static let clipboardHistory = "rkb.clipboardHistory"
+        static let clipboardHistoryLimit = "rkb.clipboardHistoryLimit"
+        static let allowClipboardRead = "rkb.allowClipboardRead"
+        static let allowClipboardWrite = "rkb.allowClipboardWrite"
     }
 
     /// The port the keyboard's server listens on. Defaults to 7777; users can change it from
@@ -91,6 +96,27 @@ public final class Settings {
         get { defaults.bool(forKey: Key.requirePIN) }   // absent -> false
         set { defaults.set(newValue, forKey: Key.requirePIN) }
     }
+
+    // MARK: - Privacy & diagnostics
+
+    public struct DiagnosticEvent: Codable, Identifiable, Sendable {
+        public let id: UUID; public let date: Date; public let kind: String; public let detail: String
+        public init(kind: String, detail: String) { id = UUID(); date = Date(); self.kind = kind; self.detail = detail }
+    }
+
+    public var diagnosticEvents: [DiagnosticEvent] {
+        get { defaults.data(forKey: Key.diagnostics).flatMap { try? JSONDecoder().decode([DiagnosticEvent].self, from: $0) } ?? [] }
+        set { defaults.set(try? JSONEncoder().encode(Array(newValue.suffix(100))), forKey: Key.diagnostics) }
+    }
+    public func recordDiagnostic(kind: String, detail: String) { var events = diagnosticEvents; events.append(.init(kind: kind, detail: detail)); diagnosticEvents = events }
+    public func clearDiagnostics() { diagnosticEvents = [] }
+
+    public var clipboardHistoryLimit: Int { get { let value = defaults.integer(forKey: Key.clipboardHistoryLimit); return value == 0 ? 10 : min(max(value, 1), 50) } set { defaults.set(min(max(newValue, 1), 50), forKey: Key.clipboardHistoryLimit) } }
+    public var clipboardHistory: [String] { get { defaults.stringArray(forKey: Key.clipboardHistory) ?? [] } set { defaults.set(Array(newValue.prefix(clipboardHistoryLimit)), forKey: Key.clipboardHistory) } }
+    public func rememberClipboard(_ text: String) { guard !text.isEmpty else { return }; var items = clipboardHistory.filter { $0 != text }; items.insert(text, at: 0); clipboardHistory = items }
+    public func clearClipboardHistory() { clipboardHistory = [] }
+    public var allowRemoteClipboardRead: Bool { get { defaults.object(forKey: Key.allowClipboardRead) as? Bool ?? true } set { defaults.set(newValue, forKey: Key.allowClipboardRead) } }
+    public var allowRemoteClipboardWrite: Bool { get { defaults.object(forKey: Key.allowClipboardWrite) as? Bool ?? true } set { defaults.set(newValue, forKey: Key.allowClipboardWrite) } }
 
     // MARK: - Connection mode
 

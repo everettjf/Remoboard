@@ -84,6 +84,7 @@ final class KeyboardViewController: UIInputViewController {
         server.onClientCountChanged = { [weak self] count in
             self?.updateStatus(connectedCount: count)
         }
+        server.onDiagnostic = { kind, detail in Settings.shared.recordDiagnostic(kind: kind, detail: detail) }
     }
 
     private func startServerIfNeeded() {
@@ -187,7 +188,10 @@ final class KeyboardViewController: UIInputViewController {
             case .down: textDocumentProxy.adjustTextPosition(byCharacterOffset: 20)
             }
         case .clipboardSet(let text):
+            guard Settings.shared.allowRemoteClipboardWrite else { server.broadcast(.info(message: "Clipboard write blocked by privacy settings")); return }
             UIPasteboard.general.string = text
+            Settings.shared.rememberClipboard(text)
+            Settings.shared.recordDiagnostic(kind: "clipboard", detail: "Remote write accepted (\(text.utf8.count) bytes; content redacted)")
             server.broadcast(.info(message: NSLocalizedString("ClipboardCopiedToPhone", comment: "")))
             return
         case .clipboardGet:
@@ -210,7 +214,10 @@ final class KeyboardViewController: UIInputViewController {
 
     /// Reads the phone's clipboard and pushes it to every connected client.
     private func sendPhoneClipboard() {
+        guard Settings.shared.allowRemoteClipboardRead else { server.broadcast(.info(message: "Clipboard read blocked by privacy settings")); return }
         let text = UIPasteboard.general.string ?? ""
+        Settings.shared.rememberClipboard(text)
+        Settings.shared.recordDiagnostic(kind: "clipboard", detail: "Remote read accepted (\(text.utf8.count) bytes; content redacted)")
         server.broadcast(.clipboard(text: text))
     }
 

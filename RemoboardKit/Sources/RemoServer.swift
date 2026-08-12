@@ -30,6 +30,7 @@ public final class RemoServer {
     public var quickWordsProvider: (() -> [String])?
     public var onInbound: ((InboundMessage) -> Void)?
     public var onClientCountChanged: ((Int) -> Void)?
+    public var onDiagnostic: ((String, String) -> Void)?
 
     private let port: UInt16
     private let htmlData: Data
@@ -507,9 +508,11 @@ public final class RemoServer {
                     send(.quickWords(words), to: client)
                 }
                 notifyCount()
+                DispatchQueue.main.async { [weak self] in self?.onDiagnostic?("pairing", "PIN verified end to end") }
             } else {
                 client.pinAttempts += 1
                 send(.deny(reason: "pin"), to: client)
+                DispatchQueue.main.async { [weak self] in self?.onDiagnostic?("pairing", "PIN rejected (attempt \(client.pinAttempts))") }
                 // Throttle brute force: drop the connection after a few wrong PINs so an
                 // attacker can't sweep the keyspace on one socket.
                 if client.pinAttempts >= maxPinAttempts {
