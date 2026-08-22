@@ -1,5 +1,7 @@
 # Remoboard (Swift)
 
+Repository: <https://github.com/everettjf/remoboard>
+
 [![npm: remoboard](https://img.shields.io/npm/v/remoboard?label=npm%20remoboard&color=cb3837)](https://www.npmjs.com/package/remoboard)
 [![npm: remoboard-mcp](https://img.shields.io/npm/v/remoboard-mcp?label=npm%20remoboard-mcp&color=cb3837)](https://www.npmjs.com/package/remoboard-mcp)
 [![PyPI: remoboard](https://img.shields.io/pypi/v/remoboard?label=PyPI%20remoboard&color=3776ab)](https://pypi.org/project/remoboard/)
