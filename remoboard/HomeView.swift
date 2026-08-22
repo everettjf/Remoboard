@@ -18,6 +18,7 @@ struct HomeView: View {
 
     private let feedbackURL = URL(string: "https://github.com/everettjf/Remoboard/issues/new")!
     private let siteURL = URL(string: "https://xnu.app/remoboard")!
+    private let scriptWidgetURL = URL(string: "https://xnu.app/scriptwidget/?utm_source=remoboard&utm_medium=in_app&utm_campaign=cross_promo&utm_content=home_featured_card")!
 
     var body: some View {
         NavigationView {
@@ -29,6 +30,7 @@ struct HomeView: View {
                     securityCard
                     NavigationLink { ConnectionDiagnosticsView() } label: { Label("Connection Diagnostics & Clipboard Privacy", systemImage: "stethoscope").font(.headline).frame(maxWidth: .infinity, alignment: .leading).padding(18).background(card) }.buttonStyle(.plain)
                     portCard
+                    scriptWidgetCard
                     moreAppsCard
                     footer
                 }
@@ -181,6 +183,41 @@ struct HomeView: View {
 
     // MARK: More apps
 
+    private var scriptWidgetCard: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .top, spacing: 14) {
+                Image(systemName: "curlybraces.square.fill")
+                    .font(.title)
+                    .foregroundStyle(Color.accentColor)
+                    .accessibilityHidden(true)
+
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(NSLocalizedString("home.scriptwidget.eyebrow", comment: ""))
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Color.accentColor)
+                        .textCase(.uppercase)
+                    Text("ScriptWidget")
+                        .font(.title3.bold())
+                    Text(NSLocalizedString("home.scriptwidget.description", comment: ""))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
+            Link(destination: scriptWidgetURL) {
+                Label(NSLocalizedString("home.scriptwidget.cta", comment: ""), systemImage: "arrow.up.right")
+                    .font(.body.weight(.semibold))
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            .accessibilityHint(NSLocalizedString("home.scriptwidget.hint", comment: ""))
+        }
+        .padding(18)
+        .background(card)
+    }
+
     private var moreAppsCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Label(NSLocalizedString("home.moreapps", comment: ""), systemImage: "square.grid.2x2")
@@ -189,8 +226,6 @@ struct HomeView: View {
             AppStoreLink(name: "BSSID SCAN", systemImage: "wifi", url: "https://apps.apple.com/us/app/bssid-scan/id1442586100")
             Divider()
             AppStoreLink(name: "CountMyDays", systemImage: "calendar", url: "https://apps.apple.com/us/app/countmydays-days-counter/id6753280745")
-            Divider()
-            AppStoreLink(name: "ScriptWidget", systemImage: "curlybraces.square", url: "https://apps.apple.com/us/app/scriptwidget/id1555600758")
         }
         .padding(18)
         .background(card)

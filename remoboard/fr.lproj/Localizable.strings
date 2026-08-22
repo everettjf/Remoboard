@@ -28,3 +28,7 @@
 "home.port.note" = "7777 par défaut. À modifier seulement si ce port est déjà utilisé. Pris en compte à la prochaine ouverture du clavier.";
 "home.port.apply" = "Appliquer";
 "home.moreapps" = "Plus d’apps";
+"home.scriptwidget.eyebrow" = "App à découvrir";
+"home.scriptwidget.description" = "Créez des widgets natifs pour iPhone, iPad et Mac avec JavaScript et JSX.";
+"home.scriptwidget.cta" = "Découvrir ScriptWidget";
+"home.scriptwidget.hint" = "Ouvre le site web de ScriptWidget.";

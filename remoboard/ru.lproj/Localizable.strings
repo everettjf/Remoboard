@@ -28,3 +28,7 @@
 "home.port.note" = "По умолчанию 7777. Меняйте, только если этот порт занят. Вступит в силу при следующем открытии клавиатуры.";
 "home.port.apply" = "Применить";
 "home.moreapps" = "Другие приложения";
+"home.scriptwidget.eyebrow" = "Рекомендуемое приложение";
+"home.scriptwidget.description" = "Создавайте нативные виджеты для iPhone, iPad и Mac с помощью JavaScript и JSX.";
+"home.scriptwidget.cta" = "Открыть ScriptWidget";
+"home.scriptwidget.hint" = "Открывает сайт ScriptWidget.";

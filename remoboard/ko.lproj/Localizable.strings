@@ -28,3 +28,7 @@
 "home.port.note" = "기본값은 7777입니다. 해당 포트가 사용 중일 때만 변경하세요. 다음에 키보드를 열 때 적용됩니다.";
 "home.port.apply" = "적용";
 "home.moreapps" = "더 많은 앱";
+"home.scriptwidget.eyebrow" = "추천 앱";
+"home.scriptwidget.description" = "JavaScript와 JSX로 iPhone, iPad 및 Mac용 네이티브 위젯을 만드세요.";
+"home.scriptwidget.cta" = "ScriptWidget 살펴보기";
+"home.scriptwidget.hint" = "ScriptWidget 웹사이트를 엽니다.";

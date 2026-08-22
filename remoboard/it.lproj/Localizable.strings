@@ -28,3 +28,7 @@
 "home.port.note" = "Il valore predefinito è 7777. Cambialo solo se quella porta è già in uso. Ha effetto alla prossima apertura della tastiera.";
 "home.port.apply" = "Applica";
 "home.moreapps" = "Altre app";
+"home.scriptwidget.eyebrow" = "App in evidenza";
+"home.scriptwidget.description" = "Crea widget nativi per iPhone, iPad e Mac con JavaScript e JSX.";
+"home.scriptwidget.cta" = "Scopri ScriptWidget";
+"home.scriptwidget.hint" = "Apre il sito web di ScriptWidget.";

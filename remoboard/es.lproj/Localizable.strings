@@ -28,3 +28,7 @@
 "home.port.note" = "El valor predeterminado es 7777. Cámbialo solo si ese puerto ya está en uso. Se aplica la próxima vez que abras el teclado.";
 "home.port.apply" = "Aplicar";
 "home.moreapps" = "Más apps";
+"home.scriptwidget.eyebrow" = "App destacada";
+"home.scriptwidget.description" = "Crea widgets nativos para iPhone, iPad y Mac con JavaScript y JSX.";
+"home.scriptwidget.cta" = "Descubrir ScriptWidget";
+"home.scriptwidget.hint" = "Abre el sitio web de ScriptWidget.";
