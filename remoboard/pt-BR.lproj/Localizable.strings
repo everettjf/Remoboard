@@ -28,3 +28,7 @@
 "home.port.note" = "O padrão é 7777. Altere apenas se essa porta já estiver em uso. Entra em vigor na próxima vez que abrir o teclado.";
 "home.port.apply" = "Aplicar";
 "home.moreapps" = "Mais apps";
+"home.scriptwidget.eyebrow" = "App em destaque";
+"home.scriptwidget.description" = "Crie widgets nativos para iPhone, iPad e Mac com JavaScript e JSX.";
+"home.scriptwidget.cta" = "Conhecer o ScriptWidget";
+"home.scriptwidget.hint" = "Abre o site do ScriptWidget.";

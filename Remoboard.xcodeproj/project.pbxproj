@@ -19,6 +19,7 @@
 		7E44166F95196D36F3F80889 /* QuickWordsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5976EFF3CC2341F001D310 /* QuickWordsView.swift */; };
 		9335F721B2C274B568CD0EEA /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2734A06864460EFB911D455 /* Settings.swift */; };
 		9B3FA05CDBB9311EB86B322E /* TestInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF5C3E0F42C1EFCE672FD67 /* TestInputView.swift */; };
+		B0ADE5250449E0E74BA927E0 /* ConnectionDiagnosticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99340C0D039BA4A3E82CB84B /* ConnectionDiagnosticsView.swift */; };
 		BC2E71115FD8B2349261E1C5 /* RemoboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22DDDDFF098D7EC68E27B3E /* RemoboardApp.swift */; };
 		BE75547BC55E9F823834FFA7 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 3DF393386CFA7ABC90A29E09 /* index.html */; };
 		CBDB1E662DED734721019A85 /* RemoServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF490C743834B15B4F601F3E /* RemoServer.swift */; };
@@ -103,6 +104,7 @@
 		8C40E8A890ECC6020DE14003 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8C49126DABD9A9C932F18DF3 /* ReceivedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedView.swift; sourceTree = "<group>"; };
 		941C2AC9426AA469D4FCCD29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		99340C0D039BA4A3E82CB84B /* ConnectionDiagnosticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionDiagnosticsView.swift; sourceTree = "<group>"; };
 		9975487F1D672CD78208B05D /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		A2734A06864460EFB911D455 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		AD9E97904C0A15E1EFC18C54 /* Remoboard.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Remoboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				941C2AC9426AA469D4FCCD29 /* Assets.xcassets */,
+				99340C0D039BA4A3E82CB84B /* ConnectionDiagnosticsView.swift */,
 				7910BBEFE3697F5EFFDFDECA /* HandoffStore.swift */,
 				521A60F1AF2BB17E84B2652D /* HomeView.swift */,
 				713E1BAAFA938584F3DDF70D /* Localizable.strings */,
@@ -384,6 +387,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0ADE5250449E0E74BA927E0 /* ConnectionDiagnosticsView.swift in Sources */,
 				027CFF0B314B7FA6CE90A9B8 /* HandoffStore.swift in Sources */,
 				2FFAD4326BC7B82CCF275C75 /* HomeView.swift in Sources */,
 				7E44166F95196D36F3F80889 /* QuickWordsView.swift in Sources */,

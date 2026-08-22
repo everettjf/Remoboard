@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 import RemoboardKit
 
 struct ConnectionDiagnosticsView: View {
@@ -7,6 +8,7 @@ struct ConnectionDiagnosticsView: View {
     @State private var allowRead = Settings.shared.allowRemoteClipboardRead
     @State private var allowWrite = Settings.shared.allowRemoteClipboardWrite
     @State private var pasted = ""
+    @State private var showShare = false
 
     var body: some View {
         List {
@@ -32,10 +34,33 @@ struct ConnectionDiagnosticsView: View {
             }
         }
         .navigationTitle("Diagnostics")
-        .toolbar { ToolbarItem(placement: .navigationBarTrailing) { ShareLink(item: diagnosticText) { Image(systemName: "square.and.arrow.up") }.disabled(events.isEmpty) } }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showShare = true
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
+                }
+                .disabled(events.isEmpty)
+                .accessibilityLabel("Share diagnostics")
+            }
+        }
+        .sheet(isPresented: $showShare) {
+            DiagnosticsActivityView(items: [diagnosticText])
+        }
         .onAppear(perform: reload)
     }
 
     private var diagnosticText: String { (["Remoboard diagnostics (payloads redacted)"] + events.map { "\($0.date.formatted(.iso8601)) [\($0.kind)] \($0.detail)" }).joined(separator: "\n") }
     private func reload() { events = Settings.shared.diagnosticEvents; history = Settings.shared.clipboardHistory }
+}
+
+private struct DiagnosticsActivityView: UIViewControllerRepresentable {
+    let items: [Any]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: items, applicationActivities: nil)
+    }
+
+    func updateUIViewController(_ controller: UIActivityViewController, context: Context) {}
 }

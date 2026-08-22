@@ -31,3 +31,7 @@
 "home.port.note" = "默认 7777。仅当该端口被占用时才需要修改。下次打开键盘时生效。";
 "home.port.apply" = "应用";
 "home.moreapps" = "更多应用";
+"home.scriptwidget.eyebrow" = "精选应用";
+"home.scriptwidget.description" = "使用 JavaScript 和 JSX 创建原生 iPhone、iPad 和 Mac 小组件。";
+"home.scriptwidget.cta" = "了解 ScriptWidget";
+"home.scriptwidget.hint" = "打开 ScriptWidget 网站。";

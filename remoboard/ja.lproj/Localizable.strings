@@ -28,3 +28,7 @@
 "home.port.note" = "デフォルトは 7777。このポートが使用中の場合のみ変更してください。次回キーボードを開いたときに反映されます。";
 "home.port.apply" = "適用";
 "home.moreapps" = "その他のアプリ";
+"home.scriptwidget.eyebrow" = "おすすめアプリ";
+"home.scriptwidget.description" = "JavaScript と JSX で iPhone、iPad、Mac のネイティブウィジェットを作成できます。";
+"home.scriptwidget.cta" = "ScriptWidget を見る";
+"home.scriptwidget.hint" = "ScriptWidget のウェブサイトを開きます。";

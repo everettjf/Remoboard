@@ -28,3 +28,7 @@
 "home.port.note" = "Standard ist 7777. Nur ändern, wenn dieser Port belegt ist. Wird beim nächsten Öffnen der Tastatur wirksam.";
 "home.port.apply" = "Anwenden";
 "home.moreapps" = "Weitere Apps";
+"home.scriptwidget.eyebrow" = "Empfohlene App";
+"home.scriptwidget.description" = "Erstelle native Widgets für iPhone, iPad und Mac mit JavaScript und JSX.";
+"home.scriptwidget.cta" = "ScriptWidget entdecken";
+"home.scriptwidget.hint" = "Öffnet die ScriptWidget-Website.";

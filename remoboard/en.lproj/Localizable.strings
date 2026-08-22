@@ -31,3 +31,7 @@
 "home.port.note" = "Default is 7777. Change it only if that port is already in use. Takes effect next time the keyboard opens.";
 "home.port.apply" = "Apply";
 "home.moreapps" = "More Apps";
+"home.scriptwidget.eyebrow" = "Featured app";
+"home.scriptwidget.description" = "Create native iPhone, iPad, and Mac widgets with JavaScript and JSX.";
+"home.scriptwidget.cta" = "Explore ScriptWidget";
+"home.scriptwidget.hint" = "Opens the ScriptWidget website.";
