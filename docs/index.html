@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Remoboard lets you type on your iPhone with your computer keyboard over your local network.">
+  <meta name="theme-color" content="#f7f4ed">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%231f8a5b'/%3E%3Crect x='13' y='18' width='38' height='28' rx='7' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M21 27h2m7 0h2m7 0h2M21 36h20' stroke='white' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <title>Remoboard — Your computer keyboard, on your iPhone</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="shell nav">
+    <a class="brand" href="./" aria-label="Remoboard home">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 9h.01M11 9h.01M15 9h.01M7 13h.01M11 13h6"/></svg></span>
+      Remoboard
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="https://github.com/everettjf/remoboard">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="shell hero">
+      <div>
+        <div class="eyebrow">Remote keyboard for iPhone</div>
+        <h1>Big keyboard.<br>Small screen.</h1>
+        <p class="lede">Type on your iPhone from any computer browser. Remoboard connects directly over your local network—fast, private, and without another desktop app.</p>
+        <div class="actions">
+          <a class="button primary" href="https://apps.apple.com/us/app/remote-keyboard/id1474458879"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.79 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.1ZM12.03 7.25C11.88 5.02 13.69 3.18 15.77 3c.29 2.58-2.34 4.5-3.74 4.25Z"/></svg>Download on the App Store</a>
+          <a class="button" href="https://github.com/everettjf/remoboard">View source</a>
+        </div>
+      </div>
+
+      <div class="stage" aria-label="Illustration of text moving from a browser to an iPhone">
+        <div class="orbit"></div>
+        <div class="desktop">
+          <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="address">192.168.1.20:7777</span></div>
+          <div class="browser-body">
+            <small>Remoboard / connected locally</small>
+            <div class="typing">The idea is simple: type here, and it appears there.<span class="cursor"></span></div>
+            <span class="send-pill">CONNECTED · 12 ms</span>
+          </div>
+        </div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="island"></div>
+            <div class="message">The idea is simple: type here, and it appears there.</div>
+            <div class="keyboard"><div class="keys">
+              <span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span>
+              <span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span>
+              <span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span>
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="strip"><div class="shell strip-inner">
+      <div class="stat"><strong>Browser based</strong><span>Mac, Windows, or Linux</span></div>
+      <div class="stat"><strong>Local by design</strong><span>No relay server in the middle</span></div>
+      <div class="stat"><strong>Open source</strong><span>Inspect every part on GitHub</span></div>
+    </div></div>
+
+    <section class="shell section" id="how">
+      <div class="section-head"><h2>From desk to phone in three steps.</h2><p>No account and no companion desktop install. Your iPhone hosts a tiny local web page; the computer you already use becomes the keyboard.</p></div>
+      <div class="steps">
+        <article class="card"><span class="number">01</span><h3>Enable the keyboard</h3><p>Add Remoboard in iOS Settings and allow Full Access so the keyboard can accept a local connection.</p></article>
+        <article class="card"><span class="number">02</span><h3>Open the address</h3><p>Switch to Remoboard on your iPhone, then open the local address it shows in any modern desktop browser.</p></article>
+        <article class="card"><span class="number">03</span><h3>Pair and type</h3><p>Enter the six-digit PIN. Your text travels directly across your Wi-Fi to the active field on your phone.</p></article>
+      </div>
+    </section>
+
+    <section class="dark" id="features"><div class="shell section">
+      <div class="section-head"><h2>Made for the text you don't want to thumb out.</h2><p>Long messages, code snippets, links, multilingual text, and anything else that is simply better with a real keyboard.</p></div>
+      <div class="features">
+        <article class="card"><svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20M2 12h20"/><path d="m5 5 14 14M19 5 5 19"/></svg><h3>Works in any app</h3><p>If an iOS text field accepts a keyboard, Remoboard can type into it.</p></article>
+        <article class="card"><svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12a8 8 0 0 1 16 0"/><path d="M7 12a5 5 0 0 1 10 0M10 12a2 2 0 0 1 4 0"/><circle cx="12" cy="16" r="1"/></svg><h3>Direct local connection</h3><p>Browser and phone communicate on your local network, without a developer-operated relay.</p></article>
+        <article class="card"><svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 4 7v5c0 5 3.4 8 8 9 4.6-1 8-4 8-9V7l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg><h3>PIN protected</h3><p>Each session requires the PIN shown on your phone before it accepts input.</p></article>
+        <article class="card"><svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/></svg><h3>IME friendly</h3><p>Composition-aware input makes Chinese, Japanese, Korean, and accented text feel natural.</p></article>
+        <article class="card"><svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4h8v4H8zM6 8h12v12H6z"/><path d="M9 12h6M9 16h4"/></svg><h3>Quick words</h3><p>Keep frequently used phrases close and send them without typing them again.</p></article>
+        <article class="card"><svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 8h11v11H8z"/><path d="M5 15H4V4h11v1"/></svg><h3>Clipboard tools</h3><p>Move text between the browser and your phone clipboard when you choose.</p></article>
+      </div>
+    </div></section>
+
+    <section class="shell section">
+      <div class="privacy-note"><div><h3>Your words stay on your network.</h3><p>Remoboard has no account system and does not send typed content to a developer-operated service.</p></div><a class="button" href="privacy/">Read the privacy policy</a></div>
+    </section>
+  </main>
+
+  <footer class="shell"><span>© 2026 Remoboard · MIT licensed</span><div><a href="privacy/">Privacy</a><a href="https://discord.gg/eGzEaP6TzR">Community</a><a href="https://github.com/everettjf/remoboard/issues">Support</a></div></footer>
+</body>
+</html>
