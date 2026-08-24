@@ -479,7 +479,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remoboard.keyboard;
+				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remotekb.keyboard;
 				PRODUCT_NAME = RemoKeyboard;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -497,7 +497,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remoboard.keyboard;
+				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remotekb.keyboard;
 				PRODUCT_NAME = RemoKeyboard;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -693,7 +693,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remoboard;
+				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remotekb;
 				PRODUCT_NAME = Remoboard;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -712,7 +712,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remoboard;
+				PRODUCT_BUNDLE_IDENTIFIER = com.everettjf.remotekb;
 				PRODUCT_NAME = Remoboard;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -47,7 +47,7 @@ targets:
         embed: true
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.everettjf.remoboard
+        PRODUCT_BUNDLE_IDENTIFIER: com.everettjf.remotekb
         PRODUCT_NAME: Remoboard
         INFOPLIST_FILE: remoboard/Info.plist
         CODE_SIGN_ENTITLEMENTS: remoboard/Remoboard.entitlements
@@ -67,7 +67,7 @@ targets:
         embed: false
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.everettjf.remoboard.keyboard
+        PRODUCT_BUNDLE_IDENTIFIER: com.everettjf.remotekb.keyboard
         PRODUCT_NAME: RemoKeyboard
         INFOPLIST_FILE: keyboard/Info.plist
         CODE_SIGN_ENTITLEMENTS: keyboard/RemoKeyboard.entitlements
